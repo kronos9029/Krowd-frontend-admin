@@ -41,8 +41,8 @@ export default function AppAreaInstalled() {
   return (
     <Card>
       <CardHeader
-        title="Area Installed"
-        subheader="(+43%) than last year"
+        title="Giao dịch"
+        // subheader="(+43%) than last year"
         action={
           <TextField
             select

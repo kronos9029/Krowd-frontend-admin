@@ -13,7 +13,7 @@ import { Message } from '../@types/chat';
 const MY_CONTACT = {
   id: '8864c717-587d-472a-929a-8e5f298024da-0',
   avatar: '/static/mock-images/avatars/avatar_15.jpg',
-  name: 'Jaydon Frankie',
+  name: 'Krowd Admin',
   username: 'jaydon.frankie'
 };
 

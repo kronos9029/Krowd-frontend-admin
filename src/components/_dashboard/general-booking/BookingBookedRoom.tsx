@@ -19,7 +19,7 @@ const MOCK_SALES = [...Array(3)].map((_, index) => ({
 export default function BookingBookedRoom() {
   return (
     <Card>
-      <CardHeader title="Booked Room" />
+      <CardHeader title="Các dự án" />
       <Stack spacing={3} sx={{ px: 3, my: 5 }}>
         {MOCK_SALES.map((progress) => (
           <LinearProgress

@@ -50,7 +50,7 @@ export default function BookingTotalIncomes() {
     <RootStyle>
       <Stack direction="row" justifyContent="space-between" sx={{ mb: 3 }}>
         <div>
-          <Typography sx={{ mb: 2, typography: 'subtitle2' }}>Total Incomes</Typography>
+          <Typography sx={{ mb: 2, typography: 'subtitle2' }}>Tổng đầu vào</Typography>
           <Typography sx={{ typography: 'h3' }}>{fCurrency(TOTAL)}</Typography>
         </div>
 

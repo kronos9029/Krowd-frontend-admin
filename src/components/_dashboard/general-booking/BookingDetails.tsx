@@ -130,18 +130,18 @@ export default function BookingDetails() {
   return (
     <>
       <Card>
-        <CardHeader title="Booking Details" sx={{ mb: 3 }} />
+        <CardHeader title="Số người góp vốn" sx={{ mb: 3 }} />
         <Scrollbar>
           <TableContainer sx={{ minWidth: 720 }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ minWidth: 240 }}>Booker</TableCell>
+                  <TableCell sx={{ minWidth: 240 }}>Investor</TableCell>
                   <TableCell sx={{ minWidth: 160 }}>Check In</TableCell>
                   <TableCell sx={{ minWidth: 160 }}>Check Out</TableCell>
                   <TableCell sx={{ minWidth: 120 }}>Status</TableCell>
                   <TableCell sx={{ minWidth: 200 }}>Phone</TableCell>
-                  <TableCell sx={{ minWidth: 120 }}>Room Type</TableCell>
+                  <TableCell sx={{ minWidth: 120 }}>Type</TableCell>
                   <TableCell />
                 </TableRow>
               </TableHead>

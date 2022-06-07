@@ -28,7 +28,7 @@ export default function GeneralAnalytics() {
     <Page title="General: Analytics | Krowd">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Xin chào bạn đã trở lại
         </Typography>
 
         <Grid container spacing={3}>

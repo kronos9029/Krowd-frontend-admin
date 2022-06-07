@@ -25,7 +25,7 @@ export default function BookingTotal() {
       <div>
         <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
         <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-          Total Booking
+          Tổng người tham gia
         </Typography>
       </div>
       <Box

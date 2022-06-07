@@ -45,7 +45,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
-  // const { } = useAuth();
+  const {} = useAuth();
 
   return (
     <RootStyle title="Login | Krowd">
@@ -59,7 +59,7 @@ export default function Login() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Chào mừng trở lại
+            Xin chào bạn đã trở lại
           </Typography>
           <img src="/static/illustrations/illustration_login.png" alt="login" />
         </SectionStyle>
@@ -72,7 +72,7 @@ export default function Login() {
               <Typography variant="h4" gutterBottom>
                 Đăng nhập vào Krowd
               </Typography>
-              {/* <Typography sx={{ color: 'text.secondary' }}>Nhập thông tin bên dưới</Typography> */}
+              <Typography sx={{ color: 'text.secondary' }}>Nhập thông tin bên dưới</Typography>
             </Box>
 
             {/* <Tooltip title={capitalCase(method)}>
@@ -84,9 +84,9 @@ export default function Login() {
             </Tooltip> */}
           </Stack>
 
-          {/* <Alert severity="info" sx={{ mb: 3 }}>
-            Email : <strong>krowd@demo.vn</strong> / Mật khẩu : <strong>&nbsp;krowd1234</strong>
-          </Alert> */}
+          <Alert severity="info" sx={{ mb: 3 }}>
+            Email : <strong>krowd@demo.vn</strong> / Mật khẩu : <strong>krowd1234</strong>
+          </Alert>
 
           <LoginForm />
 

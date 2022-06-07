@@ -70,7 +70,7 @@ export default function DashboardNavbar({ onOpenSidebar }: DashboardNavbarProps)
           {/* <LanguagePopover /> */}
           {/* <NotificationsPopover /> */}
           {/* <ContactsPopover /> */}
-          {/* <AccountPopover /> */}
+          <AccountPopover />
         </Stack>
       </ToolbarStyle>
     </RootStyle>

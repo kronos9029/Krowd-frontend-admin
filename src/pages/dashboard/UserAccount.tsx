@@ -41,7 +41,7 @@ export default function UserAccount() {
     (state: RootState) => state.user
   );
 
-  const [currentTab, setCurrentTab] = useState('general');
+  const [currentTab, setCurrentTab] = useState('tong quan');
 
   useEffect(() => {
     dispatch(getCards());
@@ -65,27 +65,27 @@ export default function UserAccount() {
 
   const ACCOUNT_TABS = [
     {
-      value: 'tổng quan',
+      value: 'tong quan',
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
       component: <AccountGeneral />
     },
     {
-      value: 'thanh toán',
+      value: 'thanh toan',
       icon: <Icon icon={roundReceipt} width={20} height={20} />,
       component: <AccountBilling cards={cards} addressBook={addressBook} invoices={invoices} />
     },
     {
-      value: 'thông báo',
+      value: 'thong bao',
       icon: <Icon icon={bellFill} width={20} height={20} />,
       component: <AccountNotifications notifications={notifications} />
     },
     {
-      value: 'mạng xã hội',
+      value: 'mang xa hoi',
       icon: <Icon icon={shareFill} width={20} height={20} />,
       component: <AccountSocialLinks myProfile={myProfile} />
     },
     {
-      value: 'thay đổi mật khẩu',
+      value: 'thay doi mat khau',
       icon: <Icon icon={roundVpnKey} width={20} height={20} />,
       component: <AccountChangePassword />
     }

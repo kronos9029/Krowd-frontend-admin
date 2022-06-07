@@ -67,9 +67,9 @@ export default function GeneralBooking() {
             <BookingCustomerReviews />
           </Grid>
 
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <BookingNewestBooking />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <BookingDetails />

@@ -59,28 +59,28 @@ export default function GeneralApp() {
             <AppAreaInstalled />
           </Grid>
 
-          <Grid item xs={12} lg={8}>
+          {/* <Grid item xs={12} lg={8}>
             <AppNewInvoice />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
             <AppTopRelated />
-          </Grid>
-
+          </Grid> */}
+          {/* 
           <Grid item xs={12} md={6} lg={4}>
             <AppTopInstalledCountries />
           </Grid>
 
           <Grid item xs={12} md={6} lg={4}>
             <AppTopAuthors />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <Stack spacing={3}>
               <AppWidgets1 />
               <AppWidgets2 />
             </Stack>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>

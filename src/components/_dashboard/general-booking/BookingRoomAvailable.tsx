@@ -38,7 +38,7 @@ function Legend({ label, number }: LegendProps) {
           {label}
         </Typography>
       </Stack>
-      <Typography variant="subtitle1">{number} Rooms</Typography>
+      <Typography variant="subtitle1">{number}m</Typography>
     </Stack>
   );
 }
@@ -69,7 +69,7 @@ export default function BookingRoomAvailable() {
           name: { offsetY: -16 },
           value: { offsetY: 8 },
           total: {
-            label: 'Rooms',
+            label: 'Đã gop',
             formatter: () => fNumber(186)
           }
         }
@@ -79,12 +79,12 @@ export default function BookingRoomAvailable() {
 
   return (
     <Card>
-      <CardHeader title="Room Available" sx={{ mb: 8 }} />
+      <CardHeader title="Dự án hiện tại" sx={{ mb: 8 }} />
       <ReactApexChart type="radialBar" series={CHART_DATA} options={chartOptions} height={310} />
 
       <Stack spacing={2} sx={{ p: 5 }}>
-        <Legend label="Sold out" number={SOLD_OUT} />
-        <Legend label="Available" number={AVAILABLE} />
+        <Legend label="Đã góp" number={SOLD_OUT} />
+        <Legend label="Còn" number={AVAILABLE} />
       </Stack>
     </Card>
   );

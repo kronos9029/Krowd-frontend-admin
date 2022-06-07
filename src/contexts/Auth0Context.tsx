@@ -129,7 +129,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
           id: state?.user?.sub,
           photoURL: state?.user?.picture,
           email: state?.user?.email,
-          displayName: 'Jaydon Frankie',
+          displayName: 'Krowd Admin',
           role: 'admin'
         },
         login,

@@ -42,8 +42,6 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_d
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Tên người dùng', alignRight: false },
-  { id: 'company', label: 'Công ty', alignRight: false },
-  { id: 'role', label: 'Chức vụ', alignRight: false },
   { id: 'isVerified', label: 'Xác nhận', alignRight: false },
   { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: '' }
@@ -223,8 +221,6 @@ export default function AdminList() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
                           <TableCell align="left">{isVerified ? 'Đã xác nhận' : 'Chưa'}</TableCell>
                           <TableCell align="left">
                             <Label

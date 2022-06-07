@@ -28,8 +28,8 @@ import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 //
 import { MIconButton } from '../../@material-extend';
-import Login from 'pages/authentication/Login';
-import firebase from 'firebase/app';
+// import Login from 'pages/authentication/Login';
+// import firebase from 'firebase/app';
 
 // ----------------------------------------------------------------------
 type InitialValues = {
@@ -40,6 +40,7 @@ type InitialValues = {
 };
 export default function LoginForm() {
   // const { loginWithGoogle } = useAuth();
+  const { login } = useAuth();
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
@@ -49,11 +50,12 @@ export default function LoginForm() {
     password: Yup.string().required('Yêu cầu nhập mật khẩu')
   });
 
-  const { loginWithGoogle, loginWithFaceBook, login, loginWithPhone } = useAuth();
-  const SOCIALS = [
-    { name: 'FaceBook', icon: facebookFill },
-    { name: 'Google', icon: googleFill }
-  ];
+  // const { loginWithGoogle, loginWithFaceBook, login, loginWithPhone } = useAuth();
+  // const SOCIALS = [
+  //   { name: 'FaceBook', icon: facebookFill },
+  //   { name: 'Google', icon: googleFill }
+  // ];
+
   // const handleLoginPhone = () => {
   //   // window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sign-in-button', {
   //   const appVerifier2 = new firebase.auth.RecaptchaVerifier('sign-in-button', {
@@ -82,15 +84,17 @@ export default function LoginForm() {
   //       // ...
   //     });
   // };
-  const handleLoginGoogle = async () => {
-    try {
-      await loginWithGoogle?.();
-      // const res = await auth.signInWithPopup(googleProvider);
-      // console.log("data", res)
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //dang xai cai nay
+  // const handleLoginGoogle = async () => {
+  //   try {
+  //     await loginWithGoogle?.();
+  //     // const res = await auth.signInWithPopup(googleProvider);
+  //     // console.log("data", res)
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // ban demo email
   // const handleLoginEmail = async () => {
   //   try {
   //     await Login?.();
@@ -100,13 +104,14 @@ export default function LoginForm() {
   //     console.error(error);
   //   }
   // };
-  const handleLoginFaceBook = async () => {
-    try {
-      await loginWithFaceBook?.();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // ban demo facebook
+  // const handleLoginFaceBook = async () => {
+  //   try {
+  //     await loginWithFaceBook?.();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const formik = useFormik<InitialValues>({
     initialValues: {
       email: '',
@@ -114,33 +119,17 @@ export default function LoginForm() {
       remember: true
     },
     validationSchema: LoginSchema,
-    //   onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
-    //     try {
-    //       await login(values.email, values.password);
-    //       enqueueSnackbar('Login success', {
-    //         variant: 'success',
-    //         action: (key) => (
-    //           <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-    //             <Icon icon={closeFill} />
-    //           </MIconButton>
-    //         )
-    //       });
-    //       if (isMountedRef.current) {
-    //         setSubmitting(false);
-    //       }
-    //     } catch (error) {
-    //       console.error(error);
-    //       resetForm();
-    //       if (isMountedRef.current) {
-    //         setSubmitting(false);
-    //         setErrors({ afterSubmit: error.message });
-    //       }
-    //     }
-    //   }
-    // });
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       try {
         await login(values.email, values.password);
+        enqueueSnackbar('Đăng nhập thành công', {
+          variant: 'success',
+          action: (key) => (
+            <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+              <Icon icon={closeFill} />
+            </MIconButton>
+          )
+        });
         if (isMountedRef.current) {
           setSubmitting(false);
         }
@@ -154,6 +143,22 @@ export default function LoginForm() {
       }
     }
   });
+  //   onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
+  //     try {
+  //       await login(values.email, values.password);
+  //       if (isMountedRef.current) {
+  //         setSubmitting(false);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //       resetForm();
+  //       if (isMountedRef.current) {
+  //         setSubmitting(false);
+  //         setErrors({ afterSubmit: error.message });
+  //       }
+  //     }
+  //   }
+  // });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
 
@@ -167,7 +172,7 @@ export default function LoginForm() {
         <Stack spacing={3}>
           {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
 
-          <TextField
+          {/* <TextField
             fullWidth
             autoComplete="username"
             type="number"
@@ -176,8 +181,44 @@ export default function LoginForm() {
             // {...getFieldProps('email')}
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
+          /> */}
+          <TextField
+            fullWidth
+            autoComplete="username"
+            type="email"
+            label="Địa chỉ email"
+            {...getFieldProps('email')}
+            error={Boolean(touched.email && errors.email)}
+            helperText={touched.email && errors.email}
           />
 
+          <TextField
+            fullWidth
+            autoComplete="current-password"
+            type={showPassword ? 'text' : 'password'}
+            label="Mật khẩu"
+            {...getFieldProps('password')}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleShowPassword} edge="end">
+                    <Icon icon={showPassword ? eyeFill : eyeOffFill} />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+            error={Boolean(touched.password && errors.password)}
+            helperText={touched.password && errors.password}
+          />
+          <LoadingButton
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+          >
+            Login
+          </LoadingButton>
           {/* <TextField
             fullWidth
             autoComplete="current-password"
@@ -208,7 +249,7 @@ export default function LoginForm() {
             Quên mật khẩu?
           </Link>
         </Stack>
-
+        {/* 
         <LoadingButton
           fullWidth
           size="large"
@@ -218,7 +259,7 @@ export default function LoginForm() {
           // onClick={handleLoginEmail}
         >
           Login
-        </LoadingButton>
+        </LoadingButton> */}
       </Form>
       {/* 
       <LoadingButton
@@ -238,7 +279,8 @@ export default function LoginForm() {
         <Icon icon={googleFill} color="green" height={24} />
         Login with Phone
       </LoadingButton> */}
-      <LoadingButton
+      {/*van dang chay lenh phia duoi*/}
+      {/* <LoadingButton
         style={{
           backgroundColor: '#FFF',
           color: 'black',
@@ -254,7 +296,7 @@ export default function LoginForm() {
       >
         <Icon icon={googleFill} color="green" height={24} />
         Login with google
-      </LoadingButton>
+      </LoadingButton> */}
       {/* <LoadingButton
         fullWidth
         size="large"

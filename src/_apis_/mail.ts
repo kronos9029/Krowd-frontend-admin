@@ -106,7 +106,7 @@ const mails = [...Array(9)].map((_, index) => ({
   },
   to: [
     {
-      name: 'Jaydon Frankie',
+      name: 'Krowd Admin',
       email: 'krowd@demo.vn',
       avatar: null
     }
