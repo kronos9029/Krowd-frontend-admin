@@ -8,6 +8,13 @@ import blogReducer from './slices/blog';
 import userReducer from './slices/user';
 import productReducer from './slices/product';
 import kanbanReducer from './slices/kanban';
+import businessReducer from './slices/business';
+import userKrowdReducer from './slices/users';
+import fieldKrowdReducer from './slices/field';
+import AreaKrowdReducer from './slices/area';
+import RiskReducer from './slices/risk';
+import RolesReducer from './slices/roles';
+import InvestmentReducer from './slices/investment';
 
 // ----------------------------------------------------------------------
 
@@ -31,6 +38,13 @@ const rootReducer = combineReducers({
   blog: blogReducer,
   user: userReducer,
   kanban: kanbanReducer,
+  business: businessReducer,
+  userKrowd: userKrowdReducer,
+  fieldKrowd: fieldKrowdReducer,
+  areaKrowd: AreaKrowdReducer,
+  riskKrowd: RiskReducer,
+  roleKrowd: RolesReducer,
+  investment: InvestmentReducer,
   product: persistReducer(productPersistConfig, productReducer)
 });
 

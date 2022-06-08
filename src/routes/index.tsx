@@ -10,7 +10,7 @@ import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import AdminList from 'pages/dashboard/AdminList';
+import UsersKrowd from 'pages/dashboard/UsersKrowd';
 
 // ----------------------------------------------------------------------
 
@@ -85,10 +85,22 @@ export default function Router() {
         { path: 'booking', element: <GeneralBooking /> },
 
         {
+          path: 'other',
+          children: [
+            { element: <Navigate to="/dashboard/other/field" replace /> },
+            { path: 'field', element: <FieldManagerment /> },
+            { path: 'area', element: <AreasManagement /> },
+            { path: 'role', element: <RolesManagement /> },
+            { path: 'list', element: <EcommerceProductList /> },
+            { path: 'risk', element: <RiskTypesManagement /> },
+            { path: 'investment', element: <EcommerceProductCreate /> }
+          ]
+        },
+        {
           path: 'e-commerce',
           children: [
             { element: <Navigate to="/dashboard/e-commerce/shop" replace /> },
-            { path: 'shop', element: <EcommerceShop /> },
+            { path: 'shop', element: <FieldManagerment /> },
             { path: 'product/:name', element: <EcommerceProductDetails /> },
             { path: 'list', element: <EcommerceProductList /> },
             { path: 'product/new', element: <EcommerceProductCreate /> },
@@ -115,7 +127,7 @@ export default function Router() {
             { element: <Navigate to="/dashboard/admin/profile" replace /> },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
-            { path: 'list', element: <AdminList /> },
+            { path: 'list', element: <UsersKrowd /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':name/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> }
@@ -179,13 +191,20 @@ const Login = Loadable(lazy(() => import('../pages/authentication/Login')));
 const Register = Loadable(lazy(() => import('../pages/authentication/Register')));
 const ResetPassword = Loadable(lazy(() => import('../pages/authentication/ResetPassword')));
 const VerifyCode = Loadable(lazy(() => import('../pages/authentication/VerifyCode')));
-// Dashboard
+
+// Thống kê toàn bộ hệ thống
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
 const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
 const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
 const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
 const GeneralBooking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
-const EcommerceShop = Loadable(lazy(() => import('../pages/dashboard/EcommerceShop')));
+
+//Thuộc về quản lý khác
+const FieldManagerment = Loadable(lazy(() => import('../pages/dashboard/FieldManagerment')));
+const AreasManagement = Loadable(lazy(() => import('../pages/dashboard/AreasManagement')));
+const RolesManagement = Loadable(lazy(() => import('../pages/dashboard/RolesManagement')));
+const RiskTypesManagement = Loadable(lazy(() => import('../pages/dashboard/RiskTypesManagement')));
+
 const EcommerceProductDetails = Loadable(
   lazy(() => import('../pages/dashboard/EcommerceProductDetails'))
 );
@@ -208,7 +227,8 @@ const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')))
 const Chat = Loadable(lazy(() => import('../pages/dashboard/Chat')));
 const Mail = Loadable(lazy(() => import('../pages/dashboard/Mail')));
 const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
-// Main
+
+// Quản lý lỗi hệ thống
 const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
 const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));

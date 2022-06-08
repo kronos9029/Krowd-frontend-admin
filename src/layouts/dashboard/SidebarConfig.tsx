@@ -61,41 +61,50 @@ const sidebarConfig = [
       //   ]
       // },
 
-      // MANAGEMENT : E-COMMERCE
+      // MANAGEMENT : BLOG
+      { title: 'Quản lý dự án', path: PATH_DASHBOARD.blog.posts, icon: ICONS.blog },
+      { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.user.list, icon: ICONS.ecommerce },
+      { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.cart }
+      // MANAGEMENT : WALLET
       // {
-      //   title: 'e-commerce',
+      //   title: 'Quản lý ví:',
       //   path: PATH_DASHBOARD.eCommerce.root,
       //   icon: ICONS.cart,
       //   children: [
-      //     { title: 'shop', path: PATH_DASHBOARD.eCommerce.shop },
-      //     { title: 'product', path: PATH_DASHBOARD.eCommerce.productById },
-      //     { title: 'list', path: PATH_DASHBOARD.eCommerce.list },
-      //     { title: 'create', path: PATH_DASHBOARD.eCommerce.newProduct },
-      //     { title: 'edit', path: PATH_DASHBOARD.eCommerce.editById },
-      //     { title: 'checkout', path: PATH_DASHBOARD.eCommerce.checkout },
-      //     { title: 'invoice', path: PATH_DASHBOARD.eCommerce.invoice }
-      //   ]
-      // },
-
-      // MANAGEMENT : BLOG
-      { title: 'Bài đăng', path: PATH_DASHBOARD.blog.posts, icon: ICONS.blog },
-      { title: 'Doanh nghiệp', path: PATH_DASHBOARD.user.list, icon: ICONS.ecommerce },
-      { title: 'Quản lý', path: PATH_DASHBOARD.admin.list, icon: ICONS.cart },
-      { title: 'Thông tin', path: PATH_DASHBOARD.user.profile, icon: ICONS.user }
-
-      // {
-      //   title: 'Bài đăng',
-      //   path: PATH_DASHBOARD.blog.root,
-
-      //   children: [
-      //     { title: 'Danh sách',  }
-      //     { title: 'Chi tiết', path: PATH_DASHBOARD.blog.postById },
-      //     { title: 'Thêm mới dự án', path: PATH_DASHBOARD.blog.newPost }
+      //     { title: 'Ví của hệ thống', path: PATH_DASHBOARD.eCommerce.shop },
+      //     { title: 'Ví doanh thu', path: PATH_DASHBOARD.eCommerce.productById },
+      //     { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.eCommerce.list }
       //   ]
       // }
     ]
-  }
+  },
+  // {
+  //   subheader: 'Quản lý giao dịch:',
+  //   items: [
+  //     // MANAGEMENT : Giao dịch
+  //     { title: 'Thanh toán giữa các ví', path: PATH_DASHBOARD.user.profile, icon: ICONS.user },
+  //     { title: 'Giao dịch ngân hàng', path: PATH_DASHBOARD.user.profile, icon: ICONS.user },
+  //     { title: 'Lịch sử doanh thu', path: PATH_DASHBOARD.user.profile, icon: ICONS.user }
+  //   ]
+  // },
 
+  {
+    subheader: '~~~~~~~~~~~~~~~~~~~~~~~~~',
+    items: [
+      {
+        title: 'Quản lý khác:',
+        path: PATH_DASHBOARD.other.root,
+        icon: ICONS.cart,
+        children: [
+          { title: 'Lĩnh vực', path: PATH_DASHBOARD.other.field },
+          { title: 'Khu vực', path: PATH_DASHBOARD.other.area },
+          { title: 'Vai trò', path: PATH_DASHBOARD.other.role },
+          { title: 'Rủi ro', path: PATH_DASHBOARD.other.risk }
+          // { title: 'Đầu tư', path: PATH_DASHBOARD.other.investment }
+        ]
+      }
+    ]
+  }
   // APP
   // ----------------------------------------------------------------------
   // {

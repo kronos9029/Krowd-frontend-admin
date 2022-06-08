@@ -1,0 +1,26 @@
+export type UserKrowd = {
+  id: string;
+  businessId: string;
+  roleId: string;
+  description: string;
+  lastName: string;
+  firstName: string;
+  phoneNum: string;
+  image: string;
+  idCard: string;
+  email: string;
+  gender: string;
+  dateOfBirth: string;
+  taxIdentificationNumber: string;
+  city: string;
+  district: string;
+  ward: string;
+  address: string;
+  bankName: string;
+  bankAccount: string;
+  createDate: Date;
+  createBy: string;
+  updateDate: Date;
+  updateBy: string;
+  isDeleted: boolean;
+};

@@ -15,29 +15,35 @@ import ThemePrimaryColor from './components/ThemePrimaryColor';
 import ThemeLocalization from './components/ThemeLocalization';
 import { BaseOptionChartStyle } from './components/charts/BaseOptionChart';
 import LoadingScreen, { ProgressBarStyle } from './components/LoadingScreen';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Fragment } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function App() {
   const { isInitialized } = useAuth();
-
+  const queryClient = new QueryClient();
   return (
-    <ThemeConfig>
-      <ThemePrimaryColor>
-        <ThemeLocalization>
-          <RtlLayout>
-            <NotistackProvider>
-              <GlobalStyles />
-              <ProgressBarStyle />
-              <BaseOptionChartStyle />
-              {/* <Settings /> */}
-              <ScrollToTop />
-              <GoogleAnalytics />
-              {isInitialized ? <Router /> : <LoadingScreen />}
-            </NotistackProvider>
-          </RtlLayout>
-        </ThemeLocalization>
-      </ThemePrimaryColor>
-    </ThemeConfig>
+    <Fragment>
+      <QueryClientProvider client={queryClient}>
+        <ThemeConfig>
+          <ThemePrimaryColor>
+            <ThemeLocalization>
+              <RtlLayout>
+                <NotistackProvider>
+                  <GlobalStyles />
+                  <ProgressBarStyle />
+                  <BaseOptionChartStyle />
+                  {/* <Settings /> */}
+                  <ScrollToTop />
+                  <GoogleAnalytics />
+                  {isInitialized ? <Router /> : <LoadingScreen />}
+                </NotistackProvider>
+              </RtlLayout>
+            </ThemeLocalization>
+          </ThemePrimaryColor>
+        </ThemeConfig>
+      </QueryClientProvider>
+    </Fragment>
   );
 }

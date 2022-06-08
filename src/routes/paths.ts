@@ -29,6 +29,7 @@ export const PATH_PAGE = {
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
+  //tạm thời k xài
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
     ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
@@ -36,6 +37,7 @@ export const PATH_DASHBOARD = {
     banking: path(ROOTS_DASHBOARD, '/banking'),
     booking: path(ROOTS_DASHBOARD, '/booking')
   },
+  //tạm thời k xài
   mail: {
     root: path(ROOTS_DASHBOARD, '/mail'),
     all: path(ROOTS_DASHBOARD, '/mail/all')
@@ -46,6 +48,7 @@ export const PATH_DASHBOARD = {
     conversation: path(ROOTS_DASHBOARD, '/chat/:conversationKey')
   },
   kanban: path(ROOTS_DASHBOARD, '/kanban'),
+  //tạm thời k xài
   user: {
     root: path(ROOTS_DASHBOARD, '/user'),
     profile: path(ROOTS_DASHBOARD, '/user/profile'),
@@ -55,6 +58,17 @@ export const PATH_DASHBOARD = {
     editById: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
     account: path(ROOTS_DASHBOARD, '/user/account')
   },
+  //Quản lý khác
+  other: {
+    root: path(ROOTS_DASHBOARD, '/other'),
+    list: path(ROOTS_DASHBOARD, '/other/list'),
+    field: path(ROOTS_DASHBOARD, '/other/field'),
+    area: path(ROOTS_DASHBOARD, '/other/area'),
+    role: path(ROOTS_DASHBOARD, '/other/role'),
+    risk: path(ROOTS_DASHBOARD, '/other/risk'),
+    investment: path(ROOTS_DASHBOARD, '/other/investment')
+  },
+  //tạm thời k xài
   admin: {
     root: path(ROOTS_DASHBOARD, '/admin'),
     profile: path(ROOTS_DASHBOARD, '/admin/profile'),
@@ -64,6 +78,7 @@ export const PATH_DASHBOARD = {
     editById: path(ROOTS_DASHBOARD, `/admin/reece-chung/edit`),
     account: path(ROOTS_DASHBOARD, '/admin/account')
   },
+  //tạm thời k xài
   eCommerce: {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),
     shop: path(ROOTS_DASHBOARD, '/e-commerce/shop'),
@@ -75,6 +90,7 @@ export const PATH_DASHBOARD = {
     checkout: path(ROOTS_DASHBOARD, '/e-commerce/checkout'),
     invoice: path(ROOTS_DASHBOARD, '/e-commerce/invoice')
   },
+  //tạm thời k xài
   blog: {
     root: path(ROOTS_DASHBOARD, '/blog'),
     posts: path(ROOTS_DASHBOARD, '/blog/posts'),

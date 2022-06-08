@@ -26,7 +26,7 @@ export default function UserListHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
@@ -34,11 +34,11 @@ export default function UserListHead({
               onSelectAllClick(event.target.checked)
             }
           />
-        </TableCell>
+        </TableCell> */}
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.alignRight ? 'right' : 'left'}
+            align={headCell.alignRight ? 'center' : 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
