@@ -48,13 +48,13 @@ export default function Login() {
   const {} = useAuth();
 
   return (
-    <RootStyle title="Login | Krowd">
-      <AuthLayout>
+    <RootStyle title="Đăng nhập | Krowd">
+      {/* <AuthLayout>
         Bạn chưa có tại khoản? &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
           Đăng ký ngay
         </Link>
-      </AuthLayout>
+      </AuthLayout> */}
 
       <MHidden width="mdDown">
         <SectionStyle>

@@ -6,11 +6,11 @@ import mockData from '../../../utils/mock-data';
 
 // ----------------------------------------------------------------------
 
-const LABEL = ['Pending', 'Cancel', 'Done'];
+const LABEL = ['số tiền mục tiêu', 'số tiền đã đầu tư'];
 
-const MOCK_SALES = [...Array(3)].map((_, index) => ({
+const MOCK_SALES = [...Array(2)].map((_, index) => ({
   status: LABEL[index],
-  quantity: mockData.number.percent(index) * 1000,
+  quantity: mockData.number.percent(index),
   value: mockData.number.percent(index)
 }));
 
@@ -26,11 +26,7 @@ export default function BookingBookedRoom() {
             variant="determinate"
             key={progress.status}
             value={progress.value}
-            color={
-              (progress.status === 'Pending' && 'warning') ||
-              (progress.status === 'Cancel' && 'error') ||
-              'success'
-            }
+            color={(progress.status === 'số tiền đã đầu tư' && 'warning') || 'success'}
             sx={{ height: 8, bgcolor: 'grey.50016' }}
           />
         ))}
@@ -46,8 +42,7 @@ export default function BookingBookedRoom() {
                   height: 12,
                   borderRadius: 0.5,
                   bgcolor: 'success.main',
-                  ...(progress.status === 'Pending' && { bgcolor: 'warning.main' }),
-                  ...(progress.status === 'Cancel' && { bgcolor: 'error.main' })
+                  ...(progress.status === 'số tiền đã đầu tư' && { bgcolor: 'warning.main' })
                 }}
               />
               <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>

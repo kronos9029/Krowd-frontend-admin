@@ -82,7 +82,7 @@ export default function ProductDetailsReviewOverview({
 
   return (
     <Grid container>
-      <GridStyle item xs={12} md={4}>
+      {/* <GridStyle item xs={12} md={4}>
         <Typography variant="subtitle1" gutterBottom>
           Average rating
         </Typography>
@@ -94,9 +94,9 @@ export default function ProductDetailsReviewOverview({
           ({fShortenNumber(totalReview)}
           &nbsp;reviews)
         </Typography>
-      </GridStyle>
+      </GridStyle> */}
 
-      <GridStyle item xs={12} md={4}>
+      {/* <GridStyle item xs={12} md={4}>
         <Stack spacing={1.5} sx={{ width: 1 }}>
           {ratings
             .slice(0)
@@ -105,18 +105,18 @@ export default function ProductDetailsReviewOverview({
               <ProgressItem key={rating.name} star={rating} total={total} />
             ))}
         </Stack>
-      </GridStyle>
+      </GridStyle> */}
 
       <GridStyle item xs={12} md={4}>
         <ScrollLink to="move_add_review" spy={true} smooth={true} offset={-200}>
-          <Button
+          {/* <Button
             size="large"
             onClick={onOpen}
             variant="outlined"
             startIcon={<Icon icon={edit2Fill} />}
           >
             Write your review
-          </Button>
+          </Button> */}
         </ScrollLink>
       </GridStyle>
     </Grid>

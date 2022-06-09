@@ -32,7 +32,7 @@ function renderLabel(label: string | null) {
   return 'Price: Low-High';
 }
 
-export default function ShopProductSort() {
+export default function KrowdProjectSort() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
   const { sortBy } = useSelector((state: { product: ProductState }) => state.product);

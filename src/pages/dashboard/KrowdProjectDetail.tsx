@@ -23,44 +23,20 @@ import Page from '../../components/Page';
 import Markdown from '../../components/Markdown';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import {
-  ProductDetailsSummary,
-  ProductDetailsReview,
-  ProductDetailsCarousel
+  ProjecrDetailsSummary,
+  ProjectDetailsReview,
+  ProjectDetailsCarousel
 } from '../../components/_dashboard/e-commerce/product-details';
 import CartWidget from '../../components/_dashboard/e-commerce/CartWidget';
-
-// ----------------------------------------------------------------------
-
-const PRODUCT_DESCRIPTION = [
-  {
-    title: '100% Original',
-    description: 'Chocolate bar candy canes ice cream toffee cookie halvah.',
-    icon: roundVerified
-  },
-  {
-    title: '10 Day Replacement',
-    description: 'Marshmallow biscuit donut dragée fruitcake wafer.',
-    icon: clockFill
-  },
-  {
-    title: 'Year Warranty',
-    description: 'Cotton candy gingerbread cake I love sugar sweet.',
-    icon: roundVerifiedUser
-  }
-];
-
-const IconWrapperStyle = styled('div')(({ theme }) => ({
-  margin: 'auto',
-  display: 'flex',
-  borderRadius: '50%',
-  alignItems: 'center',
-  width: theme.spacing(8),
-  justifyContent: 'center',
-  height: theme.spacing(8),
-  marginBottom: theme.spacing(3),
-  color: theme.palette.primary.main,
-  backgroundColor: `${alpha(theme.palette.primary.main, 0.08)}`
-}));
+import { BookingBookedRoom } from 'components/_dashboard/general-booking';
+import {
+  AnalyticsBugReports,
+  AnalyticsItemOrders,
+  AnalyticsNewUsers,
+  AnalyticsWeeklySales
+} from 'components/_dashboard/general-analytics';
+import { BlogPostHero } from 'components/_dashboard/blog';
+import { BlogState } from '../../@types/blog';
 
 // ----------------------------------------------------------------------
 
@@ -79,7 +55,7 @@ const SkeletonLoad = (
   </Grid>
 );
 
-export default function EcommerceProductDetails() {
+export default function KrowdProjectDetails() {
   const { themeStretch } = useSettings();
   const dispatch = useDispatch();
   const [value, setValue] = useState('1');
@@ -87,10 +63,11 @@ export default function EcommerceProductDetails() {
   const { product, error, checkout } = useSelector(
     (state: { product: ProductState }) => state.product
   );
+  const { post, recentPosts } = useSelector((state: { blog: BlogState }) => state.blog);
 
   useEffect(() => {
     dispatch(getProduct(name));
-  }, [dispatch, name]);
+  }, [dispatch, name, post]);
 
   const handleAddCart = (product: CartItem) => {
     dispatch(addCart(product));
@@ -101,31 +78,26 @@ export default function EcommerceProductDetails() {
   };
 
   return (
-    <Page title="Ecommerce: Product Details | Krowd">
+    <Page title="Dự án: Chi tiết dự án | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Product Details"
+          heading="Chi tiết dự án"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            {
-              name: 'E-Commerce',
-              href: PATH_DASHBOARD.eCommerce.root
-            },
+            { name: 'Danh sách', href: PATH_DASHBOARD.projects.projectKrowd },
             { name: sentenceCase(name) }
           ]}
         />
 
-        <CartWidget />
-
+        {/* <CartWidget /> */}
         {product && (
           <>
             <Card>
               <Grid container>
                 <Grid item xs={12} md={6} lg={7}>
-                  <ProductDetailsCarousel product={product} />
+                  <ProjectDetailsCarousel product={product} />
                 </Grid>
                 <Grid item xs={12} md={6} lg={5}>
-                  <ProductDetailsSummary
+                  <ProjecrDetailsSummary
                     product={product}
                     cart={checkout.cart}
                     onAddCart={handleAddCart}
@@ -134,32 +106,50 @@ export default function EcommerceProductDetails() {
                 </Grid>
               </Grid>
             </Card>
+            <BookingBookedRoom />
+            <Grid container spacing={3} sx={{ mb: 5, pb: 5, mt: 3 }}>
+              <Grid item xs={12} sm={6} md={3}>
+                <AnalyticsWeeklySales />
+              </Grid>
 
-            <Grid container sx={{ my: 8 }}>
-              {PRODUCT_DESCRIPTION.map((item) => (
-                <Grid item xs={12} md={4} key={item.title}>
-                  <Box sx={{ my: 2, mx: 'auto', maxWidth: 280, textAlign: 'center' }}>
-                    <IconWrapperStyle>
-                      <Icon icon={item.icon} width={36} height={36} />
-                    </IconWrapperStyle>
-                    <Typography variant="subtitle1" gutterBottom>
-                      {item.title}
-                    </Typography>
-                    <Typography sx={{ color: 'text.secondary' }}>{item.description}</Typography>
-                  </Box>
-                </Grid>
-              ))}
+              <Grid item xs={12} sm={6} md={3}>
+                <AnalyticsNewUsers />
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <AnalyticsItemOrders />
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <AnalyticsBugReports />
+              </Grid>
             </Grid>
-
+            {/* Nổi bật */}
+            <Typography variant="subtitle1" sx={{ ml: 1, fontSize: '20px', mb: 5 }}>
+              Nổi bật
+            </Typography>
+            <img src="/static/mock-images/covers/cover_1.jpg" />
+            {/*Change tab view at here */}
             <Card>
               <TabContext value={value}>
                 <Box sx={{ px: 3, bgcolor: 'background.neutral' }}>
                   <TabList onChange={(e, value) => setValue(value)}>
-                    <Tab disableRipple value="1" label="Description" />
+                    <Tab
+                      sx={{ paddingRight: '1rem' }}
+                      disableRipple
+                      value="1"
+                      label="Mô tả chi tiết"
+                    />
                     <Tab
                       disableRipple
                       value="2"
-                      label={`Review (${product.reviews.length})`}
+                      label="Thành viên"
+                      sx={{ '& .MuiTab-wrapper': { whiteSpace: 'nowrap' }, paddingRight: '1rem' }}
+                    />
+                    <Tab
+                      disableRipple
+                      value="3"
+                      label="Giai đoạn"
                       sx={{ '& .MuiTab-wrapper': { whiteSpace: 'nowrap' } }}
                     />
                   </TabList>
@@ -173,7 +163,12 @@ export default function EcommerceProductDetails() {
                   </Box>
                 </TabPanel>
                 <TabPanel value="2">
-                  <ProductDetailsReview product={product} />
+                  <ProjectDetailsReview product={product} />
+                </TabPanel>
+                <TabPanel value="3">
+                  <Box sx={{ p: 3 }}>
+                    <Markdown children={product.description} />
+                  </Box>
                 </TabPanel>
               </TabContext>
             </Card>
@@ -182,7 +177,7 @@ export default function EcommerceProductDetails() {
 
         {!product && SkeletonLoad}
 
-        {error && <Typography variant="h6">404 Product not found</Typography>}
+        {/* {error && <Typography variant="h6">404 Product not found</Typography>} */}
       </Container>
     </Page>
   );

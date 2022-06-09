@@ -62,10 +62,11 @@ const sidebarConfig = [
       // },
 
       // MANAGEMENT : BLOG
-      { title: 'Quản lý dự án', path: PATH_DASHBOARD.blog.posts, icon: ICONS.blog },
+      { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.blog },
       { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.user.list, icon: ICONS.ecommerce },
       { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.cart }
       // MANAGEMENT : WALLET
+
       // {
       //   title: 'Quản lý ví:',
       //   path: PATH_DASHBOARD.eCommerce.root,

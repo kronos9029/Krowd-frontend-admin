@@ -93,7 +93,15 @@ export default function Router() {
             { path: 'role', element: <RolesManagement /> },
             { path: 'list', element: <EcommerceProductList /> },
             { path: 'risk', element: <RiskTypesManagement /> },
-            { path: 'investment', element: <EcommerceProductCreate /> }
+            { path: 'investment', element: <EcommerceProductList /> }
+          ]
+        },
+        {
+          path: 'project',
+          children: [
+            { element: <Navigate to="/dashboard/project" replace /> },
+            { path: 'projectKrowd', element: <ProjectManagement /> },
+            { path: 'project/:name', element: <KrowdProjectDetails /> }
           ]
         },
         {
@@ -101,7 +109,7 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/e-commerce/shop" replace /> },
             { path: 'shop', element: <FieldManagerment /> },
-            { path: 'product/:name', element: <EcommerceProductDetails /> },
+            { path: 'product/:name', element: <KrowdProjectDetails /> },
             { path: 'list', element: <EcommerceProductList /> },
             { path: 'product/new', element: <EcommerceProductCreate /> },
             { path: 'product/:name/edit', element: <EcommerceProductCreate /> },
@@ -198,16 +206,14 @@ const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralE
 const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
 const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
 const GeneralBooking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
-
+const ProjectManagement = Loadable(lazy(() => import('../pages/dashboard/ProjectManagement')));
 //Thuộc về quản lý khác
 const FieldManagerment = Loadable(lazy(() => import('../pages/dashboard/FieldManagerment')));
 const AreasManagement = Loadable(lazy(() => import('../pages/dashboard/AreasManagement')));
 const RolesManagement = Loadable(lazy(() => import('../pages/dashboard/RolesManagement')));
 const RiskTypesManagement = Loadable(lazy(() => import('../pages/dashboard/RiskTypesManagement')));
 
-const EcommerceProductDetails = Loadable(
-  lazy(() => import('../pages/dashboard/EcommerceProductDetails'))
-);
+const KrowdProjectDetails = Loadable(lazy(() => import('../pages/dashboard/KrowdProjectDetail')));
 const EcommerceProductList = Loadable(
   lazy(() => import('../pages/dashboard/EcommerceProductList'))
 );

@@ -121,7 +121,7 @@ type ProductDetailsSumaryprops = {
   onGotoStep: (step: number) => void;
 };
 
-export default function ProductDetailsSummary({
+export default function ProjecrDetailsSummary({
   product,
   cart,
   onAddCart,
@@ -180,17 +180,6 @@ export default function ProductDetailsSummary({
 
   const { values, touched, errors, getFieldProps, handleSubmit } = formik;
 
-  const handleAddCart = async () => {
-    try {
-      onAddCart({
-        ...values,
-        subtotal: values.price * values.quantity
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
     <RootStyle {...other}>
       <FormikProvider value={formik}>
@@ -208,8 +197,7 @@ export default function ProductDetailsSummary({
             sx={{
               mt: 2,
               mb: 1,
-              display: 'block',
-              color: status === 'sale' ? 'error.main' : 'info.main'
+              display: 'block'
             }}
           >
             {status}
@@ -220,42 +208,10 @@ export default function ProductDetailsSummary({
           </Typography>
 
           <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
-            <Rating value={totalRating} precision={0.1} readOnly />
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              ({fShortenNumber(totalReview)}
-              reviews)
+            {/* <Rating value={totalRating} precision={0.1} readOnly /> */}
+            <Typography variant="body2" sx={{ color: '#212B36' }}>
+              Người tạo : 'type'
             </Typography>
-          </Box>
-
-          <Typography variant="h4" sx={{ mb: 3 }}>
-            <Box component="span" sx={{ color: 'text.disabled', textDecoration: 'line-through' }}>
-              {priceSale && fCurrency(priceSale)}
-            </Box>
-            &nbsp;{fCurrency(price)}
-          </Typography>
-
-          <Divider sx={{ borderStyle: 'dashed' }} />
-
-          <Box
-            sx={{
-              my: 3,
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-              Color
-            </Typography>
-            <ColorSinglePicker
-              {...getFieldProps('color')}
-              colors={colors}
-              sx={{
-                ...(colors.length > 4 && {
-                  maxWidth: 144,
-                  justifyContent: 'flex-end'
-                })
-              }}
-            />
           </Box>
 
           <Box
@@ -266,9 +222,44 @@ export default function ProductDetailsSummary({
             }}
           >
             <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-              Size
+              Thuộc doanh nghiệp
             </Typography>
-            <TextField
+            KFC
+          </Box>
+          <Box
+            sx={{
+              my: 3,
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}
+          >
+            <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+              Thuộc Khu vực:
+            </Typography>
+            {/* <ColorSinglePicker
+              {...getFieldProps('color')}
+              colors={colors}
+              sx={{
+                ...(colors.length > 4 && {
+                  maxWidth: 144,
+                  justifyContent: 'flex-end'
+                })
+              }}
+            /> */}
+            Thành phố HCM
+          </Box>
+
+          <Box
+            sx={{
+              mb: 3,
+              display: 'flex',
+              justifyContent: 'space-between'
+            }}
+          >
+            <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+              Địa chỉ:
+            </Typography>
+            {/* <TextField
               select
               size="small"
               {...getFieldProps('size')}
@@ -291,38 +282,16 @@ export default function ProductDetailsSummary({
                   {size}
                 </option>
               ))}
-            </TextField>
+            </TextField> */}
+            Quận 12
           </Box>
-
-          <Box
-            sx={{
-              mb: 3,
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-              Quantity
-            </Typography>
-
-            <div>
-              <Incrementer name="quantity" available={available} />
-              <Typography
-                variant="caption"
-                sx={{
-                  mt: 1,
-                  display: 'block',
-                  textAlign: 'right',
-                  color: 'text.secondary'
-                }}
-              >
-                Available: {available}
-              </Typography>
-
-              <FormHelperText error>{touched.quantity && errors.quantity}</FormHelperText>
-            </div>
+          <Box sx={{ mt: 3, textAlign: 'center' }}>
+            {SOCIALS.map((social) => (
+              <Tooltip key={social.name} title={social.name}>
+                <MIconButton>{social.icon}</MIconButton>
+              </Tooltip>
+            ))}
           </Box>
-
           <Divider sx={{ borderStyle: 'dashed' }} />
 
           <Box sx={{ mt: 5 }}>
@@ -330,33 +299,24 @@ export default function ProductDetailsSummary({
               <Grid item xs={12} sm={6}>
                 <Button
                   fullWidth
-                  disabled={isMaxQuantity}
                   size="large"
                   type="button"
-                  color="warning"
+                  // color="warning"
                   variant="contained"
-                  startIcon={<Icon icon={roundAddShoppingCart} />}
-                  onClick={handleAddCart}
+                  // startIcon={<Icon icon={roundAddShoppingCart} />}
+                  // onClick={handleAddCart}
                   sx={{ whiteSpace: 'nowrap' }}
                 >
-                  Add to Cart
+                  Duyệt dự án
                 </Button>
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <Button fullWidth size="large" type="submit" variant="contained">
-                  Buy Now
+                <Button fullWidth size="large" color="error" variant="contained">
+                  TỪ chối
                 </Button>
               </Grid>
             </Grid>
-          </Box>
-
-          <Box sx={{ mt: 3, textAlign: 'center' }}>
-            {SOCIALS.map((social) => (
-              <Tooltip key={social.name} title={social.name}>
-                <MIconButton>{social.icon}</MIconButton>
-              </Tooltip>
-            ))}
           </Box>
         </Form>
       </FormikProvider>

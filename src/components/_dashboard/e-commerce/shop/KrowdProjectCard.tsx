@@ -25,13 +25,13 @@ const ProductImgStyle = styled('img')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-type ShopProductCardProps = {
+type KrowdProjectCardProps = {
   product: Product;
 };
 
-export default function ShopProductCard({ product }: ShopProductCardProps) {
+export default function KrowdProjectCard({ product }: KrowdProjectCardProps) {
   const { name, cover, price, colors, status, priceSale } = product;
-  const linkTo = `${PATH_DASHBOARD.eCommerce.root}/product/${paramCase(name)}`;
+  const linkTo = `${PATH_DASHBOARD.projects.root}/project/${paramCase(name)}`;
 
   return (
     <Card>
@@ -39,7 +39,6 @@ export default function ShopProductCard({ product }: ShopProductCardProps) {
         {status && (
           <Label
             variant="filled"
-            color={(status === 'sale' && 'error') || 'info'}
             sx={{
               top: 16,
               right: 16,
@@ -62,18 +61,8 @@ export default function ShopProductCard({ product }: ShopProductCardProps) {
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={colors} />
+          <ColorPreview colors={colors} /> type here
           <Typography variant="subtitle1">
-            <Typography
-              component="span"
-              variant="body1"
-              sx={{
-                color: 'text.disabled',
-                textDecoration: 'line-through'
-              }}
-            >
-              {priceSale && fCurrency(priceSale)}
-            </Typography>
             &nbsp;
             {fCurrency(price)}
           </Typography>

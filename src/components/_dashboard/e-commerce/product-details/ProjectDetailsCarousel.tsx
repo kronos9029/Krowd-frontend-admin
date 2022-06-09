@@ -88,7 +88,7 @@ type ProductDetailsCarouselProps = {
   product: Product;
 };
 
-export default function ProductDetailsCarousel({ product }: ProductDetailsCarouselProps) {
+export default function ProjectDetailsCarousel({ product }: ProductDetailsCarouselProps) {
   const [openLightbox, setOpenLightbox] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number>(0);
 
@@ -155,16 +155,18 @@ export default function ProductDetailsCarousel({ product }: ProductDetailsCarous
               <LargeItem key={item} item={item} onOpenLightbox={handleOpenLightbox} />
             ))}
           </Slider>
-          <CarouselControlsArrowsIndex
+          {/* <CarouselControlsArrowsIndex
             index={currentIndex}
             total={product.images.length}
             onNext={handleNext}
             onPrevious={handlePrevious}
-          />
+          /> */}
         </Box>
       </Box>
 
-      <Box
+      {/*chuyển ảnh theo slider*/}
+
+      {/* <Box
         sx={{
           my: 3,
           mx: 'auto',
@@ -197,15 +199,16 @@ export default function ProductDetailsCarousel({ product }: ProductDetailsCarous
             <ThumbnailItem key={item} item={item} />
           ))}
         </Slider>
-      </Box>
+      </Box> */}
 
-      <LightboxModal
+      {/*Phóng to ảnh*/}
+      {/* <LightboxModal
         images={imagesLightbox}
         photoIndex={selectedImage}
         setPhotoIndex={setSelectedImage}
         isOpen={openLightbox}
         onClose={() => setOpenLightbox(false)}
-      />
+      /> */}
     </RootStyle>
   );
 }

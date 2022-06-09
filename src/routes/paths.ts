@@ -58,6 +58,13 @@ export const PATH_DASHBOARD = {
     editById: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
     account: path(ROOTS_DASHBOARD, '/user/account')
   },
+  //Quản lý dự án
+  projects: {
+    root: path(ROOTS_DASHBOARD, '/project'),
+    projectKrowd: path(ROOTS_DASHBOARD, '/project/projectKrowd'),
+    project: path(ROOTS_DASHBOARD, '/project/:name'),
+    projectById: path(ROOTS_DASHBOARD, '/project/nike-air-force-1-ndestrukt')
+  },
   //Quản lý khác
   other: {
     root: path(ROOTS_DASHBOARD, '/other'),

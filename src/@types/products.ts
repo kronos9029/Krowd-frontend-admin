@@ -4,7 +4,13 @@ import { FormikProps } from 'formik';
 
 export type PaymentType = 'paypal' | 'credit_card' | 'cash';
 
-export type ProductStatus = 'sale' | 'new' | '';
+export type ProductStatus =
+  | 'Chưa duyệt'
+  | 'Từ chối'
+  | 'Đang kêu gọi đầu tư'
+  | 'Đang hoạt động'
+  | 'Hết thời gian kêu gọi'
+  | 'Đóng dự án';
 
 export type ProductInventoryType = 'in_stock' | 'out_of_stock' | 'low_stock';
 

@@ -57,7 +57,7 @@ const mockData = {
   image: {
     cover: (index: number) => `/static/mock-images/covers/cover_${index + 1}.jpg`,
     feed: (index: number) => `/static/mock-images/feeds/feed_${index + 1}.jpg`,
-    product: (index: number) => `/static/mock-images/products/product_${index + 1}.jpg`,
+    product: (index: number) => `/static/mock-images/covers/cover_${index + 1}.jpg`,
     avatar: (index: number) => `/static/mock-images/avatars/avatar_1.jpg`
   }
 };

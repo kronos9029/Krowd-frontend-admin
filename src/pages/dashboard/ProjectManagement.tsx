@@ -24,6 +24,7 @@ import {
   KrowdFilterSidebar
 } from '../../components/_dashboard/e-commerce/shop';
 import CartWidget from '../../components/_dashboard/e-commerce/CartWidget';
+import { ProjectSearch } from 'components/_dashboard/blog';
 
 // ----------------------------------------------------------------------
 
@@ -41,7 +42,7 @@ function applyFilter(products: Product[], sortBy: string | null, filters: Produc
   if (sortBy === 'priceAsc') {
     products = orderBy(products, ['price'], ['asc']);
   }
-  // FILTER PRODUCTS
+  // FILTER Project
   if (filters.gender.length > 0) {
     products = filter(products, (_product) => includes(filters.gender, _product.gender));
   }
@@ -78,16 +79,18 @@ function applyFilter(products: Product[], sortBy: string | null, filters: Produc
   return products;
 }
 
-export default function EcommerceShop() {
+export default function ProjectKrowd() {
   const { themeStretch } = useSettings();
   const dispatch = useDispatch();
   const [openFilter, setOpenFilter] = useState(false);
+  //state of project
   const { products, sortBy, filters } = useSelector(
     (state: { product: ProductState }) => state.product
   );
 
   const filteredProducts = applyFilter(products, sortBy, filters);
 
+  //Use project filter
   const formik = useFormik<ProductFilter>({
     initialValues: {
       gender: filters.gender,
@@ -116,10 +119,11 @@ export default function EcommerceShop() {
     values.colors.length === 0 &&
     values.category === 'All';
 
+  //get project
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-
+  //get filter projects
   useEffect(() => {
     dispatch(filterProducts(values));
   }, [dispatch, values]);
@@ -138,7 +142,7 @@ export default function EcommerceShop() {
   };
 
   return (
-    <Page title="Ecommerce: Shop | Krowd">
+    <Page title="Dự án: Danh sách | Krowd">
       {values && (
         <Backdrop open={isSubmitting} sx={{ zIndex: 9999 }}>
           <CircularProgress />
@@ -147,15 +151,8 @@ export default function EcommerceShop() {
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Shop"
-          links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            {
-              name: 'E-Commerce',
-              href: PATH_DASHBOARD.eCommerce.root
-            },
-            { name: 'Shop' }
-          ]}
+          heading="Danh sách các dự án"
+          links={[{ name: 'Danh sách', href: PATH_DASHBOARD.root }]}
         />
 
         {!isDefault && (
@@ -163,10 +160,10 @@ export default function EcommerceShop() {
             <Typography component="span" variant="subtitle1">
               {filteredProducts.length}
             </Typography>
-            &nbsp;Products found
+            &nbsp;Dự án tìm thấy
           </Typography>
         )}
-
+        <ProjectSearch />
         <Stack
           direction="row"
           flexWrap="wrap-reverse"
@@ -198,7 +195,7 @@ export default function EcommerceShop() {
           products={filteredProducts}
           isLoad={!filteredProducts && !initialValues}
         />
-        <CartWidget />
+        {/* <CartWidget /> */}
       </Container>
     </Page>
   );

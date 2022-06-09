@@ -34,7 +34,7 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const TOTAL = 1352831;
+const TOTAL = 13;
 
 export default function AnalyticsNewUsers() {
   return (
@@ -44,7 +44,7 @@ export default function AnalyticsNewUsers() {
       </IconWrapperStyle>
       <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        New Users
+        Thành viên đã tham gia
       </Typography>
     </RootStyle>
   );

@@ -33,13 +33,16 @@ export const SORT_BY_OPTIONS = [
   { value: 'priceDesc', label: 'Price: High-Low' },
   { value: 'priceAsc', label: 'Price: Low-High' }
 ];
-export const FILTER_GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
+export const FILTER_GENDER_OPTIONS = ['a', 'b', 'c'];
 export const FILTER_CATEGORY_OPTIONS = ['All', 'Shose', 'Apparel', 'Accessories'];
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
-  { value: 'below', label: 'Below $25' },
-  { value: 'between', label: 'Between $25 - $75' },
-  { value: 'above', label: 'Above $75' }
+  { value: '0', label: 'Chưa duyệt' },
+  { value: '1', label: 'Từ chối' },
+  { value: '2', label: 'Đang kêu gọi đầu tư' },
+  { value: '3', label: 'Đang hoạt động' },
+  { value: '4', label: 'Hết thời gian kêu gọi' },
+  { value: '5', label: 'Đóng dự án' }
 ];
 export const FILTER_COLOR_OPTIONS = [
   '#14B7CC',
@@ -54,7 +57,7 @@ export const FILTER_COLOR_OPTIONS = [
 
 // ----------------------------------------------------------------------
 
-type ShopFilterSidebarProps = {
+type KrowdFilterSidebarProps = {
   onResetFilter: VoidFunction;
   onOpenFilter: VoidFunction;
   onCloseFilter: VoidFunction;
@@ -62,13 +65,13 @@ type ShopFilterSidebarProps = {
   formik: FormikPropsShopView;
 };
 
-export default function ShopFilterSidebar({
+export default function KrowdFilterSidebar({
   isOpenFilter,
   onResetFilter,
   onOpenFilter,
   onCloseFilter,
   formik
-}: ShopFilterSidebarProps) {
+}: KrowdFilterSidebarProps) {
   const { values, getFieldProps, handleChange } = formik;
 
   return (
@@ -79,7 +82,7 @@ export default function ShopFilterSidebar({
         endIcon={<Icon icon={roundFilterList} />}
         onClick={onOpenFilter}
       >
-        Filters&nbsp;
+        Lọc danh sách&nbsp;
       </Button>
 
       <FormikProvider value={formik}>
@@ -99,7 +102,7 @@ export default function ShopFilterSidebar({
               sx={{ px: 1, py: 2 }}
             >
               <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                Filters
+                Lọc danh sách
               </Typography>
               <MIconButton onClick={onCloseFilter}>
                 <Icon icon={closeFill} width={20} height={20} />
@@ -112,7 +115,7 @@ export default function ShopFilterSidebar({
               <Stack spacing={3} sx={{ p: 3 }}>
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                    Gender
+                    Doanh nghiệp
                   </Typography>
                   <FormGroup>
                     {FILTER_GENDER_OPTIONS.map((item) => (
@@ -133,7 +136,7 @@ export default function ShopFilterSidebar({
 
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                    Category
+                    Thuộc loại
                   </Typography>
                   <RadioGroup {...getFieldProps('category')}>
                     {FILTER_CATEGORY_OPTIONS.map((item) => (
@@ -144,7 +147,7 @@ export default function ShopFilterSidebar({
 
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                    Colour
+                    Khu vực
                   </Typography>
                   <ColorManyPicker
                     name="colors"
@@ -157,7 +160,7 @@ export default function ShopFilterSidebar({
 
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                    Price
+                    Trạng thái
                   </Typography>
                   <RadioGroup {...getFieldProps('priceRange')}>
                     {FILTER_PRICE_OPTIONS.map((item) => (
@@ -166,40 +169,6 @@ export default function ShopFilterSidebar({
                         value={item.value}
                         control={<Radio />}
                         label={item.label}
-                      />
-                    ))}
-                  </RadioGroup>
-                </div>
-
-                <div>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Rating
-                  </Typography>
-                  <RadioGroup {...getFieldProps('rating')}>
-                    {FILTER_RATING_OPTIONS.map((item, index) => (
-                      <FormControlLabel
-                        key={item}
-                        value={item}
-                        control={
-                          <Radio
-                            disableRipple
-                            color="default"
-                            icon={<Rating readOnly value={4 - index} />}
-                            checkedIcon={<Rating readOnly value={4 - index} />}
-                            sx={{
-                              '&:hover': { bgcolor: 'transparent' }
-                            }}
-                          />
-                        }
-                        label="& Up"
-                        sx={{
-                          my: 0.5,
-                          borderRadius: 1,
-                          '&:hover': { opacity: 0.48 },
-                          ...(values.rating.includes(item) && {
-                            bgcolor: 'action.selected'
-                          })
-                        }}
                       />
                     ))}
                   </RadioGroup>

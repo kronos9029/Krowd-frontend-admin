@@ -1,6 +1,6 @@
 // material
 import { Skeleton, Grid } from '@mui/material';
-import ShopProductCard from './ShopProductCard';
+import KrowdProjectCard from './KrowdProjectCard';
 import { Product } from '../../../../@types/products';
 
 // ----------------------------------------------------------------------
@@ -20,12 +20,12 @@ type ShopProductListProps = {
   isLoad: boolean;
 };
 
-export default function ShopProductList({ products, isLoad, ...other }: ShopProductListProps) {
+export default function KrowdProjectList({ products, isLoad, ...other }: ShopProductListProps) {
   return (
     <Grid container spacing={3} {...other}>
       {products.map((product) => (
         <Grid key={product.id} item xs={12} sm={6} md={3}>
-          <ShopProductCard product={product} />
+          <KrowdProjectCard product={product} />
         </Grid>
       ))}
 

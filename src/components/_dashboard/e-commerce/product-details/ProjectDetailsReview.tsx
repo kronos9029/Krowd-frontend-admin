@@ -3,9 +3,20 @@ import { useState } from 'react';
 import { Divider, Collapse } from '@mui/material';
 //
 import ProductDetailsReviewForm from './ProductDetailsReviewForm';
-import ProductDetailsReviewList from './ProductDetailsReviewList';
+import ProjectDetailsReviewList from './ProductDetailsReviewList';
 import ProductDetailsReviewOverview from './ProductDetailsReviewOverview';
 import { Product } from '../../../../@types/products';
+import {
+  Box,
+  List,
+  Button,
+  Rating,
+  Avatar,
+  ListItem,
+  Pagination,
+  Typography,
+  Grid
+} from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -13,7 +24,7 @@ type ProductDetailsReviewProps = {
   product: Product;
 };
 
-export default function ProductDetailsReview({ product }: ProductDetailsReviewProps) {
+export default function ProjectDetailsReview({ product }: ProductDetailsReviewProps) {
   const [reviewBox, setReviewBox] = useState(false);
 
   const handleOpenReviewBox = () => {
@@ -26,16 +37,9 @@ export default function ProductDetailsReview({ product }: ProductDetailsReviewPr
 
   return (
     <>
-      <ProductDetailsReviewOverview product={product} onOpen={handleOpenReviewBox} />
-
-      <Divider />
-
-      <Collapse in={reviewBox}>
-        <ProductDetailsReviewForm onClose={handleCloseReviewBox} id="move_add_review" />
-        <Divider />
-      </Collapse>
-
-      <ProductDetailsReviewList product={product} />
+      <Grid container spacing={3}>
+        <ProjectDetailsReviewList product={product} />
+      </Grid>
     </>
   );
 }

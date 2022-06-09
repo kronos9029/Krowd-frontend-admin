@@ -42,9 +42,9 @@ export default function AnalyticsWeeklySales() {
       <IconWrapperStyle>
         <Icon icon={androidFilled} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">10%</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Weekly Sales
+        Doanh thu chia sẻ (%)
       </Typography>
     </RootStyle>
   );
