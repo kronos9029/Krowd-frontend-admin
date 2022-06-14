@@ -3,6 +3,7 @@ import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import Label from '../../components/Label';
 import SvgIconStyle from '../../components/SvgIconStyle';
+import { Icon } from '@iconify/react';
 
 // ----------------------------------------------------------------------
 
@@ -13,6 +14,10 @@ const getIcon = (name: string) => (
 const ICONS = {
   blog: getIcon('ic_blog'),
   cart: getIcon('ic_cart'),
+  other: getIcon('ic_other'),
+  customer: getIcon('ic_customer'),
+  business: getIcon('ic_business'),
+  project: getIcon('ic_project'),
   chat: getIcon('ic_chat'),
   mail: getIcon('ic_mail'),
   user: getIcon('ic_user'),
@@ -62,9 +67,9 @@ const sidebarConfig = [
       // },
 
       // MANAGEMENT : BLOG
-      { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.blog },
-      { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.user.list, icon: ICONS.ecommerce },
-      { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.cart }
+      { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
+      { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.user.list, icon: ICONS.business },
+      { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer }
       // MANAGEMENT : WALLET
 
       // {
@@ -95,7 +100,7 @@ const sidebarConfig = [
       {
         title: 'Quản lý khác:',
         path: PATH_DASHBOARD.other.root,
-        icon: ICONS.cart,
+        icon: ICONS.other,
         children: [
           { title: 'Lĩnh vực', path: PATH_DASHBOARD.other.field },
           { title: 'Khu vực', path: PATH_DASHBOARD.other.area },
