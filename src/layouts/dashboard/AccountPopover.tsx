@@ -29,12 +29,12 @@ const MENU_OPTIONS = [
   {
     label: 'Thông tin cá nhân',
     icon: personFill,
-    linkTo: PATH_DASHBOARD.user.profile
+    linkTo: PATH_DASHBOARD.business.profile
   },
   {
     label: 'Cài đặt',
     icon: settings2Fill,
-    linkTo: PATH_DASHBOARD.user.account
+    linkTo: PATH_DASHBOARD.business.account
   }
 ];
 

@@ -49,14 +49,15 @@ export const PATH_DASHBOARD = {
   },
   kanban: path(ROOTS_DASHBOARD, '/kanban'),
   //tạm thời k xài
-  user: {
-    root: path(ROOTS_DASHBOARD, '/user'),
-    profile: path(ROOTS_DASHBOARD, '/user/profile'),
-    cards: path(ROOTS_DASHBOARD, '/user/cards'),
-    list: path(ROOTS_DASHBOARD, '/user/list'),
-    newUser: path(ROOTS_DASHBOARD, '/user/new'),
-    editById: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
-    account: path(ROOTS_DASHBOARD, '/user/account')
+  business: {
+    root: path(ROOTS_DASHBOARD, '/business'),
+    profile: path(ROOTS_DASHBOARD, '/business/profile'),
+    cards: path(ROOTS_DASHBOARD, '/business/cards'),
+    list: path(ROOTS_DASHBOARD, '/business/list'),
+    newUser: path(ROOTS_DASHBOARD, '/business/new'),
+    editById: path(ROOTS_DASHBOARD, `/business/reece-chung/edit`),
+    account: path(ROOTS_DASHBOARD, '/business/account'),
+    invoice: path(ROOTS_DASHBOARD, '/business/invoice')
   },
   //Quản lý dự án
   projects: {

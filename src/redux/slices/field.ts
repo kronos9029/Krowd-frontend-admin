@@ -65,7 +65,7 @@ export function getFieldList() {
         'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields'
       );
       dispatch(slice.actions.getFieldListSuccess(response.data));
-      console.log('aaaaa', response.data);
+      console.log('Field', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

@@ -56,41 +56,41 @@ const sidebarConfig = [
       // MANAGEMENT : USER
       // {
       //   title: 'Business',
-      //   path: PATH_DASHBOARD.user.root,
+      //   path: PATH_DASHBOARD.business.root,
       //   icon: ICONS.user,
       //   children: [
-      //     // { title: 'Các dự án', path: PATH_DASHBOARD.user.cards },
-      //     // { title: 'create', path: PATH_DASHBOARD.user.newUser },
-      //     // { title: 'edit', path: PATH_DASHBOARD.user.editById },
-      //     // { title: 'account', path: PATH_DASHBOARD.user.account }
+      //     // { title: 'Các dự án', path: PATH_DASHBOARD.business.cards },
+      //     // { title: 'create', path: PATH_DASHBOARD.business.newUser },
+      //     // { title: 'edit', path: PATH_DASHBOARD.business.editById },
+      //     // { title: 'account', path: PATH_DASHBOARD.business.account }
       //   ]
       // },
 
       // MANAGEMENT : BLOG
       { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
-      { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.user.list, icon: ICONS.business },
-      { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer }
+      { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business },
+      { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer },
       // MANAGEMENT : WALLET
 
-      // {
-      //   title: 'Quản lý ví:',
-      //   path: PATH_DASHBOARD.eCommerce.root,
-      //   icon: ICONS.cart,
-      //   children: [
-      //     { title: 'Ví của hệ thống', path: PATH_DASHBOARD.eCommerce.shop },
-      //     { title: 'Ví doanh thu', path: PATH_DASHBOARD.eCommerce.productById },
-      //     { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.eCommerce.list }
-      //   ]
-      // }
+      {
+        title: 'Quản lý ví',
+        path: PATH_DASHBOARD.eCommerce.root,
+        icon: ICONS.cart,
+        children: [
+          { title: 'Ví của hệ thống', path: PATH_DASHBOARD.eCommerce.shop },
+          { title: 'Ví doanh thu', path: PATH_DASHBOARD.eCommerce.productById },
+          { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.eCommerce.list }
+        ]
+      }
     ]
   },
   // {
   //   subheader: 'Quản lý giao dịch:',
   //   items: [
   //     // MANAGEMENT : Giao dịch
-  //     { title: 'Thanh toán giữa các ví', path: PATH_DASHBOARD.user.profile, icon: ICONS.user },
-  //     { title: 'Giao dịch ngân hàng', path: PATH_DASHBOARD.user.profile, icon: ICONS.user },
-  //     { title: 'Lịch sử doanh thu', path: PATH_DASHBOARD.user.profile, icon: ICONS.user }
+  //     { title: 'Thanh toán giữa các ví', path: PATH_DASHBOARD.business.profile, icon: ICONS.user },
+  //     { title: 'Giao dịch ngân hàng', path: PATH_DASHBOARD.business.profile, icon: ICONS.user },
+  //     { title: 'Lịch sử doanh thu', path: PATH_DASHBOARD.business.profile, icon: ICONS.user }
   //   ]
   // },
 

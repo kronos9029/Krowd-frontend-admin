@@ -59,7 +59,7 @@ export function getBusinessList() {
         'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses'
       );
       dispatch(slice.actions.getBusinessListSuccess(response.data));
-      console.log('aaaaa', response.data);
+      console.log('BusinessListAll', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

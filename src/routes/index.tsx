@@ -10,7 +10,7 @@ import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import UsersKrowd from 'pages/dashboard/UsersKrowd';
+import UsersKrowd from 'pages/dashboard/krowdManages/usersManagement/UsersKrowd';
 
 // ----------------------------------------------------------------------
 
@@ -114,19 +114,20 @@ export default function Router() {
             { path: 'product/new', element: <EcommerceProductCreate /> },
             { path: 'product/:name/edit', element: <EcommerceProductCreate /> },
             { path: 'checkout', element: <EcommerceCheckout /> },
-            { path: 'invoice', element: <EcommerceInvoice /> }
+            { path: 'invoice', element: <BusinessDetails /> }
           ]
         },
         {
-          path: 'user',
+          path: 'business',
           children: [
-            { element: <Navigate to="/dashboard/user/profile" replace /> },
+            { element: <Navigate to="/dashboard/business/profile" replace /> },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
-            { path: 'list', element: <UserList /> },
+            { path: 'list', element: <BusinessList /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':name/edit', element: <UserCreate /> },
-            { path: 'account', element: <UserAccount /> }
+            { path: 'account', element: <UserAccount /> },
+            { path: 'invoice', element: <BusinessDetails /> }
           ]
         },
         {
@@ -201,41 +202,67 @@ const ResetPassword = Loadable(lazy(() => import('../pages/authentication/ResetP
 const VerifyCode = Loadable(lazy(() => import('../pages/authentication/VerifyCode')));
 
 // Thống kê toàn bộ hệ thống
-const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
-const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
-const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
-const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
-const GeneralBooking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
-const ProjectManagement = Loadable(lazy(() => import('../pages/dashboard/ProjectManagement')));
+const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/generalManagers/GeneralApp')));
+const GeneralEcommerce = Loadable(
+  lazy(() => import('../pages/dashboard/generalManagers/GeneralEcommerce'))
+);
+const GeneralAnalytics = Loadable(
+  lazy(() => import('../pages/dashboard/generalManagers/GeneralAnalytics'))
+);
+const GeneralBanking = Loadable(
+  lazy(() => import('../pages/dashboard/generalManagers/GeneralBooking'))
+);
+const GeneralBooking = Loadable(
+  lazy(() => import('../pages/dashboard/generalManagers/GeneralBooking'))
+);
+const ProjectManagement = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectManagement'))
+);
 //Thuộc về quản lý khác
-const FieldManagerment = Loadable(lazy(() => import('../pages/dashboard/FieldManagerment')));
-const AreasManagement = Loadable(lazy(() => import('../pages/dashboard/AreasManagement')));
-const RolesManagement = Loadable(lazy(() => import('../pages/dashboard/RolesManagement')));
-const RiskTypesManagement = Loadable(lazy(() => import('../pages/dashboard/RiskTypesManagement')));
+const FieldManagerment = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/otherManagers/FieldManagerment'))
+);
+const AreasManagement = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/otherManagers/AreasManagement'))
+);
+const RolesManagement = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/otherManagers/RolesManagement'))
+);
+const RiskTypesManagement = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/otherManagers/RiskTypesManagement'))
+);
 
-const KrowdProjectDetails = Loadable(lazy(() => import('../pages/dashboard/KrowdProjectDetail')));
+const KrowdProjectDetails = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/KrowdProjectDetail'))
+);
 const EcommerceProductList = Loadable(
-  lazy(() => import('../pages/dashboard/EcommerceProductList'))
+  lazy(() => import('../pages/dashboard/templateManagers/EcommerceProductList'))
 );
 const EcommerceProductCreate = Loadable(
-  lazy(() => import('../pages/dashboard/EcommerceProductCreate'))
+  lazy(() => import('../pages/dashboard/templateManagers/EcommerceProductCreate'))
 );
-const EcommerceCheckout = Loadable(lazy(() => import('../pages/dashboard/EcommerceCheckout')));
-const EcommerceInvoice = Loadable(lazy(() => import('../pages/dashboard/EcommerceInvoice')));
-const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/BlogPosts')));
-const BlogPost = Loadable(lazy(() => import('../pages/dashboard/BlogPost')));
-const BlogNewPost = Loadable(lazy(() => import('../pages/dashboard/BlogNewPost')));
-const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')));
-const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
-const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
-const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
-const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
-const Chat = Loadable(lazy(() => import('../pages/dashboard/Chat')));
-const Mail = Loadable(lazy(() => import('../pages/dashboard/Mail')));
-const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
+const EcommerceCheckout = Loadable(
+  lazy(() => import('../pages/dashboard/templateManagers/EcommerceCheckout'))
+);
+const BusinessDetails = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessDetails'))
+);
+const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPosts')));
+const BlogPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPost')));
+const BlogNewPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogNewPost')));
+const UserProfile = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserProfile')));
+const UserCards = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserCards')));
+const BusinessList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessList'))
+);
+const UserAccount = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserAccount')));
+const UserCreate = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserCreate')));
+const Chat = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Chat')));
+const Mail = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Mail')));
+const Kanban = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Kanban')));
 
 // Quản lý lỗi hệ thống
-const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
-const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
-const Page500 = Loadable(lazy(() => import('../pages/Page500')));
-const NotFound = Loadable(lazy(() => import('../pages/Page404')));
+const ComingSoon = Loadable(lazy(() => import('../pages/dashboard/errorsManagers/ComingSoon')));
+const Maintenance = Loadable(lazy(() => import('../pages/dashboard/errorsManagers//Maintenance')));
+const Page500 = Loadable(lazy(() => import('../pages/dashboard/errorsManagers//Page500')));
+const NotFound = Loadable(lazy(() => import('../pages/dashboard/errorsManagers/Page404')));

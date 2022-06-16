@@ -78,7 +78,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
         enqueueSnackbar(!isEdit ? 'Tạo mới thành công' : 'Cập nhật thành công', {
           variant: 'success'
         });
-        navigate(PATH_DASHBOARD.user.list);
+        navigate(PATH_DASHBOARD.business.list);
       } catch (error) {
         console.error(error);
         setSubmitting(false);

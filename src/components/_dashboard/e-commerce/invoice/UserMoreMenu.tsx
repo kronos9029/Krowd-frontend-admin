@@ -1,23 +1,26 @@
 import { Icon } from '@iconify/react';
-import { paramCase } from 'change-case';
 import { useRef, useState } from 'react';
-import editFill from '@iconify/icons-eva/edit-fill';
 import { Link as RouterLink } from 'react-router-dom';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
+// icons
+import eyeFill from '@iconify/icons-eva/eye-fill';
+import editFill from '@iconify/icons-eva/edit-fill';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
+
+import { paramCase } from 'change-case';
 
 // ----------------------------------------------------------------------
 
 type UserMoreMenuProps = {
+  onView: VoidFunction;
   onDelete: VoidFunction;
-  userName: string;
 };
 
-export default function UserMoreMenu({ onDelete, userName }: UserMoreMenuProps) {
+export default function UserMoreMenu({ onView, onDelete }: UserMoreMenuProps) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,23 +40,36 @@ export default function UserMoreMenu({ onDelete, userName }: UserMoreMenuProps) 
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem onClick={onDelete} sx={{ color: 'text.secondary' }}>
+        <MenuItem
+          component={RouterLink}
+          to={`${PATH_DASHBOARD.business.invoice}`}
+          sx={{ color: 'text.secondary' }}
+          onClick={onView}
+        >
+          <ListItemIcon>
+            <Icon icon={eyeFill} width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+
+        <MenuItem onClick={onDelete}>
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
-
+        {/* 
         <MenuItem
+          onClick={onView}
           component={RouterLink}
-          to={`${PATH_DASHBOARD.business.root}/${paramCase(userName)}/edit`}
+          to={`${PATH_DASHBOARD.eCommerce.invoice}`}
           sx={{ color: 'text.secondary' }}
         >
           <ListItemIcon>
             <Icon icon={editFill} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </>
   );

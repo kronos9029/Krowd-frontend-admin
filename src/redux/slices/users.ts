@@ -65,7 +65,7 @@ export function getUserKrowdList() {
         'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users'
       );
       dispatch(slice.actions.getUserKrowdListSuccess(response.data));
-      console.log('aaaaa', response.data);
+      console.log('User', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

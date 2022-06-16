@@ -11,7 +11,6 @@ type UserListHeadProps = {
   headLabel: any[];
   numSelected: number;
   onRequestSort: (id: string) => void;
-  onSelectAllClick: (checked: boolean) => void;
 };
 
 export default function UserListHead({
@@ -20,21 +19,11 @@ export default function UserListHead({
   rowCount,
   headLabel,
   numSelected,
-  onRequestSort,
-  onSelectAllClick
+  onRequestSort
 }: UserListHeadProps) {
   return (
     <TableHead>
       <TableRow>
-        {/* <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              onSelectAllClick(event.target.checked)
-            }
-          />
-        </TableCell> */}
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
