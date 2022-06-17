@@ -13,6 +13,7 @@ import userKrowdReducer from './slices/users';
 import fieldKrowdReducer from './slices/field';
 import AreaKrowdReducer from './slices/area';
 import RiskReducer from './slices/risk';
+import WalletReducer from './slices/wallet';
 import RolesReducer from './slices/roles';
 import InvestmentReducer from './slices/investment';
 
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
   riskKrowd: RiskReducer,
   roleKrowd: RolesReducer,
   investment: InvestmentReducer,
+  wallet: WalletReducer,
   product: persistReducer(productPersistConfig, productReducer)
 });
 

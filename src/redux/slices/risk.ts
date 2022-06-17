@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../store';
 // utils
 import axios from 'axios';
-import { RiskTypes } from '../../@types/riskTypeKrowd';
+import { RiskTypes } from '../../@types/krowd/riskTypeKrowd';
 
 // ----------------------------------------------------------------------
 

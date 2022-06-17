@@ -3,24 +3,24 @@ import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../store';
 // utils
 import axios from 'axios';
-import { Field } from '../../@types/krowd/fields';
+import { SystemWallet } from '../../@types/krowd/wallet/systemWallet';
 
 // ----------------------------------------------------------------------
 
-type FieldState = {
+type WalletState = {
   isLoading: boolean;
   error: boolean;
-  fieldList: Field[];
+  walletSystem: SystemWallet[];
 };
 
-const initialState: FieldState = {
+const initialState: WalletState = {
   isLoading: false,
   error: false,
-  fieldList: []
+  walletSystem: []
 };
 
 const slice = createSlice({
-  name: 'fields',
+  name: 'wallet',
   initialState,
   reducers: {
     // START LOADING
@@ -34,16 +34,10 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
-    // // DELETE USERS
-    // deleteUser(state, action) {
-    //   const deleteUser = filter(state.FieldList, (user) => user.id !== action.payload);
-    //   state.FieldList = deleteUser;
-    // },
-
     // GET MANAGE USERS
-    getFieldListSuccess(state, action) {
+    getwalletSystemSuccess(state, action) {
       state.isLoading = false;
-      state.fieldList = action.payload;
+      state.walletSystem = action.payload;
     }
   }
 });
@@ -57,15 +51,16 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getFieldList() {
+export function getwalletSystem() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields'
+        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/system_wallets'
       );
-      dispatch(slice.actions.getFieldListSuccess(response.data));
-      console.log('Field', response.data);
+      dispatch(slice.actions.getwalletSystemSuccess(response.data));
+      console.log('wallet data: ', response.data);
+      console.log('get success');
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

@@ -31,7 +31,7 @@ import { delBusinessListById, getBusinessList, getBusinessListById } from 'redux
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // hooks
 import useSettings from '../../../../hooks/useSettings';
-import { BusinessManager } from '../../../../@types/business';
+import { BusinessManager } from '../../../../@types/krowd/business';
 // components
 import Page from '../../../../components/Page';
 import Scrollbar from '../../../../components/Scrollbar';
@@ -155,7 +155,7 @@ export default function UserList() {
 
   const isUserNotFound = filteredUsers.length === 0;
   return (
-    <Page title="Company: List | Krowd">
+    <Page title="Doanh nghiệp: Danh sách | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           // heading={isFetching ? 'Loading' : 'Danh sách các doanh nghiệp'}

@@ -2,7 +2,7 @@ import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../store';
 // utils
-import { Areas } from '../../@types/areaKrowd';
+import { Areas } from '../../@types/krowd/areaKrowd';
 import axios from 'axios';
 
 // ----------------------------------------------------------------------

@@ -42,7 +42,7 @@ import {
   UserMoreMenu
 } from '../../../../components/_dashboard/user/list';
 import { getFieldList } from 'redux/slices/field';
-import { Field } from '../../../../@types/fields';
+import { Field } from '../../../../@types/krowd/fields';
 import { fDate } from 'utils/formatTime';
 
 // ----------------------------------------------------------------------

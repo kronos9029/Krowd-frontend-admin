@@ -2,7 +2,7 @@ import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../store';
 // utils
-import { BusinessManager } from '../../@types/business';
+import { BusinessManager } from '../../@types/krowd/business';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';

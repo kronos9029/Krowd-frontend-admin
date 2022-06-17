@@ -42,9 +42,9 @@ import {
   UserMoreMenu
 } from '../../../../components/_dashboard/user/list';
 import { fDate } from 'utils/formatTime';
-import { Roles } from '../../../../@types/roleKrowd';
+import { Roles } from '../../../../@types/krowd/roleKrowd';
 import { getRolesList } from 'redux/slices/roles';
-import { RiskTypes } from '../../../../@types/riskTypeKrowd';
+import { RiskTypes } from '../../../../@types/krowd/riskTypeKrowd';
 import { getRiskTypeList } from 'redux/slices/risk';
 
 // ----------------------------------------------------------------------

@@ -105,6 +105,16 @@ export default function Router() {
           ]
         },
         {
+          path: 'wallet',
+          children: [
+            { element: <Navigate to="/dashboard/wallet" replace /> },
+            { path: 'system-wallet', element: <SystemWalletList /> },
+            { path: 'transaction-wallet', element: <SystemWalletList /> },
+            { path: 'all-wallet', element: <SystemWalletList /> }
+            // { path: 'project/:name', element: <KrowdProjectDetails /> }
+          ]
+        },
+        {
           path: 'e-commerce',
           children: [
             { element: <Navigate to="/dashboard/e-commerce/shop" replace /> },
@@ -254,6 +264,9 @@ const UserProfile = Loadable(lazy(() => import('../pages/dashboard/templateManag
 const UserCards = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserCards')));
 const BusinessList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessList'))
+);
+const SystemWalletList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/walletManagement/SystemWallet'))
 );
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserAccount')));
 const UserCreate = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserCreate')));

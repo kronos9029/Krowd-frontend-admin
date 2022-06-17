@@ -32,7 +32,7 @@ import { InvoiceToolbar } from '../../../../components/_dashboard/e-commerce/inv
 import { useEffect, useState } from 'react';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import business, { getBusinessListById } from 'redux/slices/business';
-import { BusinessManager } from '../../../../@types/business';
+import { BusinessManager } from '../../../../@types/krowd/business';
 import { useParams } from 'react-router';
 import { sentenceCase } from 'change-case';
 

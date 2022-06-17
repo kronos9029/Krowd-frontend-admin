@@ -18,9 +18,11 @@ const ICONS = {
   customer: getIcon('ic_customer'),
   business: getIcon('ic_business'),
   project: getIcon('ic_project'),
+  wallet: getIcon('ic_wallet'),
   chat: getIcon('ic_chat'),
   mail: getIcon('ic_mail'),
   user: getIcon('ic_user'),
+  dayOverview: getIcon('ic_dayOverview'),
   kanban: getIcon('ic_kanban'),
   banking: getIcon('ic_banking'),
   calendar: getIcon('ic_calendar'),
@@ -44,7 +46,7 @@ const sidebarConfig = [
       // { title: 'e-commerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
       { title: 'Bảng điều khiển', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
       { title: 'Tổng quan ngày', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
-      { title: 'Tổng quan tháng', path: PATH_DASHBOARD.general.booking, icon: ICONS.booking }
+      { title: 'Tổng quan tháng', path: PATH_DASHBOARD.general.booking, icon: ICONS.dayOverview }
     ]
   },
 
@@ -53,33 +55,19 @@ const sidebarConfig = [
   {
     subheader: 'Quản lý',
     items: [
-      // MANAGEMENT : USER
-      // {
-      //   title: 'Business',
-      //   path: PATH_DASHBOARD.business.root,
-      //   icon: ICONS.user,
-      //   children: [
-      //     // { title: 'Các dự án', path: PATH_DASHBOARD.business.cards },
-      //     // { title: 'create', path: PATH_DASHBOARD.business.newUser },
-      //     // { title: 'edit', path: PATH_DASHBOARD.business.editById },
-      //     // { title: 'account', path: PATH_DASHBOARD.business.account }
-      //   ]
-      // },
-
       // MANAGEMENT : BLOG
       { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
       { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business },
       { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer },
       // MANAGEMENT : WALLET
-
       {
         title: 'Quản lý ví',
-        path: PATH_DASHBOARD.eCommerce.root,
-        icon: ICONS.cart,
+        path: PATH_DASHBOARD.wallet.root,
+        icon: ICONS.wallet,
         children: [
-          { title: 'Ví của hệ thống', path: PATH_DASHBOARD.eCommerce.shop },
-          { title: 'Ví doanh thu', path: PATH_DASHBOARD.eCommerce.productById },
-          { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.eCommerce.list }
+          { title: 'Ví của hệ thống', path: PATH_DASHBOARD.wallet.system },
+          { title: 'Ví doanh thu', path: PATH_DASHBOARD.wallet.transaction },
+          { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.wallet.allWallet }
         ]
       }
     ]

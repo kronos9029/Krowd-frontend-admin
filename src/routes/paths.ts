@@ -29,7 +29,6 @@ export const PATH_PAGE = {
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
-  //tạm thời k xài
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
     ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
@@ -37,18 +36,14 @@ export const PATH_DASHBOARD = {
     banking: path(ROOTS_DASHBOARD, '/banking'),
     booking: path(ROOTS_DASHBOARD, '/booking')
   },
-  //tạm thời k xài
-  mail: {
-    root: path(ROOTS_DASHBOARD, '/mail'),
-    all: path(ROOTS_DASHBOARD, '/mail/all')
+  //Quản lý dự án
+  projects: {
+    root: path(ROOTS_DASHBOARD, '/project'),
+    projectKrowd: path(ROOTS_DASHBOARD, '/project/projectKrowd'),
+    project: path(ROOTS_DASHBOARD, '/project/:name'),
+    projectById: path(ROOTS_DASHBOARD, '/project/nike-air-force-1-ndestrukt')
   },
-  chat: {
-    root: path(ROOTS_DASHBOARD, '/chat'),
-    new: path(ROOTS_DASHBOARD, '/chat/new'),
-    conversation: path(ROOTS_DASHBOARD, '/chat/:conversationKey')
-  },
-  kanban: path(ROOTS_DASHBOARD, '/kanban'),
-  //tạm thời k xài
+  //doanh nghiệp
   business: {
     root: path(ROOTS_DASHBOARD, '/business'),
     profile: path(ROOTS_DASHBOARD, '/business/profile'),
@@ -59,12 +54,22 @@ export const PATH_DASHBOARD = {
     account: path(ROOTS_DASHBOARD, '/business/account'),
     invoice: path(ROOTS_DASHBOARD, '/business/invoice')
   },
-  //Quản lý dự án
-  projects: {
-    root: path(ROOTS_DASHBOARD, '/project'),
-    projectKrowd: path(ROOTS_DASHBOARD, '/project/projectKrowd'),
-    project: path(ROOTS_DASHBOARD, '/project/:name'),
-    projectById: path(ROOTS_DASHBOARD, '/project/nike-air-force-1-ndestrukt')
+  //Người dùng
+  admin: {
+    root: path(ROOTS_DASHBOARD, '/admin'),
+    profile: path(ROOTS_DASHBOARD, '/admin/profile'),
+    cards: path(ROOTS_DASHBOARD, '/admin/cards'),
+    list: path(ROOTS_DASHBOARD, '/admin/list'),
+    newUser: path(ROOTS_DASHBOARD, '/admin/new'),
+    editById: path(ROOTS_DASHBOARD, `/admin/reece-chung/edit`),
+    account: path(ROOTS_DASHBOARD, '/admin/account')
+  },
+  //Ví
+  wallet: {
+    root: path(ROOTS_DASHBOARD, '/wallet'),
+    system: path(ROOTS_DASHBOARD, '/wallet/system-wallet'),
+    transaction: path(ROOTS_DASHBOARD, '/wallet/transaction-wallet'),
+    allWallet: path(ROOTS_DASHBOARD, '/wallet/all-wallet')
   },
   //Quản lý khác
   other: {
@@ -75,16 +80,6 @@ export const PATH_DASHBOARD = {
     role: path(ROOTS_DASHBOARD, '/other/role'),
     risk: path(ROOTS_DASHBOARD, '/other/risk'),
     investment: path(ROOTS_DASHBOARD, '/other/investment')
-  },
-  //tạm thời k xài
-  admin: {
-    root: path(ROOTS_DASHBOARD, '/admin'),
-    profile: path(ROOTS_DASHBOARD, '/admin/profile'),
-    cards: path(ROOTS_DASHBOARD, '/admin/cards'),
-    list: path(ROOTS_DASHBOARD, '/admin/list'),
-    newUser: path(ROOTS_DASHBOARD, '/admin/new'),
-    editById: path(ROOTS_DASHBOARD, `/admin/reece-chung/edit`),
-    account: path(ROOTS_DASHBOARD, '/admin/account')
   },
   //tạm thời k xài
   eCommerce: {
@@ -105,5 +100,16 @@ export const PATH_DASHBOARD = {
     post: path(ROOTS_DASHBOARD, '/blog/post/:title'),
     postById: path(ROOTS_DASHBOARD, '/blog/post/apply-these-7-secret-techniques-to-improve-event'),
     newPost: path(ROOTS_DASHBOARD, '/blog/new-post')
-  }
+  },
+  //tạm thời k xài
+  mail: {
+    root: path(ROOTS_DASHBOARD, '/mail'),
+    all: path(ROOTS_DASHBOARD, '/mail/all')
+  },
+  chat: {
+    root: path(ROOTS_DASHBOARD, '/chat'),
+    new: path(ROOTS_DASHBOARD, '/chat/new'),
+    conversation: path(ROOTS_DASHBOARD, '/chat/:conversationKey')
+  },
+  kanban: path(ROOTS_DASHBOARD, '/kanban')
 };
