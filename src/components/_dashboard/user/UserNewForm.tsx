@@ -25,67 +25,66 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 import { UserManager } from '../../../@types/user';
 //
 import Label from '../../Label';
-import { UploadAvatar } from '../../upload';
 import countries from './countries';
+import { UploadAvatar } from 'components/upload';
+import { BusinessManager } from '../../../@types/krowd/business';
+import { postBusiness } from 'redux/slices/krowd_slices/business';
+import axios from 'axios';
+import { dispatch } from 'redux/store';
+import { slice } from 'lodash';
 
 // ----------------------------------------------------------------------
 
 type UserNewFormProps = {
   isEdit: boolean;
-  currentUser?: UserManager;
+  currentUser?: BusinessManager;
 };
 
 export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewUserSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+  const NewBusinessSchema = Yup.object().shape({
+    name: Yup.string().required('Yêu cầu nhập tên'),
+    phoneNum: Yup.string().required('Phone number is required'),
+    // image: Yup.mixed().required('image is required'),
     email: Yup.string().required('Email is required').email(),
-    phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role Number is required'),
-    avatarUrl: Yup.mixed().required('Avatar is required')
+    description: Yup.string().required('Yêu cầu nhập mô tả'),
+    taxIdentificationNumber: Yup.string().required('taxIdentificationNumber is required'),
+    address: Yup.string().required('Address is required')
   });
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
       name: currentUser?.name || '',
+      phoneNum: currentUser?.phoneNum || '',
+      image: currentUser?.image || null,
       email: currentUser?.email || '',
-      phoneNumber: currentUser?.phoneNumber || '',
-      address: currentUser?.address || '',
-      country: currentUser?.country || '',
-      state: currentUser?.state || '',
-      city: currentUser?.city || '',
-      zipCode: currentUser?.zipCode || '',
-      avatarUrl: currentUser?.avatarUrl || null,
-      isVerified: currentUser?.isVerified || true,
-      status: currentUser?.status,
-      company: currentUser?.company || '',
-      role: currentUser?.role || ''
+      description: currentUser?.description || '',
+      taxIdentificationNumber: currentUser?.taxIdentificationNumber || '',
+      address: currentUser?.address || ''
     },
-    validationSchema: NewUserSchema,
+    validationSchema: NewBusinessSchema,
+
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        await fakeRequest(500);
+        await axios.post(
+          `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses`,
+          values
+        );
         resetForm();
-        setSubmitting(false);
-        enqueueSnackbar(!isEdit ? 'Tạo mới thành công' : 'Cập nhật thành công', {
+        setSubmitting(true);
+        enqueueSnackbar('Tạo mới thành công', {
           variant: 'success'
         });
         navigate(PATH_DASHBOARD.business.list);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
-        setErrors(error);
       }
     }
   });
+  console.log('name', formik);
 
   const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
     formik;
@@ -94,7 +93,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file) {
-        setFieldValue('avatarUrl', {
+        setFieldValue('image', {
           ...file,
           preview: URL.createObjectURL(file)
         });
@@ -109,22 +108,12 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <Card sx={{ py: 10, px: 3 }}>
-              {isEdit && (
-                <Label
-                  color={values.status !== 'active' ? 'error' : 'success'}
-                  sx={{ textTransform: 'uppercase', position: 'absolute', top: 24, right: 24 }}
-                >
-                  {values.status}
-                </Label>
-              )}
-
               <Box sx={{ mb: 5 }}>
-                <UploadAvatar
+                {/* <UploadAvatar
                   accept="image/*"
-                  file={values.avatarUrl}
-                  maxSize={3145728}
+                  file={values.image}
                   onDrop={handleDrop}
-                  error={Boolean(touched.avatarUrl && errors.avatarUrl)}
+                  error={Boolean(touched.image && errors.image)}
                   caption={
                     <Typography
                       variant="caption"
@@ -137,55 +126,14 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                       }}
                     >
                       Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of {fData(3145728)}
+                      <br /> max size of
                     </Typography>
                   }
                 />
                 <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
-                  {touched.avatarUrl && errors.avatarUrl}
-                </FormHelperText>
+                  {touched.image && errors.image}
+                </FormHelperText> */}
               </Box>
-
-              {isEdit && (
-                <FormControlLabel
-                  labelPlacement="start"
-                  control={
-                    <Switch
-                      onChange={(event) =>
-                        setFieldValue('status', event.target.checked ? 'banned' : 'active')
-                      }
-                      checked={values.status !== 'active'}
-                    />
-                  }
-                  label={
-                    <>
-                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                        Tạm ngưng
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        Apply disable account
-                      </Typography>
-                    </>
-                  }
-                  sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-                />
-              )}
-
-              <FormControlLabel
-                labelPlacement="start"
-                control={<Switch {...getFieldProps('isVerified')} checked={values.isVerified} />}
-                label={
-                  <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Xác nhận email
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Disabling this will automatically send the user a verification email
-                    </Typography>
-                  </>
-                }
-                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-              />
             </Card>
           </Grid>
 
@@ -213,47 +161,11 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   <TextField
                     fullWidth
                     label="Di động"
-                    {...getFieldProps('phoneNumber')}
-                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
-                    helperText={touched.phoneNumber && errors.phoneNumber}
+                    {...getFieldProps('phoneNum')}
+                    error={Boolean(touched.phoneNum && errors.phoneNum)}
+                    helperText={touched.phoneNum && errors.phoneNum}
                   />
-                  <TextField
-                    select
-                    fullWidth
-                    label="Quốc gia"
-                    placeholder="Country"
-                    {...getFieldProps('country')}
-                    SelectProps={{ native: true }}
-                    error={Boolean(touched.country && errors.country)}
-                    helperText={touched.country && errors.country}
-                  >
-                    <option value="" />
-                    {countries.map((option) => (
-                      <option key={option.code} value={option.label}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </TextField>
-                </Stack>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Vùng miền"
-                    {...getFieldProps('state')}
-                    error={Boolean(touched.state && errors.state)}
-                    helperText={touched.state && errors.state}
-                  />
-                  <TextField
-                    fullWidth
-                    label="Thành phố"
-                    {...getFieldProps('city')}
-                    error={Boolean(touched.city && errors.city)}
-                    helperText={touched.city && errors.city}
-                  />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
                     label="Địa chỉ"
@@ -261,23 +173,24 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                     error={Boolean(touched.address && errors.address)}
                     helperText={touched.address && errors.address}
                   />
-                  <TextField fullWidth label="Mã vùng" {...getFieldProps('zipCode')} />
+                  <TextField
+                    fullWidth
+                    label="Mã số thuế"
+                    {...getFieldProps('taxIdentificationNumber')}
+                    error={Boolean(
+                      touched.taxIdentificationNumber && errors.taxIdentificationNumber
+                    )}
+                    helperText={touched.taxIdentificationNumber && errors.taxIdentificationNumber}
+                  />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Công ty"
-                    {...getFieldProps('company')}
-                    error={Boolean(touched.company && errors.company)}
-                    helperText={touched.company && errors.company}
-                  />
-                  <TextField
-                    fullWidth
-                    label="Chức vụ"
-                    {...getFieldProps('role')}
-                    error={Boolean(touched.role && errors.role)}
-                    helperText={touched.role && errors.role}
+                    label="Mô tả"
+                    {...getFieldProps('description')}
+                    error={Boolean(touched.description && errors.description)}
+                    helperText={touched.description && errors.description}
                   />
                 </Stack>
 

@@ -62,10 +62,13 @@ interface CustomFile extends File {
   path?: string;
   preview?: string;
 }
+interface CustomFile2 extends File {
+  path?: string;
+}
 
 interface UploadAvatarProps extends DropzoneOptions {
   error?: boolean;
-  file: CustomFile | string | null;
+  file: CustomFile2 | string | null;
   caption?: ReactNode;
   sx?: SxProps<Theme>;
 }
@@ -88,7 +91,7 @@ export default function UploadAvatar({ error, file, caption, sx, ...other }: Upl
       }}
     >
       {fileRejections.map(({ file, errors }) => {
-        const { path, size }: CustomFile = file;
+        const { path, size }: CustomFile2 = file;
         return (
           <Box key={path} sx={{ my: 1 }}>
             <Typography variant="subtitle2" noWrap>
@@ -125,7 +128,8 @@ export default function UploadAvatar({ error, file, caption, sx, ...other }: Upl
             <Box
               component="img"
               alt="avatar"
-              src={isString(file) ? file : file.preview}
+              // src={isString(file) ? file : file.preview}
+              src={isString(file) ? file : ''}
               sx={{ zIndex: 8, objectFit: 'cover' }}
             />
           )}

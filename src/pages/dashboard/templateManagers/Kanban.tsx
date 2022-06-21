@@ -4,7 +4,7 @@ import { Container, Stack, Skeleton, Grid } from '@mui/material';
 import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
 // redux
 import { RootState, useDispatch, useSelector } from '../../../redux/store';
-import { getBoard, persistColumn, persistCard } from '../../../redux/slices/kanban';
+import { getBoard, persistColumn, persistCard } from '../../../redux/slices/template_slice/kanban';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // components

@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { sum, map, filter, uniqBy } from 'lodash';
-import { store } from '../store';
+import { store } from '../../store';
 // utils
-import axios from '../../utils/axios';
-import { CartItem, Product, ProductState } from '../../@types/products';
+import axios from '../../../utils/axios';
+import { CartItem, Product, ProductState } from '../../../@types/products';
 
 // ----------------------------------------------------------------------
 

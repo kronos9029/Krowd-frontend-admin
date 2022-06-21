@@ -76,6 +76,8 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/other'),
     list: path(ROOTS_DASHBOARD, '/other/list'),
     field: path(ROOTS_DASHBOARD, '/other/field'),
+    newRiskType: path(ROOTS_DASHBOARD, '/other/risk_type-new'),
+    newField: path(ROOTS_DASHBOARD, '/other/field-new'),
     area: path(ROOTS_DASHBOARD, '/other/area'),
     role: path(ROOTS_DASHBOARD, '/other/role'),
     risk: path(ROOTS_DASHBOARD, '/other/risk'),

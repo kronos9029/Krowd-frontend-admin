@@ -14,33 +14,33 @@ import useSettings from 'hooks/useSettings';
 import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import UserNewForm from 'components/_dashboard/user/UserNewForm';
-import { getBusinessList } from 'redux/slices/krowd_slices/business';
-import { getFieldListById } from 'redux/slices/krowd_slices/field';
+import { getFieldList, getFieldListById } from 'redux/slices/krowd_slices/field';
+import FieldNewForm from '../../../../components/_dashboard/other/Field/FieldNewForm';
 
 // ----------------------------------------------------------------------
 
-export default function UserCreate() {
+export default function FieldCreate() {
   const { themeStretch } = useSettings();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id = '' } = useParams();
-  const { businessList } = useSelector((state: RootState) => state.business);
+  const { fieldList } = useSelector((state: RootState) => state.fieldKrowd);
   const isEdit = pathname.includes('edit');
-  const currentUser = businessList.find((business) => paramCase(business.id) === id);
+  const currentField = fieldList.find((field) => paramCase(field.id) === id);
 
   useEffect(() => {
     dispatch(getFieldListById(id));
   }, [dispatch]);
 
   return (
-    <Page title="Doanh nghiệp: Tạo mới | Krowd">
+    <Page title="Lĩnh vực: Tạo mới | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Tạo mới doanh nghiệp' : 'Cập nhật người dùng'}
+          heading={!isEdit ? 'Tạo mới lĩnh vực' : 'Cập nhật lĩnh vực'}
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Tạo mới' }]}
         />
 
-        <UserNewForm isEdit={isEdit} currentUser={currentUser} />
+        <FieldNewForm isEdit={isEdit} currentField={currentField} />
       </Container>
     </Page>
   );

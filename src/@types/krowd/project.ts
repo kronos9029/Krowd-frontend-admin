@@ -40,6 +40,7 @@ export type Project = {
 export type ProductState = {
   isLoading: boolean;
   error: boolean;
+  listOfProject: number;
   projects: Project[];
   project: Project | null;
   sortBy: string | null;

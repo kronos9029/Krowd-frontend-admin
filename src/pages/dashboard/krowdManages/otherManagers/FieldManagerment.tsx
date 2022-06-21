@@ -36,14 +36,19 @@ import Label from '../../../../components/Label';
 import Scrollbar from '../../../../components/Scrollbar';
 import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../../../components/_dashboard/user/list';
-import { getFieldList } from 'redux/slices/field';
+import { UserListHead, KrowdListToolbar } from '../../../../components/_dashboard/user/list';
+import { delFieldListById, getFieldList, getFieldListById } from 'redux/slices/krowd_slices/field';
 import { Field } from '../../../../@types/krowd/fields';
 import { fDate } from 'utils/formatTime';
+import { MIconButton } from 'components/@material-extend';
+import UserMoreMenu from 'components/_dashboard/e-commerce/invoice/UserMoreMenu';
+
+import { getBusinessListById, getProjectByBusinessID } from 'redux/slices/krowd_slices/business';
+import { useSnackbar } from 'notistack';
+import closeFill from '@iconify/icons-eva/close-fill';
+
+import Modal from '@mui/material';
+import OtherMoreMenu from 'components/_dashboard/other/OtherMoreMenu';
 
 // ----------------------------------------------------------------------
 
@@ -54,7 +59,6 @@ const TABLE_HEAD = [
   { id: 'createBy', label: 'Người tạo', alignRight: true },
   { id: 'updateDate', label: 'Ngày cập nhật', alignRight: true },
   { id: 'updateBy', label: 'Người cập nhật', alignRight: true },
-  // { id: 'isDeleted', label: 'Trạng thái', alignRight: false },
   { id: '' }
 ];
 
@@ -102,43 +106,31 @@ export default function FieldManagement() {
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(getFieldList());
   }, [dispatch]);
 
+  const handleDeleteFieldById = (activeFieldId: string) => {
+    dispatch(delFieldListById(activeFieldId));
+    enqueueSnackbar('Cập nhật trạng thái thành công', {
+      variant: 'success',
+      action: (key) => (
+        <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+          <Icon icon={closeFill} />
+        </MIconButton>
+      )
+    });
+  };
+  const handleGetFieldById = (activeFieldId: string) => {
+    dispatch(getFieldListById(activeFieldId));
+  };
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (checked: boolean) => {
-    if (checked) {
-      const newSelecteds = fieldList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: string[] = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,10 +141,6 @@ export default function FieldManagement() {
   const handleFilterByName = (filterName: string) => {
     setFilterName(filterName);
   };
-
-  // const handleDeleteUser = (userId: string) => {
-  //   dispatch(deleteUser(userId));
-  // };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - fieldList.length) : 0;
 
@@ -170,17 +158,16 @@ export default function FieldManagement() {
             <Button
               variant="contained"
               component={RouterLink}
-              disabled
-              to={PATH_DASHBOARD.business.newUser}
+              to={PATH_DASHBOARD.other.newField}
               startIcon={<Icon icon={plusFill} />}
             >
-              Tạo mới lĩnh vực "ComingSoon"
+              Tạo mới lĩnh vực
             </Button>
           }
         />
 
         <Card>
-          <UserListToolbar
+          <KrowdListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
@@ -196,22 +183,13 @@ export default function FieldManagement() {
                   rowCount={fieldList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  //onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const {
-                        id,
-                        name,
-                        description,
-                        createDate,
-                        createBy,
-                        updateDate,
-                        updateBy,
-                        isDeleted
-                      } = row;
+                      const { id, name, description, createDate, createBy, updateDate, updateBy } =
+                        row;
                       const isItemSelected = selected.indexOf(name) !== -1;
                       return (
                         <TableRow
@@ -222,12 +200,8 @@ export default function FieldManagement() {
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          {/* <TableCell padding="checkbox">
-                            <Checkbox checked={isItemSelected} onClick={() => handleClick(name)} />
-                          </TableCell> */}
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              {/* <Avatar alt={email} src={image} /> */}
                               <Typography variant="subtitle2" noWrap>
                                 {name}
                               </Typography>
@@ -242,19 +216,11 @@ export default function FieldManagement() {
                             {fDate(updateDate)}
                           </TableCell>
                           <TableCell align="center">{updateBy || '-'}</TableCell>
-                          {/* <TableCell align="left">{isDeleted ? 'Đã xác nhận' : 'Chưa'}</TableCell> */}
-                          {/* <TableCell align="left">
-                            <Label
-                              variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                              color={(isDeleted === 'tam ngung' && 'error') || 'success'}
-                            >
-                              {sentenceCase(isDeleted)}
-                            </Label>
-                          </TableCell> */}
-
-                          {/* <TableCell align="right">
-                            <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={name} />
-                          </TableCell> */}
+                          <OtherMoreMenu
+                            onDelete={() => handleDeleteFieldById(id)}
+                            onEdit={() => handleGetFieldById(id)}
+                            editById={id}
+                          />
                         </TableRow>
                       );
                     })}
@@ -278,7 +244,7 @@ export default function FieldManagement() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[]}
             component="div"
             count={fieldList.length}
             rowsPerPage={rowsPerPage}

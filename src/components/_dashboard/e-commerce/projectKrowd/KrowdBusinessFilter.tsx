@@ -6,33 +6,31 @@ import chevronDownFill from '@iconify/icons-eva/chevron-down-fill';
 import { Menu, Button, MenuItem, Typography } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { sortByProducts } from '../../../../redux/slices/product';
+import { sortByProducts } from '../../../../redux/slices/template_slice/product';
 // @types
 import { ProductState } from '../../../../@types/products';
 
 // ----------------------------------------------------------------------
 
 const SORT_BY_OPTIONS = [
-  { value: 'featured', label: 'Featured' },
-  { value: 'newest', label: 'Newest' },
-  { value: 'priceDesc', label: 'Price: High-Low' },
-  { value: 'priceAsc', label: 'Price: Low-High' }
+  { value: '0', label: 'Đang hoạt động' },
+  { value: '1', label: 'Ngừng hoạt động' },
+  { value: '2', label: 'Bị khóa' }
 ];
 
 function renderLabel(label: string | null) {
-  if (label === 'featured') {
-    return 'Featured';
+  if (label === 'Đang hoạt động') {
+    return '0';
   }
-  if (label === 'newest') {
-    return 'Newest';
+  if (label === 'Ngừng hoạt động') {
+    return '1';
   }
-  if (label === 'priceDesc') {
-    return 'Price: High-Low';
+  if (label === 'Bị khóa') {
+    return '2';
   }
-  return 'Price: Low-High';
 }
 
-export default function KrowdProjectSort() {
+export default function KrowdBusinessFilter() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState<HTMLButtonElement | null>(null);
   const { sortBy } = useSelector((state: { product: ProductState }) => state.product);
@@ -58,7 +56,7 @@ export default function KrowdProjectSort() {
         onClick={(event) => handleOpen(event.currentTarget)}
         endIcon={<Icon icon={open ? chevronUpFill : chevronDownFill} />}
       >
-        Sort By:&nbsp;
+        Lọc tìm kiếm&nbsp;
         <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
           {renderLabel(sortBy)}
         </Typography>

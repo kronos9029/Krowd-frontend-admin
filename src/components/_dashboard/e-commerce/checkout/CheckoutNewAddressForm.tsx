@@ -37,7 +37,7 @@ export default function CheckoutNewAddressForm({
   onCreateBilling
 }: CheckoutNewAddressFormProps) {
   const NewAddressSchema = Yup.object().shape({
-    receiver: Yup.string().required('Fullname is required'),
+    receiver: Yup.string().required('FullYêu cầu nhập tên'),
     phone: Yup.string().required('Phone is required'),
     address: Yup.string().required('Address is required'),
     city: Yup.string().required('City is required'),

@@ -1,18 +1,8 @@
 import { Icon } from '@iconify/react';
 import searchFill from '@iconify/icons-eva/search-fill';
-import trash2Fill from '@iconify/icons-eva/trash-2-fill';
-import roundFilterList from '@iconify/icons-ic/round-filter-list';
 // material
 import { useTheme, styled } from '@mui/material/styles';
-import {
-  Box,
-  Toolbar,
-  Tooltip,
-  IconButton,
-  Typography,
-  OutlinedInput,
-  InputAdornment
-} from '@mui/material';
+import { Box, Toolbar, Typography, OutlinedInput, InputAdornment } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -29,26 +19,26 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.shorter
   }),
-  '&.Mui-focused': { width: 320, boxShadow: theme.customShadows.z8 },
+  '&.Mui-focused': { width: 260, boxShadow: theme.customShadows.z8 },
   '& fieldset': {
     borderWidth: `1px !important`,
-    borderColor: `${theme.palette.grey[500_32]} !important`
+    borderColor: `#000000 !important`
   }
 }));
 
 // ----------------------------------------------------------------------
 
-type UserListToolbarProps = {
+type KrowdListToolbarProps = {
   numSelected: number;
   filterName: string;
   onFilterName: (value: string) => void;
 };
 
-export default function UserListToolbar({
+export default function KrowdListToolbar({
   numSelected,
   filterName,
   onFilterName
-}: UserListToolbarProps) {
+}: KrowdListToolbarProps) {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
 
@@ -72,13 +62,13 @@ export default function UserListToolbar({
           placeholder="Tìm kiếm..."
           startAdornment={
             <InputAdornment position="start">
-              <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
+              <Box component={Icon} icon={searchFill} sx={{ color: '#000000' }} />
             </InputAdornment>
           }
         />
       )}
 
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
             <Icon icon={trash2Fill} />
@@ -90,7 +80,7 @@ export default function UserListToolbar({
             <Icon icon={roundFilterList} />
           </IconButton>
         </Tooltip>
-      )}
+      )} */}
     </RootStyle>
   );
 }

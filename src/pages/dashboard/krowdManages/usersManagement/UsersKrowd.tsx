@@ -38,10 +38,10 @@ import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 import {
   UserListHead,
-  UserListToolbar,
+  KrowdListToolbar,
   UserMoreMenu
 } from '../../../../components/_dashboard/user/list';
-import { getUserKrowdList } from 'redux/slices/users';
+import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { UserKrowd } from '../../../../@types/users';
 
 // ----------------------------------------------------------------------
@@ -106,7 +106,7 @@ export default function UsersKrowd() {
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     dispatch(getUserKrowdList());
@@ -118,33 +118,6 @@ export default function UsersKrowd() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (checked: boolean) => {
-    if (checked) {
-      const newSelecteds = userKrowdList.map((n) => n.email);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: string[] = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -153,10 +126,6 @@ export default function UsersKrowd() {
   const handleFilterByName = (filterName: string) => {
     setFilterName(filterName);
   };
-
-  // const handleDeleteUser = (userId: string) => {
-  //   dispatch(deleteUser(userId));
-  // };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userKrowdList.length) : 0;
 
@@ -169,25 +138,11 @@ export default function UsersKrowd() {
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="Danh sách người dùng"
-          links={[
-            { name: 'Bảng điều khiển', href: PATH_DASHBOARD.root },
-            // { name: 'Người dùng', href: PATH_DASHBOARD.business.root },
-            { name: 'Danh sách' }
-          ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.business.newUser}
-          //     startIcon={<Icon icon={plusFill} />}
-          //   >
-          //     Tạo mới nguo
-          //   </Button>
-          // }
+          links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Danh sách' }]}
         />
 
         <Card>
-          <UserListToolbar
+          <KrowdListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
@@ -203,7 +158,6 @@ export default function UsersKrowd() {
                   rowCount={userKrowdList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  //onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
@@ -230,30 +184,14 @@ export default function UsersKrowd() {
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          {/* <TableCell padding="checkbox">
-                            <Checkbox checked={isItemSelected} onClick={() => handleClick(name)} />
-                          </TableCell> */}
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              {/* <Avatar alt={email} src={image} /> */}
                               <Typography variant="subtitle2" noWrap>
                                 {email}
                               </Typography>
                             </Stack>
                           </TableCell>
                           <TableCell align="left">{isDeleted ? 'Đã xác nhận' : 'Chưa'}</TableCell>
-                          {/* <TableCell align="left">
-                            <Label
-                              variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                              color={(isDeleted === 'tam ngung' && 'error') || 'success'}
-                            >
-                              {sentenceCase(isDeleted)}
-                            </Label>
-                          </TableCell> */}
-
-                          {/* <TableCell align="right">
-                            <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={name} />
-                          </TableCell> */}
                         </TableRow>
                       );
                     })}

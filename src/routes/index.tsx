@@ -89,9 +89,12 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/other/field" replace /> },
             { path: 'field', element: <FieldManagerment /> },
+            { path: 'field-new', element: <FieldCreate /> },
+            { path: ':id/edit', element: <FieldCreate /> },
             { path: 'area', element: <AreasManagement /> },
             { path: 'role', element: <RolesManagement /> },
-            { path: 'list', element: <EcommerceProductList /> },
+            { path: 'risk_type-new', element: <RiskTypeCreate /> },
+            { path: ':id/edit/risk', element: <RiskTypeCreate /> },
             { path: 'risk', element: <RiskTypesManagement /> },
             { path: 'investment', element: <EcommerceProductList /> }
           ]
@@ -231,6 +234,12 @@ const ProjectManagement = Loadable(
 //Thuộc về quản lý khác
 const FieldManagerment = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/otherManagers/FieldManagerment'))
+);
+const FieldCreate = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/otherManagers/FieldCreate'))
+);
+const RiskTypeCreate = Loadable(
+  lazy(() => import('../components/_dashboard/other/RiskType/RiskTypeCreate'))
 );
 const AreasManagement = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/otherManagers/AreasManagement'))

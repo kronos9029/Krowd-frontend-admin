@@ -16,3 +16,7 @@ export type BusinessManager = {
   updateBy: string;
   status?: 'Bị khóa' | 'Đang hoạt động' | 'Dừng hoạt động';
 };
+
+export type BusinessFilter = {
+  status: string[];
+};

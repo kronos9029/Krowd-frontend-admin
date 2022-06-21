@@ -1,9 +1,10 @@
 import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
-import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
+import closeFill from '@iconify/icons-eva/close-fill';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+
 // material
 import { useTheme } from '@mui/material/styles';
 import {
@@ -36,16 +37,18 @@ import Label from '../../../../components/Label';
 import Scrollbar from '../../../../components/Scrollbar';
 import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu
-} from '../../../../components/_dashboard/user/list';
+import { UserListHead, KrowdListToolbar } from '../../../../components/_dashboard/user/list';
 import { fDate } from 'utils/formatTime';
-import { Roles } from '../../../../@types/krowd/roleKrowd';
-import { getRolesList } from 'redux/slices/roles';
 import { RiskTypes } from '../../../../@types/krowd/riskTypeKrowd';
-import { getRiskTypeList } from 'redux/slices/risk';
+import {
+  delRiskTypeById,
+  getRiskTypeById,
+  getRiskTypeList
+} from 'redux/slices/krowd_slices/riskType';
+import { delFieldListById } from 'redux/slices/krowd_slices/field';
+import { MIconButton } from 'components/@material-extend';
+import { useSnackbar } from 'notistack';
+import OtherMoreMenuRisk from 'components/_dashboard/other/RiskType/OtherMoreMenuRisk';
 
 // ----------------------------------------------------------------------
 
@@ -109,43 +112,31 @@ export default function FieldManagement() {
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(getRiskTypeList());
   }, [dispatch]);
 
+  const handleDeleteRiskTypeById = (activeRiskTypeId: string) => {
+    dispatch(delRiskTypeById(activeRiskTypeId));
+    enqueueSnackbar('Cập nhật trạng thái thành công', {
+      variant: 'success',
+      action: (key) => (
+        <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+          <Icon icon={closeFill} />
+        </MIconButton>
+      )
+    });
+  };
+  const handleGetFieldById = (activeRiskTypeId: string) => {
+    dispatch(getRiskTypeById(activeRiskTypeId));
+  };
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (checked: boolean) => {
-    if (checked) {
-      const newSelecteds = riskTpyeList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: string[] = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,10 +147,6 @@ export default function FieldManagement() {
   const handleFilterByName = (filterName: string) => {
     setFilterName(filterName);
   };
-
-  // const handleDeleteUser = (userId: string) => {
-  //   dispatch(deleteUser(userId));
-  // };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - riskTpyeList.length) : 0;
 
@@ -173,10 +160,20 @@ export default function FieldManagement() {
         <HeaderBreadcrumbs
           heading="Danh sách các loại rủi ro"
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Danh sách' }]}
+          action={
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to={PATH_DASHBOARD.other.newRiskType}
+              startIcon={<Icon icon={plusFill} />}
+            >
+              Tạo mới loại rủi ro
+            </Button>
+          }
         />
 
         <Card>
-          <UserListToolbar
+          <KrowdListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
@@ -192,7 +189,6 @@ export default function FieldManagement() {
                   rowCount={riskTpyeList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  //onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
@@ -218,12 +214,8 @@ export default function FieldManagement() {
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          {/* <TableCell padding="checkbox">
-                            <Checkbox checked={isItemSelected} onClick={() => handleClick(name)} />
-                          </TableCell> */}
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              {/* <Avatar alt={email} src={image} /> */}
                               <Typography variant="subtitle2" noWrap>
                                 {name}
                               </Typography>
@@ -238,19 +230,11 @@ export default function FieldManagement() {
                             {fDate(updateDate)}
                           </TableCell>
                           <TableCell align="center">{updateBy || '-'}</TableCell>
-                          {/* <TableCell align="left">{isDeleted ? 'Đã xác nhận' : 'Chưa'}</TableCell> */}
-                          {/* <TableCell align="left">
-                            <Label
-                              variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                              color={(isDeleted === 'tam ngung' && 'error') || 'success'}
-                            >
-                              {sentenceCase(isDeleted)}
-                            </Label>
-                          </TableCell> */}
-
-                          {/* <TableCell align="right">
-                            <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={name} />
-                          </TableCell> */}
+                          <OtherMoreMenuRisk
+                            onDelete={() => handleDeleteRiskTypeById(id)}
+                            onEdit={() => handleGetFieldById(id)}
+                            editById={id}
+                          />
                         </TableRow>
                       );
                     })}
@@ -274,7 +258,7 @@ export default function FieldManagement() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[]}
             component="div"
             count={riskTpyeList.length}
             rowsPerPage={rowsPerPage}

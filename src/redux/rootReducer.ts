@@ -2,20 +2,20 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 // slices
-import mailReducer from './slices/mail';
-import chatReducer from './slices/chat';
-import blogReducer from './slices/blog';
-import userReducer from './slices/user';
-import productReducer from './slices/product';
-import kanbanReducer from './slices/kanban';
-import businessReducer from './slices/business';
-import userKrowdReducer from './slices/users';
-import fieldKrowdReducer from './slices/field';
-import AreaKrowdReducer from './slices/area';
-import RiskReducer from './slices/risk';
-import WalletReducer from './slices/wallet';
-import RolesReducer from './slices/roles';
-import InvestmentReducer from './slices/investment';
+import mailReducer from './slices/template_slice/mail';
+import chatReducer from './slices/template_slice/chat';
+import blogReducer from './slices/template_slice/blog';
+import userReducer from './slices/template_slice/user';
+import productReducer from './slices/template_slice/product';
+import kanbanReducer from './slices/template_slice/kanban';
+import businessReducer from './slices/krowd_slices/business';
+import userKrowdReducer from './slices/krowd_slices/users';
+import fieldKrowdReducer from './slices/krowd_slices/field';
+import AreaKrowdReducer from './slices/krowd_slices/area';
+import RiskReducer from './slices/krowd_slices/riskType';
+import WalletReducer from './slices/krowd_slices/wallet';
+import ProjectReducer from './slices/krowd_slices/project';
+import RolesReducer from './slices/krowd_slices/roles';
 
 // ----------------------------------------------------------------------
 
@@ -45,8 +45,8 @@ const rootReducer = combineReducers({
   areaKrowd: AreaKrowdReducer,
   riskKrowd: RiskReducer,
   roleKrowd: RolesReducer,
-  investment: InvestmentReducer,
   wallet: WalletReducer,
+  project: ProjectReducer,
   product: persistReducer(productPersistConfig, productReducer)
 });
 

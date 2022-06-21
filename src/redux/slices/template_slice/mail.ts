@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
-import axios from '../../utils/axios';
+import axios from '../../../utils/axios';
 // @types
-import { Mail, MailLabel } from '../../@types/mail';
+import { Mail, MailLabel } from '../../../@types/mail';
 
 // ----------------------------------------------------------------------
 

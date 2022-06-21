@@ -26,7 +26,12 @@ import { useSnackbar } from 'notistack';
 import { MIconButton } from 'components/@material-extend';
 // redux
 import { RootState, useDispatch, useSelector } from '../../../../redux/store';
-import { delBusinessListById, getBusinessList, getBusinessListById } from 'redux/slices/business';
+import {
+  delBusinessListById,
+  getBusinessList,
+  getBusinessListById
+} from 'redux/slices/krowd_slices/business';
+import { getProjectByBusinessID } from 'redux/slices/krowd_slices/project';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // hooks
@@ -38,7 +43,8 @@ import Scrollbar from '../../../../components/Scrollbar';
 import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 import UserMoreMenu from 'components/_dashboard/e-commerce/invoice/UserMoreMenu';
-import { UserListHead, UserListToolbar } from '../../../../components/_dashboard/user/list';
+import { UserListHead, KrowdListToolbar } from '../../../../components/_dashboard/user/list';
+import { KrowdBusinessFilter } from 'components/_dashboard/e-commerce/projectKrowd';
 
 // ----------------------------------------------------------------------
 
@@ -101,11 +107,10 @@ export default function UserList() {
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // const { isLoading, data: ListBusiness, error, isFetching } = getAllBusiness();
-
   // API
   useEffect(() => {
     dispatch(getBusinessList());
@@ -123,7 +128,9 @@ export default function UserList() {
   };
   const handleGetBusinessById = (activeBussinessId: string) => {
     dispatch(getBusinessListById(activeBussinessId));
+    dispatch(getProjectByBusinessID(activeBussinessId, 'ADMIN'));
   };
+
   // Sort filter
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -174,11 +181,12 @@ export default function UserList() {
         />
 
         <Card>
-          <UserListToolbar
+          {/* <KrowdListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
-          />
+          /> */}
+          {/* <KrowdBusinessFilter /> */}
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>

@@ -1,8 +1,8 @@
 import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
-import { BusinessManager } from '../../@types/krowd/business';
+import { BusinessManager } from '../../../@types/krowd/business';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
@@ -14,13 +14,15 @@ type BusinessState = {
   error: boolean;
   businessList: BusinessManager[];
   activeBussinessId: BusinessManager | null;
+  status: string[];
 };
 
 const initialState: BusinessState = {
   isLoading: false,
   error: false,
   activeBussinessId: null,
-  businessList: []
+  businessList: [],
+  status: ['Đang hoạt động', 'Ngừng hoạt động', 'Bị khóa']
 };
 
 const slice = createSlice({
@@ -91,6 +93,23 @@ export function getBusinessListById(bussinessId: string) {
     }
   };
 }
+export function getProjectByBusinessID(businessId: string, temp_field_role: 'ADMIN') {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get(
+        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/projects',
+        {
+          params: { businessId, temp_field_role }
+        }
+      );
+      dispatch(slice.actions.getBusinessListSuccess(response.data));
+    } catch (error) {
+      console.log('...');
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
 export function delBusinessListById(bussinessId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
@@ -100,6 +119,21 @@ export function delBusinessListById(bussinessId: string) {
       );
       dispatch(getBusinessList());
     } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function postBusiness() {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    console.log('da tao o dong nay');
+    try {
+      const response = await axios.post(
+        `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses`
+      );
+      dispatch(slice.actions.getBusinessListSuccess(response.data));
+    } catch (error) {
+      console.log('da tao o dong nay 2');
       dispatch(slice.actions.hasError(error));
     }
   };

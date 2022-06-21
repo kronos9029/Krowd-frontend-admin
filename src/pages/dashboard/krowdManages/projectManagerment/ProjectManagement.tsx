@@ -5,7 +5,7 @@ import { filter, includes, orderBy } from 'lodash';
 import { Backdrop, Container, Typography, CircularProgress, Stack } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { getProducts, filterProducts } from '../../../../redux/slices/product';
+import { getProducts, filterProducts } from '../../../../redux/slices/template_slice/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // utils
@@ -22,7 +22,7 @@ import {
   KrowdProjectSort,
   KrowdProjectList,
   KrowdFilterSidebar
-} from '../../../../components/_dashboard/e-commerce/shop';
+} from '../../../../components/_dashboard/e-commerce/projectKrowd';
 import CartWidget from '../../../../components/_dashboard/e-commerce/CartWidget';
 import { ProjectSearch } from 'components/_dashboard/blog';
 

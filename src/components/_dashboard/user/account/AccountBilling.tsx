@@ -26,7 +26,7 @@ export default function AccountBilling({ cards, addressBook, invoices }: Account
   const { enqueueSnackbar } = useSnackbar();
 
   const NewCardSchema = Yup.object().shape({
-    cardName: Yup.string().required('Name is required'),
+    cardName: Yup.string().required('Yêu cầu nhập tên'),
     cardNumber: Yup.string().required('Card number is required'),
     cardExpired: Yup.string().required('Card expired is required'),
     cardCvv: Yup.string().required('Cvv is required')

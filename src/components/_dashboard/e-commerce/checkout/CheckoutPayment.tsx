@@ -19,7 +19,7 @@ import {
   onBackStep,
   onNextStep,
   applyShipping
-} from '../../../../redux/slices/product';
+} from '../../../../redux/slices/template_slice/product';
 //
 import CheckoutSummary from './CheckoutSummary';
 import CheckoutDelivery from './CheckoutDelivery';

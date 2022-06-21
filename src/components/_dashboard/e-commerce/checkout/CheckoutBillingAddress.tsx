@@ -12,7 +12,11 @@ import {
 } from '../../../../@types/products';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { onBackStep, onNextStep, createBilling } from '../../../../redux/slices/product';
+import {
+  onBackStep,
+  onNextStep,
+  createBilling
+} from '../../../../redux/slices/template_slice/product';
 // utils
 import mockData from '../../../../utils/mock-data';
 

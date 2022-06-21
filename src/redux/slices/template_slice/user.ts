@@ -1,8 +1,8 @@
 import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
-import axios from '../../utils/axios';
+import axios from '../../../utils/axios';
 import {
   Friend,
   Gallery,
@@ -15,7 +15,7 @@ import {
   UserManager,
   UserAddressBook,
   NotificationSettings
-} from '../../@types/user';
+} from '../../../@types/user';
 
 // ----------------------------------------------------------------------
 

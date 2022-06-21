@@ -8,7 +8,7 @@ import { useEffect, useCallback, useState } from 'react';
 import { Box, Grid, Button, Skeleton, Container, Stack } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getPostsInitial, getMorePosts } from '../../../redux/slices/blog';
+import { getPostsInitial, getMorePosts } from '../../../redux/slices/template_slice/blog';
 // hooks
 import useSettings from '../../../hooks/useSettings';
 // routes

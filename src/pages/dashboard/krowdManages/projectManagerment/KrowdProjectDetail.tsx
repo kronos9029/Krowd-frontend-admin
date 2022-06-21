@@ -11,7 +11,7 @@ import { Box, Tab, Card, Grid, Divider, Skeleton, Container, Typography } from '
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { getProduct, addCart, onGotoStep } from '../../../../redux/slices/product';
+import { getProduct, addCart, onGotoStep } from '../../../../redux/slices/template_slice/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // @types

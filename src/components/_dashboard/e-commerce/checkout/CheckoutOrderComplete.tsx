@@ -7,7 +7,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Link, Button, Divider, Typography, Stack, DialogProps } from '@mui/material';
 // redux
 import { useDispatch } from '../../../../redux/store';
-import { resetCart } from '../../../../redux/slices/product';
+import { resetCart } from '../../../../redux/slices/template_slice/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 //

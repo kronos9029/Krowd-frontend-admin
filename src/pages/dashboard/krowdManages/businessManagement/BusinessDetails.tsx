@@ -1,7 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
-import { random, sum } from 'lodash';
 // material
-import { styled } from '@mui/material/styles';
 import {
   Box,
   Grid,
@@ -18,9 +15,6 @@ import {
 } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
-// utils
-import { fCurrency } from '../../../../utils/formatNumber';
-import mockData from '../../../../utils/mock-data';
 // hooks
 import useSettings from '../../../../hooks/useSettings';
 // components
@@ -28,68 +22,33 @@ import Page from '../../../../components/Page';
 import Label from '../../../../components/Label';
 import Scrollbar from '../../../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
-import { InvoiceToolbar } from '../../../../components/_dashboard/e-commerce/invoice';
-import { useEffect, useState } from 'react';
 import { dispatch, RootState, useSelector } from 'redux/store';
-import business, { getBusinessListById } from 'redux/slices/business';
-import { BusinessManager } from '../../../../@types/krowd/business';
 import { useParams } from 'react-router';
 import { sentenceCase } from 'change-case';
-
-// ----------------------------------------------------------------------
-
-const INVOICE = {
-  id: mockData.id(1),
-  taxes: 5,
-  discount: 10,
-  status: 'paid',
-  invoiceFrom: {
-    name: 'Kathlyn Hauck',
-    address: 'DieSachbearbeiter Choriner Straße 49 10435 Berlin',
-    company: 'Durgan Group',
-    email: 'Dion.collins23@gmail.com',
-    phone: '227-940-9869'
-  },
-  invoiceTo: {
-    name: 'Lesly Reichel',
-    address: 'Keas 69 Str. 15234, Chalandri Athens, Greece',
-    company: 'Stracke LLC',
-    email: 'kurt_durgan46@hotmail.com',
-    phone: '261-433-6689'
-  },
-  items: [...Array(3)].map((_, index) => ({
-    id: uuidv4(),
-    title: mockData.text.title(index),
-    description: mockData.text.description(index),
-    qty: random(5),
-    price: mockData.number.price(index)
-  }))
-};
-
-const RowResultStyle = styled(TableRow)(({ theme }) => ({
-  '& td': {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1)
-  }
-}));
+import { useEffect, useState } from 'react';
+import { getBusinessList } from 'redux/slices/krowd_slices/business';
 
 // ----------------------------------------------------------------------
 
 export default function BusinessDetails() {
   const { themeStretch } = useSettings();
   // const [hello, setData] = useState();
+
   const { Busid = '' } = useParams();
-  const subTotal = sum(INVOICE.items.map((item) => item.price * item.qty));
-  const total = subTotal - INVOICE.discount + INVOICE.taxes;
+
   const { activeBussinessId: business } = useSelector((state: RootState) => {
-    console.log(state.business.activeBussinessId);
     return state.business;
   });
+  const { projectLists } = useSelector((state: RootState) => state.project);
+
   // const businessListId2 = useSelector((state: RootState) => business(state));
   // const { activeBussinessId } = useSelector((state: RootState) => state.business.activeBussinessId);
-  console.log('mST', business?.taxIdentificationNumber);
+  // console.log('value Object', Object.values(businessId));
+  // console.log('projectOfBusiness at 1', Object.values(businessId).at(1));
+  // console.log('mST-array', projectLists.businessId);
+
   return (
-    <Page title="Ecommerce: Invoice | Krowd">
+    <Page title="Chi tiết: Doanh nghiệp | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="Chi tiết doanh nghiệp"
@@ -108,32 +67,39 @@ export default function BusinessDetails() {
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
               <Box sx={{ textAlign: { sm: 'right' } }}>
                 <Label color="success" sx={{ textTransform: 'uppercase', mb: 1 }}>
-                  {business?.taxIdentificationNumber}
+                  {business?.status}
                 </Label>
-                <Typography variant="h6">Mã số thuế {business?.taxIdentificationNumber}</Typography>
+                <Typography variant="h6">
+                  Mã số thuế: {business?.taxIdentificationNumber}
+                </Typography>
               </Box>
             </Grid>
 
-            <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-              <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-                Công ty
+            <Grid item xs={12} sm={5} sx={{ mb: 7, pt: 5, pr: 3 }}>
+              <Typography paragraph variant="h6">
+                {business?.name}
               </Typography>
-              <Typography variant="body2">{INVOICE.invoiceFrom.name}</Typography>
-              <Typography variant="body2">address</Typography>
-              <Typography variant="body2">Phone: {INVOICE.invoiceFrom.phone}</Typography>
+              <Typography paragraph sx={{ pt: 1, pb: 1 }}>
+                Email: {business?.email}
+              </Typography>
+              <Typography paragraph sx={{ pt: 1, pb: 1 }}>
+                Địa chỉ: {business?.address}
+              </Typography>
+              <Typography paragraph>HotLine: {business?.phoneNum}</Typography>
             </Grid>
 
-            <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-              <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-                Công ty
+            <Grid item xs={12} sm={7} sx={{ mb: 7, pt: 5, pl: 3 }}>
+              <Typography paragraph variant="h6">
+                Mô tả
               </Typography>
-              <Typography variant="body2">{INVOICE.invoiceTo.name}</Typography>
-              <Typography variant="body2">{INVOICE.invoiceTo.address}</Typography>
-              <Typography variant="body2">Phone: {INVOICE.invoiceTo.phone}</Typography>
+              <Typography paragraph>{business?.description}</Typography>
             </Grid>
           </Grid>
 
           <Scrollbar>
+            <Typography paragraph variant="h6">
+              Các dự án{' '}
+            </Typography>
             <TableContainer sx={{ minWidth: 960 }}>
               <Table>
                 <TableHead
@@ -144,15 +110,15 @@ export default function BusinessDetails() {
                 >
                   <TableRow>
                     <TableCell width={40}>#</TableCell>
-                    <TableCell align="left">Description</TableCell>
-                    <TableCell align="left">Qty</TableCell>
-                    <TableCell align="right">Unit price</TableCell>
-                    <TableCell align="right">Total</TableCell>
+                    <TableCell align="left">Tên dự án</TableCell>
+                    <TableCell align="left">Mô tả</TableCell>
+                    <TableCell align="right">Ngày tạo</TableCell>
+                    <TableCell align="right">Trạng thái</TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
-                  {INVOICE.items.map((row, index) => (
+                  {projectLists.businessId?.map((row, index) => (
                     <TableRow
                       key={index}
                       sx={{
@@ -162,78 +128,22 @@ export default function BusinessDetails() {
                       <TableCell>{index + 1}</TableCell>
                       <TableCell align="left">
                         <Box sx={{ maxWidth: 560 }}>
-                          <Typography variant="subtitle2">{row.title}</Typography>
+                          <Typography variant="subtitle2">{row?.businessLicense}</Typography>
                           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                            {row.description}
+                            {row.businessId}
                           </Typography>
                         </Box>
                       </TableCell>
-                      <TableCell align="left">{row.qty}</TableCell>
-                      <TableCell align="right">{fCurrency(row.price)}</TableCell>
-                      <TableCell align="right">{fCurrency(row.price * row.qty)}</TableCell>
+                      <TableCell align="left">{row.address}</TableCell>
+                      <TableCell align="right"></TableCell>
                     </TableRow>
                   ))}
-
-                  {/* <RowResultStyle>
-                    <TableCell colSpan={3} />
-                    <TableCell align="right">
-                      <Box sx={{ mt: 2 }} />
-                      <Typography variant="body1">Subtotal</Typography>
-                    </TableCell>
-                    <TableCell align="right" width={120}>
-                      <Box sx={{ mt: 2 }} />
-                      <Typography variant="body1">{fCurrency(subTotal)}</Typography>
-                    </TableCell>
-                  </RowResultStyle> */}
-                  {/* <RowResultStyle>
-                    <TableCell colSpan={3} />
-                    <TableCell align="right">
-                      <Typography variant="body1">Discount</Typography>
-                    </TableCell>
-                    <TableCell align="right" width={120}>
-                      <Typography sx={{ color: 'error.main' }}>
-                        {fCurrency(-INVOICE.discount)}
-                      </Typography>
-                    </TableCell>
-                  </RowResultStyle>
-                  <RowResultStyle>
-                    <TableCell colSpan={3} />
-                    <TableCell align="right">
-                      <Typography variant="body1">Taxes</Typography>
-                    </TableCell>
-                    <TableCell align="right" width={120}>
-                      <Typography variant="body1">{fCurrency(INVOICE.taxes)}</Typography>
-                    </TableCell>
-                  </RowResultStyle>
-                  <RowResultStyle>
-                    <TableCell colSpan={3} />
-                    <TableCell align="right">
-                      <Typography variant="h6">Total</Typography>
-                    </TableCell>
-                    <TableCell align="right" width={140}>
-                      <Typography variant="h6">{fCurrency(total)}</Typography>
-                    </TableCell>
-                  </RowResultStyle> */}
                 </TableBody>
               </Table>
             </TableContainer>
           </Scrollbar>
 
           <Divider sx={{ mt: 5 }} />
-
-          {/* <Grid container>
-            <Grid item xs={12} md={9} sx={{ py: 3 }}>
-              <Typography variant="subtitle2">NOTES</Typography>
-              <Typography variant="body2">
-                We appreciate your business. Should you need us to add VAT or extra notes let us
-                know!
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={3} sx={{ py: 3, textAlign: 'right' }}>
-              <Typography variant="subtitle2">Have a Question?</Typography>
-              <Typography variant="body2">support@minimals.cc</Typography>
-            </Grid>
-          </Grid> */}
         </Card>
       </Container>
     </Page>

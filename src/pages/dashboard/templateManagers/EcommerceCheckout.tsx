@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Grid, Step, Stepper, Container, StepLabel, StepConnector } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { getCart, createBilling } from '../../../redux/slices/product';
+import { getCart, createBilling } from '../../../redux/slices/template_slice/product';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks

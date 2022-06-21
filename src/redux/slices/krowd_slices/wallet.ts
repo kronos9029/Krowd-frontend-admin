@@ -1,26 +1,26 @@
 import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
-import { UserKrowd } from '../../@types/users';
 import axios from 'axios';
+import { SystemWallet } from '../../../@types/krowd/wallet/systemWallet';
 
 // ----------------------------------------------------------------------
 
-type UserKrowdState = {
+type WalletState = {
   isLoading: boolean;
   error: boolean;
-  userKrowdList: UserKrowd[];
+  walletSystem: SystemWallet[];
 };
 
-const initialState: UserKrowdState = {
+const initialState: WalletState = {
   isLoading: false,
   error: false,
-  userKrowdList: []
+  walletSystem: []
 };
 
 const slice = createSlice({
-  name: 'userKrowd',
+  name: 'wallet',
   initialState,
   reducers: {
     // START LOADING
@@ -34,16 +34,10 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
-    // // DELETE USERS
-    // deleteUser(state, action) {
-    //   const deleteUser = filter(state.UserKrowdList, (user) => user.id !== action.payload);
-    //   state.UserKrowdList = deleteUser;
-    // },
-
     // GET MANAGE USERS
-    getUserKrowdListSuccess(state, action) {
+    getwalletSystemSuccess(state, action) {
       state.isLoading = false;
-      state.userKrowdList = action.payload;
+      state.walletSystem = action.payload;
     }
   }
 });
@@ -57,15 +51,16 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getUserKrowdList() {
+export function getwalletSystem() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users'
+        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/system_wallets'
       );
-      dispatch(slice.actions.getUserKrowdListSuccess(response.data));
-      console.log('User', response.data);
+      dispatch(slice.actions.getwalletSystemSuccess(response.data));
+      console.log('wallet data: ', response.data);
+      console.log('get success');
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

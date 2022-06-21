@@ -15,7 +15,7 @@ import {
   applyDiscount,
   increaseQuantity,
   decreaseQuantity
-} from '../../../../redux/slices/product';
+} from '../../../../redux/slices/template_slice/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 //

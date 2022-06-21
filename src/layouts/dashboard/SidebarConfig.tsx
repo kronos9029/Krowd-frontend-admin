@@ -1,9 +1,7 @@
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
-import Label from '../../components/Label';
 import SvgIconStyle from '../../components/SvgIconStyle';
-import { Icon } from '@iconify/react';
 
 // ----------------------------------------------------------------------
 
@@ -29,12 +27,13 @@ const ICONS = {
   ecommerce: getIcon('ic_ecommerce'),
   analytics: getIcon('ic_analytics'),
   dashboard: getIcon('ic_dashboard'),
-  booking: getIcon('ic_booking')
+  booking: getIcon('ic_booking'),
+  accountTransaction: getIcon('ic_accountTransaction'),
+  bankTransaction: getIcon('ic_bankTransaction'),
+  historyTransaction: getIcon('ic_historyTransaction')
 };
 
 const sidebarConfig = [
-  // GENERAL
-  // ----------------------------------------------------------------------
   {
     subheader: 'ADMIN',
     items: [
@@ -43,7 +42,6 @@ const sidebarConfig = [
         path: PATH_DASHBOARD.general.app,
         icon: ICONS.dashboard
       },
-      // { title: 'e-commerce', path: PATH_DASHBOARD.general.ecommerce, icon: ICONS.ecommerce },
       { title: 'Bảng điều khiển', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
       { title: 'Tổng quan ngày', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
       { title: 'Tổng quan tháng', path: PATH_DASHBOARD.general.booking, icon: ICONS.dayOverview }
@@ -51,15 +49,12 @@ const sidebarConfig = [
   },
 
   // MANAGEMENT
-  // ----------------------------------------------------------------------
   {
     subheader: 'Quản lý',
     items: [
-      // MANAGEMENT : BLOG
       { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
       { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business },
       { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer },
-      // MANAGEMENT : WALLET
       {
         title: 'Quản lý ví',
         path: PATH_DASHBOARD.wallet.root,
@@ -72,15 +67,27 @@ const sidebarConfig = [
       }
     ]
   },
-  // {
-  //   subheader: 'Quản lý giao dịch:',
-  //   items: [
-  //     // MANAGEMENT : Giao dịch
-  //     { title: 'Thanh toán giữa các ví', path: PATH_DASHBOARD.business.profile, icon: ICONS.user },
-  //     { title: 'Giao dịch ngân hàng', path: PATH_DASHBOARD.business.profile, icon: ICONS.user },
-  //     { title: 'Lịch sử doanh thu', path: PATH_DASHBOARD.business.profile, icon: ICONS.user }
-  //   ]
-  // },
+  {
+    subheader: 'Quản lý giao dịch',
+    items: [
+      // MANAGEMENT : BLOG
+      {
+        title: 'Thanh toán giữa các ví',
+        path: PATH_DASHBOARD.projects.projectKrowd,
+        icon: ICONS.accountTransaction
+      },
+      {
+        title: 'Giao dịch ngân hàng',
+        path: PATH_DASHBOARD.business.list,
+        icon: ICONS.bankTransaction
+      },
+      {
+        title: 'Lịch sử doanh thu',
+        path: PATH_DASHBOARD.admin.list,
+        icon: ICONS.historyTransaction
+      }
+    ]
+  },
 
   {
     subheader: '~~~~~~~~~~~~~~~~~~~~~~~~~',
@@ -99,25 +106,6 @@ const sidebarConfig = [
       }
     ]
   }
-  // APP
-  // ----------------------------------------------------------------------
-  // {
-  //   subheader: 'app',
-  //   items: [
-  //     {
-  //       title: 'mail',
-  //       path: PATH_DASHBOARD.mail.root,
-  //       icon: ICONS.mail,
-  //       info: <Label color="error">2</Label>
-  //     },
-  //     { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat },
-  //     {
-  //       title: 'kanban',
-  //       path: PATH_DASHBOARD.kanban,
-  //       icon: ICONS.kanban
-  //     }
-  //   ]
-  // }
 ];
 
 export default sidebarConfig;

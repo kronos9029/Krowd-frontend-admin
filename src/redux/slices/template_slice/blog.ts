@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { store } from '../store';
+import { store } from '../../store';
 // utils
-import axios from '../../utils/axios';
+import axios from '../../../utils/axios';
 // @types
-import { BlogState } from '../../@types/blog';
+import { BlogState } from '../../../@types/blog';
 
 // ----------------------------------------------------------------------
 

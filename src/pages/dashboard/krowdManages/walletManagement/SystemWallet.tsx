@@ -26,7 +26,11 @@ import { useSnackbar } from 'notistack';
 import { MIconButton } from 'components/@material-extend';
 // redux
 import { RootState, useDispatch, useSelector } from '../../../../redux/store';
-import { delBusinessListById, getBusinessList, getBusinessListById } from 'redux/slices/business';
+import {
+  delBusinessListById,
+  getBusinessList,
+  getBusinessListById
+} from 'redux/slices/krowd_slices/business';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // hooks
@@ -37,8 +41,8 @@ import Scrollbar from '../../../../components/Scrollbar';
 import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 import UserMoreMenu from 'components/_dashboard/e-commerce/invoice/UserMoreMenu';
-import { UserListHead, UserListToolbar } from '../../../../components/_dashboard/user/list';
-import { getwalletSystem } from 'redux/slices/wallet';
+import { UserListHead, KrowdListToolbar } from '../../../../components/_dashboard/user/list';
+import { getwalletSystem } from 'redux/slices/krowd_slices/wallet';
 import { SystemWallet } from '../../../../@types/krowd/wallet/systemWallet';
 
 // ----------------------------------------------------------------------
@@ -105,7 +109,7 @@ export default function SystemWalletList() {
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // const { isLoading, data: ListBusiness, error, isFetching } = getAllBusiness();
@@ -169,7 +173,7 @@ export default function SystemWalletList() {
         />
 
         <Card>
-          <UserListToolbar
+          <KrowdListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}

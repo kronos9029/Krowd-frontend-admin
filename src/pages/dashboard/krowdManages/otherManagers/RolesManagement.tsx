@@ -38,12 +38,12 @@ import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 import {
   UserListHead,
-  UserListToolbar,
+  KrowdListToolbar,
   UserMoreMenu
 } from '../../../../components/_dashboard/user/list';
 import { fDate } from 'utils/formatTime';
 import { Roles } from '../../../../@types/krowd/roleKrowd';
-import { getRolesList } from 'redux/slices/roles';
+import { getRolesList } from 'redux/slices/krowd_slices/roles';
 
 // ----------------------------------------------------------------------
 
@@ -92,7 +92,7 @@ function applySortFilter(array: Roles[], comparator: (a: any, b: any) => number,
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function FieldManagement() {
+export default function RolesManagement() {
   const { themeStretch } = useSettings();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -103,7 +103,7 @@ export default function FieldManagement() {
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     dispatch(getRolesList());
@@ -115,33 +115,6 @@ export default function FieldManagement() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (checked: boolean) => {
-    if (checked) {
-      const newSelecteds = rolesList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: string[] = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -150,10 +123,6 @@ export default function FieldManagement() {
   const handleFilterByName = (filterName: string) => {
     setFilterName(filterName);
   };
-
-  // const handleDeleteUser = (userId: string) => {
-  //   dispatch(deleteUser(userId));
-  // };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rolesList.length) : 0;
 
@@ -170,7 +139,7 @@ export default function FieldManagement() {
         />
 
         <Card>
-          <UserListToolbar
+          <KrowdListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
@@ -212,12 +181,8 @@ export default function FieldManagement() {
                           selected={isItemSelected}
                           aria-checked={isItemSelected}
                         >
-                          {/* <TableCell padding="checkbox">
-                            <Checkbox checked={isItemSelected} onClick={() => handleClick(name)} />
-                          </TableCell> */}
                           <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
-                              {/* <Avatar alt={email} src={image} /> */}
                               <Typography variant="subtitle2" noWrap>
                                 {name}
                               </Typography>
@@ -232,19 +197,6 @@ export default function FieldManagement() {
                             {fDate(updateDate)}
                           </TableCell>
                           <TableCell align="center">{updateBy || '-'}</TableCell>
-                          {/* <TableCell align="left">{isDeleted ? 'Đã xác nhận' : 'Chưa'}</TableCell> */}
-                          {/* <TableCell align="left">
-                            <Label
-                              variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                              color={(isDeleted === 'tam ngung' && 'error') || 'success'}
-                            >
-                              {sentenceCase(isDeleted)}
-                            </Label>
-                          </TableCell> */}
-
-                          {/* <TableCell align="right">
-                            <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={name} />
-                          </TableCell> */}
                         </TableRow>
                       );
                     })}
@@ -268,7 +220,7 @@ export default function FieldManagement() {
           </Scrollbar>
 
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[]}
             component="div"
             count={rolesList.length}
             rowsPerPage={rowsPerPage}

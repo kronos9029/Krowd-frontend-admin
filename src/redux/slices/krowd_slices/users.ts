@@ -1,26 +1,26 @@
 import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
+import { UserKrowd } from '../../../@types/users';
 import axios from 'axios';
-import { Roles } from '../../@types/krowd/roleKrowd';
 
 // ----------------------------------------------------------------------
 
-type RolesState = {
+type UserKrowdState = {
   isLoading: boolean;
   error: boolean;
-  rolesList: Roles[];
+  userKrowdList: UserKrowd[];
 };
 
-const initialState: RolesState = {
+const initialState: UserKrowdState = {
   isLoading: false,
   error: false,
-  rolesList: []
+  userKrowdList: []
 };
 
 const slice = createSlice({
-  name: 'role',
+  name: 'userKrowd',
   initialState,
   reducers: {
     // START LOADING
@@ -34,10 +34,16 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
+    // // DELETE USERS
+    // deleteUser(state, action) {
+    //   const deleteUser = filter(state.UserKrowdList, (user) => user.id !== action.payload);
+    //   state.UserKrowdList = deleteUser;
+    // },
+
     // GET MANAGE USERS
-    getRolesListSuccess(state, action) {
+    getUserKrowdListSuccess(state, action) {
       state.isLoading = false;
-      state.rolesList = action.payload;
+      state.userKrowdList = action.payload;
     }
   }
 });
@@ -51,15 +57,15 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getRolesList() {
+export function getUserKrowdList() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/roles'
+        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users'
       );
-      dispatch(slice.actions.getRolesListSuccess(response.data));
-      console.log('roles data: ', response.data);
+      dispatch(slice.actions.getUserKrowdListSuccess(response.data));
+      console.log('User', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

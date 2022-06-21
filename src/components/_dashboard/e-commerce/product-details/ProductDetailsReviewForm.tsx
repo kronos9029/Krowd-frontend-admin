@@ -34,7 +34,7 @@ export default function ProductDetailsReviewForm({
   const ReviewSchema = Yup.object().shape({
     rating: Yup.mixed().required('Rating is required'),
     review: Yup.string().required('Review is required'),
-    name: Yup.string().required('Name is required'),
+    name: Yup.string().required('Yêu cầu nhập tên'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required')
   });
 

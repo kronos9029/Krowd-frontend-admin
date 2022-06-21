@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { omit } from 'lodash';
 // utils
-import axios from '../../utils/axios';
-import { KanbanCard, KanbanColumn } from '../../@types/kanban';
-import { dispatch } from '../store';
+import axios from '../../../utils/axios';
+import { KanbanCard, KanbanColumn } from '../../../@types/kanban';
+import { dispatch } from '../../store';
 // ----------------------------------------------------------------------
 
 function objFromArray<Type extends Record<string, any>>(array: Type[], key: string = 'id') {

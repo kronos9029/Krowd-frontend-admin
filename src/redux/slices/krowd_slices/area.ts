@@ -1,26 +1,26 @@
 import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
+import { Areas } from '../../../@types/krowd/areaKrowd';
 import axios from 'axios';
-import { SystemWallet } from '../../@types/krowd/wallet/systemWallet';
 
 // ----------------------------------------------------------------------
 
-type WalletState = {
+type AreasState = {
   isLoading: boolean;
   error: boolean;
-  walletSystem: SystemWallet[];
+  areaList: Areas[];
 };
 
-const initialState: WalletState = {
+const initialState: AreasState = {
   isLoading: false,
   error: false,
-  walletSystem: []
+  areaList: []
 };
 
 const slice = createSlice({
-  name: 'wallet',
+  name: 'area',
   initialState,
   reducers: {
     // START LOADING
@@ -35,9 +35,9 @@ const slice = createSlice({
     },
 
     // GET MANAGE USERS
-    getwalletSystemSuccess(state, action) {
+    getAreaListSuccess(state, action) {
       state.isLoading = false;
-      state.walletSystem = action.payload;
+      state.areaList = action.payload;
     }
   }
 });
@@ -51,16 +51,15 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getwalletSystem() {
+export function getAreasList() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/system_wallets'
+        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/areas'
       );
-      dispatch(slice.actions.getwalletSystemSuccess(response.data));
-      console.log('wallet data: ', response.data);
-      console.log('get success');
+      dispatch(slice.actions.getAreaListSuccess(response.data));
+      console.log('Areas data:', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

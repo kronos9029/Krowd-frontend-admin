@@ -78,8 +78,8 @@ export default function ProductNewForm({ isEdit, currentProduct }: ProductNewFor
   const { enqueueSnackbar } = useSnackbar();
 
   const NewProductSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required'),
+    name: Yup.string().required('Yêu cầu nhập tên'),
+    description: Yup.string().required('Yêu cầu nhập mô tả'),
     images: Yup.array().min(1, 'Images is required'),
     price: Yup.number().required('Price is required')
   });

@@ -1,26 +1,26 @@
 import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
 import axios from 'axios';
-import { Field } from '../../@types/krowd/fields';
+import { Roles } from '../../../@types/krowd/roleKrowd';
 
 // ----------------------------------------------------------------------
 
-type FieldState = {
+type RolesState = {
   isLoading: boolean;
   error: boolean;
-  fieldList: Field[];
+  rolesList: Roles[];
 };
 
-const initialState: FieldState = {
+const initialState: RolesState = {
   isLoading: false,
   error: false,
-  fieldList: []
+  rolesList: []
 };
 
 const slice = createSlice({
-  name: 'fields',
+  name: 'role',
   initialState,
   reducers: {
     // START LOADING
@@ -34,16 +34,10 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
-    // // DELETE USERS
-    // deleteUser(state, action) {
-    //   const deleteUser = filter(state.FieldList, (user) => user.id !== action.payload);
-    //   state.FieldList = deleteUser;
-    // },
-
     // GET MANAGE USERS
-    getFieldListSuccess(state, action) {
+    getRolesListSuccess(state, action) {
       state.isLoading = false;
-      state.fieldList = action.payload;
+      state.rolesList = action.payload;
     }
   }
 });
@@ -57,15 +51,15 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getFieldList() {
+export function getRolesList() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields'
+        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/roles'
       );
-      dispatch(slice.actions.getFieldListSuccess(response.data));
-      console.log('Field', response.data);
+      dispatch(slice.actions.getRolesListSuccess(response.data));
+      console.log('roles data: ', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

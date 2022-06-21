@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch } from '../store';
+import { dispatch } from '../../store';
 // utils
-import axios from '../../utils/axios';
+import axios from '../../../utils/axios';
 // @types
-import { Conversation, Participant } from '../../@types/chat';
+import { Conversation, Participant } from '../../../@types/chat';
 
 // ----------------------------------------------------------------------
 

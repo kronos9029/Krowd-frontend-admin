@@ -5,7 +5,6 @@ import { useParams, useLocation } from 'react-router-dom';
 import { Container } from '@mui/material';
 // redux
 import { useDispatch, useSelector, RootState } from 'redux/store';
-import { getUserList } from 'redux/slices/template_slice/user';
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
 // hooks
@@ -13,34 +12,32 @@ import useSettings from 'hooks/useSettings';
 // components
 import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
-import UserNewForm from 'components/_dashboard/user/UserNewForm';
-import { getBusinessList } from 'redux/slices/krowd_slices/business';
-import { getFieldListById } from 'redux/slices/krowd_slices/field';
+import { getRiskTypeById } from 'redux/slices/krowd_slices/riskType';
+import RiskTypeForm from './RiskTypeForm';
 
 // ----------------------------------------------------------------------
 
-export default function UserCreate() {
+export default function RiskTypeCreate() {
   const { themeStretch } = useSettings();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id = '' } = useParams();
-  const { businessList } = useSelector((state: RootState) => state.business);
+  const { riskTpyeList } = useSelector((state: RootState) => state.riskKrowd);
   const isEdit = pathname.includes('edit');
-  const currentUser = businessList.find((business) => paramCase(business.id) === id);
+  const currentRisk = riskTpyeList.find((riskType) => paramCase(riskType.id) === id);
 
   useEffect(() => {
-    dispatch(getFieldListById(id));
+    dispatch(getRiskTypeById(id));
   }, [dispatch]);
 
   return (
-    <Page title="Doanh nghiệp: Tạo mới | Krowd">
+    <Page title="Loại rủi ro: Tạo mới | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Tạo mới doanh nghiệp' : 'Cập nhật người dùng'}
+          heading={!isEdit ? 'Tạo mới loại rủi ro' : 'Cập nhật loại rủi ro'}
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Tạo mới' }]}
         />
-
-        <UserNewForm isEdit={isEdit} currentUser={currentUser} />
+        <RiskTypeForm isEdit={isEdit} currentRisk={currentRisk} />
       </Container>
     </Page>
   );

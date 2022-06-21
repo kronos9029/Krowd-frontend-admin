@@ -17,7 +17,7 @@ import {
   getProfile,
   getFollowers,
   onToggleFollow
-} from 'redux/slices/user';
+} from 'redux/slices/template_slice/user';
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
 // hooks
