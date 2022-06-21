@@ -85,6 +85,15 @@ export default function Router() {
         { path: 'booking', element: <GeneralBooking /> },
 
         {
+          path: 'transaction',
+          children: [
+            { element: <Navigate to="/dashboard/transaction/" replace /> },
+            { path: 'wallet-transaction', element: <FieldManagerment /> },
+            { path: 'account-transaction', element: <AccountTransactionDetails /> },
+            { path: 'history-investment', element: <FieldCreate /> }
+          ]
+        },
+        {
           path: 'other',
           children: [
             { element: <Navigate to="/dashboard/other/field" replace /> },
@@ -231,6 +240,19 @@ const GeneralBooking = Loadable(
 const ProjectManagement = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectManagement'))
 );
+const AccountTransactionDetails = Loadable(
+  lazy(
+    () => import('../pages/dashboard/krowdManages/transactionManagement/AccountTransactionDetails')
+  )
+);
+
+// Thuộc về quản lý giao dịch
+// const AccountTransactionDetails = Loadable(
+//   lazy(
+//     () => import('../pages/dashboard/krowdManages/transactionManagement/AccountTransactionDetails')
+//   )
+// );
+//----------------------------
 //Thuộc về quản lý khác
 const FieldManagerment = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/otherManagers/FieldManagerment'))

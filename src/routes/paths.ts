@@ -64,6 +64,13 @@ export const PATH_DASHBOARD = {
     editById: path(ROOTS_DASHBOARD, `/admin/reece-chung/edit`),
     account: path(ROOTS_DASHBOARD, '/admin/account')
   },
+  // giao dịch
+  transaction: {
+    root: path(ROOTS_DASHBOARD, 'transaction'),
+    walletTransaction: path(ROOTS_DASHBOARD, '/transaction/wallet'),
+    accountTransaction: path(ROOTS_DASHBOARD, '/transaction/account-transaction'),
+    PeriodRevenueHistory: path(ROOTS_DASHBOARD, '/transaction/account')
+  },
   //Ví
   wallet: {
     root: path(ROOTS_DASHBOARD, '/wallet'),

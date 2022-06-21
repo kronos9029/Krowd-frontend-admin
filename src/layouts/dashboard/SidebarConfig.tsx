@@ -30,7 +30,7 @@ const ICONS = {
   booking: getIcon('ic_booking'),
   accountTransaction: getIcon('ic_accountTransaction'),
   bankTransaction: getIcon('ic_bankTransaction'),
-  historyTransaction: getIcon('ic_historyTransaction')
+  PeriodRevenueHistory: getIcon('ic_historyTransaction')
 };
 
 const sidebarConfig = [
@@ -70,21 +70,20 @@ const sidebarConfig = [
   {
     subheader: 'Quản lý giao dịch',
     items: [
-      // MANAGEMENT : BLOG
       {
         title: 'Thanh toán giữa các ví',
-        path: PATH_DASHBOARD.projects.projectKrowd,
+        path: PATH_DASHBOARD.transaction.accountTransaction,
         icon: ICONS.accountTransaction
       },
       {
         title: 'Giao dịch ngân hàng',
-        path: PATH_DASHBOARD.business.list,
+        path: PATH_DASHBOARD.transaction.walletTransaction,
         icon: ICONS.bankTransaction
       },
       {
         title: 'Lịch sử doanh thu',
-        path: PATH_DASHBOARD.admin.list,
-        icon: ICONS.historyTransaction
+        path: PATH_DASHBOARD.transaction.PeriodRevenueHistory,
+        icon: ICONS.PeriodRevenueHistory
       }
     ]
   },

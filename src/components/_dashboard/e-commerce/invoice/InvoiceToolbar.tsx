@@ -14,6 +14,7 @@ import { Invoice } from '../../../../@types/products';
 //
 import { DialogAnimate } from '../../../animate';
 import InvoicePDF from './InvoicePDF';
+import { AccountTransaction } from '../../../../@types/krowd/transactionKrowd/transaction';
 
 // ----------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 type InvoiceToolbarProps = {
-  invoice: Invoice;
+  invoice: AccountTransaction;
 };
 
 export default function InvoiceToolbar({ invoice, ...other }: InvoiceToolbarProps) {
@@ -43,10 +44,6 @@ export default function InvoiceToolbar({ invoice, ...other }: InvoiceToolbarProp
 
   return (
     <RootStyle {...other}>
-      <Button color="error" size="small" variant="contained" endIcon={<Icon icon={shareFill} />}>
-        Share
-      </Button>
-
       <Button
         color="info"
         size="small"

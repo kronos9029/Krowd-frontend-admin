@@ -16,6 +16,7 @@ import RiskReducer from './slices/krowd_slices/riskType';
 import WalletReducer from './slices/krowd_slices/wallet';
 import ProjectReducer from './slices/krowd_slices/project';
 import RolesReducer from './slices/krowd_slices/roles';
+import TransactionReducer from './slices/krowd_slices/transaction';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   roleKrowd: RolesReducer,
   wallet: WalletReducer,
   project: ProjectReducer,
+  transaction: TransactionReducer,
   product: persistReducer(productPersistConfig, productReducer)
 });
 
