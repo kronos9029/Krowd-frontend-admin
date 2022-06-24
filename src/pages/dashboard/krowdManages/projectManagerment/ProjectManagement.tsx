@@ -5,13 +5,13 @@ import { filter, includes, orderBy } from 'lodash';
 import { Backdrop, Container, Typography, CircularProgress, Stack } from '@mui/material';
 // redux
 import { useDispatch, useSelector } from '../../../../redux/store';
-import { getProducts, filterProducts } from '../../../../redux/slices/template_slice/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // utils
 import fakeRequest from '../../../../utils/fakeRequest';
 // @types
-import { Product, ProductState, ProductFilter } from '../../../../@types/products';
+import { Project, ProjectFilter, ProjectState } from '../../../../@types/krowd/project';
+
 // hooks
 import useSettings from '../../../../hooks/useSettings';
 // components
@@ -23,59 +23,30 @@ import {
   KrowdProjectList,
   KrowdFilterSidebar
 } from '../../../../components/_dashboard/e-commerce/projectKrowd';
-import CartWidget from '../../../../components/_dashboard/e-commerce/CartWidget';
 import { ProjectSearch } from 'components/_dashboard/blog';
+import { filterProducts, getAllProject } from 'redux/slices/krowd_slices/project';
 
 // ----------------------------------------------------------------------
 
-function applyFilter(products: Product[], sortBy: string | null, filters: ProductFilter) {
+function applyFilter(products: Project[], sortBy: string | null, filters: ProjectFilter) {
   // SORT BY
-  if (sortBy === 'featured') {
-    products = orderBy(products, ['sold'], ['desc']);
-  }
   if (sortBy === 'newest') {
-    products = orderBy(products, ['createdAt'], ['desc']);
+    products = orderBy(products, ['createDate'], ['desc']);
   }
-  if (sortBy === 'priceDesc') {
-    products = orderBy(products, ['price'], ['desc']);
+  if (sortBy === 'ZtoA') {
+    products = orderBy(products, ['name'], ['desc']);
   }
-  if (sortBy === 'priceAsc') {
-    products = orderBy(products, ['price'], ['asc']);
+  if (sortBy === 'AtoZ') {
+    products = orderBy(products, ['name'], ['asc']);
   }
   // FILTER Project
-  if (filters.gender.length > 0) {
-    products = filter(products, (_product) => includes(filters.gender, _product.gender));
+  if (filters.status?.length > 0) {
+    products = filter(products, (_product) => includes(filters.status, _product.status));
   }
-  if (filters.category !== 'All') {
-    products = filter(products, (_product) => _product.category === filters.category);
+  if (filters.areaId !== 'HCM') {
+    return filter(products, (_product) => includes(filters.areaId, _product.areaId));
   }
-  if (filters.colors.length > 0) {
-    products = filter(products, (_product) =>
-      _product.colors.some((color) => filters.colors.includes(color))
-    );
-  }
-  if (filters.priceRange) {
-    products = filter(products, (_product) => {
-      if (filters.priceRange === 'below') {
-        return _product.price < 25;
-      }
-      if (filters.priceRange === 'between') {
-        return _product.price >= 25 && _product.price <= 75;
-      }
-      return _product.price > 75;
-    });
-  }
-  if (filters.rating) {
-    products = filter(products, (_product) => {
-      const convertRating = (value: string) => {
-        if (value === 'up4Star') return 4;
-        if (value === 'up3Star') return 3;
-        if (value === 'up2Star') return 2;
-        return 1;
-      };
-      return _product.totalRating > convertRating(filters.rating);
-    });
-  }
+
   return products;
 }
 
@@ -83,25 +54,23 @@ export default function ProjectKrowd() {
   const { themeStretch } = useSettings();
   const dispatch = useDispatch();
   const [openFilter, setOpenFilter] = useState(false);
+
   //state of project
-  const { products, sortBy, filters } = useSelector(
-    (state: { product: ProductState }) => state.product
+  const { projects, sortBy, filters } = useSelector(
+    (state: { product: ProjectState }) => state.product
   );
 
-  const filteredProducts = applyFilter(products, sortBy, filters);
+  const filteredProducts = applyFilter(projects, sortBy, filters);
 
   //Use project filter
-  const formik = useFormik<ProductFilter>({
+  const formik = useFormik<ProjectFilter>({
     initialValues: {
-      gender: filters.gender,
-      category: filters.category,
-      colors: filters.colors,
-      priceRange: filters.priceRange,
-      rating: filters.rating
+      areaId: '',
+      status: filters.status
     },
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await fakeRequest(500);
+        await getAllProject('ADMIN');
         setSubmitting(false);
       } catch (error) {
         console.error(error);
@@ -112,16 +81,11 @@ export default function ProjectKrowd() {
 
   const { values, resetForm, handleSubmit, isSubmitting, initialValues } = formik;
 
-  const isDefault =
-    !values.priceRange &&
-    !values.rating &&
-    values.gender.length === 0 &&
-    values.colors.length === 0 &&
-    values.category === 'All';
+  const isDefault = values.areaId?.length === 0 && values.status?.length === 0;
 
   //get project
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getAllProject('ADMIN'));
   }, [dispatch]);
   //get filter projects
   useEffect(() => {
@@ -192,7 +156,7 @@ export default function ProjectKrowd() {
         </Stack>
 
         <KrowdProjectList
-          products={filteredProducts}
+          projects={filteredProducts}
           isLoad={!filteredProducts && !initialValues}
         />
         {/* <CartWidget /> */}

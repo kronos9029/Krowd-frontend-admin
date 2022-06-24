@@ -26,11 +26,7 @@ import { useSnackbar } from 'notistack';
 import { MIconButton } from 'components/@material-extend';
 // redux
 import { RootState, useDispatch, useSelector } from '../../../../redux/store';
-import {
-  delBusinessListById,
-  getBusinessList,
-  getBusinessListById
-} from 'redux/slices/krowd_slices/business';
+import { getAllProject, getProjectId } from 'redux/slices/krowd_slices/project';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // hooks
@@ -40,20 +36,19 @@ import Page from '../../../../components/Page';
 import Scrollbar from '../../../../components/Scrollbar';
 import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
-import UserMoreMenu from 'components/_dashboard/e-commerce/invoice/UserMoreMenu';
 import { UserListHead, KrowdListToolbar } from '../../../../components/_dashboard/user/list';
-import { getwalletSystem } from 'redux/slices/krowd_slices/wallet';
-import { SystemWallet } from '../../../../@types/krowd/wallet/systemWallet';
+import { Project } from '../../../../@types/krowd/project';
+import ProjectMoreMenu from 'components/_dashboard/e-commerce/product-details/ProjectMoreMenu';
+import { ShopTagFiltered } from 'components/_dashboard/e-commerce/projectKrowd';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'balance', label: 'balance', alignRight: false },
-  { id: 'walletTypeId', label: 'Loại ví', alignRight: false },
+  { id: 'name', label: 'Tên', alignRight: true },
+  { id: 'managerId', label: 'Người quản lý', alignRight: true },
+  { id: 'businessLicense', label: 'Giấy phép kinh doanh', alignRight: false },
+  { id: 'fieldId', label: 'Lĩnh vực', alignRight: true },
   { id: 'createDate', label: 'Ngày tạo', alignRight: false },
-  { id: 'createBy', label: 'Người tạo', alignRight: false },
-  { id: 'updateDate', label: 'Ngày cập nhật', alignRight: false },
-  { id: 'updateBy', label: 'Người cập nhật', alignRight: false },
   { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: '' }
 ];
@@ -78,11 +73,7 @@ function getComparator(order: string, orderBy: string) {
     : (a: Anonymous, b: Anonymous) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(
-  array: SystemWallet[],
-  comparator: (a: any, b: any) => number,
-  query: string
-) {
+function applySortFilter(array: Project[], comparator: (a: any, b: any) => number, query: string) {
   const stabilizedThis = array.map((el, index) => [el, index] as const);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -90,20 +81,16 @@ function applySortFilter(
     return a[1] - b[1];
   });
   if (query) {
-    return filter(
-      array,
-      (_user) => _user.walletTypeId.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
+    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function SystemWalletList() {
+export default function ProjectList() {
   const { themeStretch } = useSettings();
-  const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { walletSystem } = useSelector((state: RootState) => state.wallet);
+  const { projectLists } = useSelector((state: RootState) => state.project);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [selected, setSelected] = useState<string[]>([]);
@@ -113,26 +100,26 @@ export default function SystemWalletList() {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   // const { isLoading, data: ListBusiness, error, isFetching } = getAllBusiness();
-
   // API
   useEffect(() => {
-    dispatch(getwalletSystem());
+    dispatch(getAllProject('ADMIN'));
   }, [dispatch]);
 
-  // const handleDeleteBusinessById = (activeBussinessId: string) => {
-  //   dispatch(delBusinessListById(activeBussinessId));
-  //   enqueueSnackbar('Cập nhật trạng thái thành công', {
-  //     variant: 'success',
-  //     action: (key) => (
-  //       <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-  //         <Icon icon={closeFill} />
-  //       </MIconButton>
-  //     )
-  //   });
-  // };
-  // const handleGetBusinessById = (activeBussinessId: string) => {
-  //   dispatch(getBusinessListById(activeBussinessId));
-  // };
+  const handleDeleteBusinessById = (activeBussinessId: string) => {
+    enqueueSnackbar('Cập nhật trạng thái thành công', {
+      variant: 'success',
+      action: (key) => (
+        <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+          <Icon icon={closeFill} />
+        </MIconButton>
+      )
+    });
+  };
+
+  const handleGetProjectById = (activeProjectId: string) => {
+    dispatch(getProjectId(activeProjectId));
+  };
+
   // Sort filter
   const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -140,56 +127,40 @@ export default function SystemWalletList() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (checked: boolean) => {
-    if (checked) {
-      const newSelecteds = walletSystem.map((n) => n.walletTypeId);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleFilterByName = (filterName: string) => {
-    setFilterName(filterName);
-  };
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - projectLists.numOfProject) : 0;
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - walletSystem.length) : 0;
-
-  const filteredUsers = applySortFilter(walletSystem, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(
+    projectLists.listOfProject,
+    getComparator(order, orderBy),
+    filterName
+  );
 
   const isUserNotFound = filteredUsers.length === 0;
   return (
-    <Page title="Ví của hệ thống | Krowd">
+    <Page title="Dự án: Danh sách | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          // heading={isFetching ? 'Loading' : 'Danh sách các doanh nghiệp'}
-          heading="Ví của hệ thống"
+          heading="Danh sách các dự án"
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Danh sách' }]}
         />
 
         <Card>
-          <KrowdListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
-
           <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
+            <TableContainer sx={{ minWidth: 1300 }}>
               <Table>
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={walletSystem.length}
+                  rowCount={projectLists.numOfProject}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
@@ -197,15 +168,16 @@ export default function SystemWalletList() {
                     .map((row) => {
                       const {
                         id,
-                        balance,
-                        walletTypeId,
+                        name,
+                        image,
+                        businessLicense,
+                        managerId,
+                        fieldId,
                         createDate,
                         createBy,
-                        updateDate,
-                        updateBy,
-                        isDeleted
+                        status
                       } = row;
-                      const isItemSelected = selected.indexOf(walletTypeId) !== -1;
+                      const isItemSelected = selected.indexOf(name) !== -1;
                       return (
                         <TableRow
                           hover
@@ -216,23 +188,40 @@ export default function SystemWalletList() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              {/* <Avatar alt={name} src={image} /> */}
+                            <Stack direction="column" alignItems="center" sx={{ pt: 2 }}>
+                              <Avatar alt={name} src={image} />
                               <Typography variant="subtitle2" noWrap>
-                                {balance}
+                                {name}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="center">{walletTypeId}</TableCell>
-                          <TableCell style={{ minWidth: 160 }}>{createDate}</TableCell>
-                          <TableCell align="left">{createBy || '-'}</TableCell>
-                          <TableCell style={{ minWidth: 160 }}>{updateDate}</TableCell>
-                          <TableCell align="left">{updateBy || '-'}</TableCell>
-                          <TableCell align="left">{isDeleted}</TableCell>
-                          {/* <UserMoreMenu
-                            onView={() => handleGetBusinessById(id)}
-                            onDelete={() => handleDeleteBusinessById(id)}
-                          /> */}
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            sx={{ padding: '1rem', textAlign: 'center' }}
+                          >
+                            <Typography>{managerId}</Typography>
+                          </TableCell>
+                          <TableCell component="th" padding="none">
+                            <Typography sx={{ textAlign: 'center' }} variant="subtitle2">
+                              {businessLicense}
+                            </Typography>
+                          </TableCell>
+
+                          <TableCell scope="row" padding="none">
+                            <Typography noWrap>{fieldId}</Typography>
+                          </TableCell>
+                          <TableCell align="left">
+                            <Typography noWrap>{createDate || '-'}</Typography>
+                          </TableCell>
+
+                          <TableCell align="left">{status}</TableCell>
+                          <TableCell>
+                            <ProjectMoreMenu
+                              onView={() => handleGetProjectById(id)}
+                              onDelete={() => handleDeleteBusinessById(id)}
+                            />
+                          </TableCell>
                         </TableRow>
                       );
                     })}
@@ -258,7 +247,7 @@ export default function SystemWalletList() {
           <TablePagination
             rowsPerPageOptions={[]}
             component="div"
-            count={walletSystem.length}
+            count={projectLists.numOfProject}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(e, page) => setPage(page)}

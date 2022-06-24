@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { Form, FormikProvider, useFormik } from 'formik';
@@ -32,7 +32,7 @@ import { postBusiness } from 'redux/slices/krowd_slices/business';
 import axios from 'axios';
 import { dispatch } from 'redux/store';
 import { slice } from 'lodash';
-
+import { useForm } from 'react-hook-form';
 // ----------------------------------------------------------------------
 
 type UserNewFormProps = {
@@ -43,15 +43,17 @@ type UserNewFormProps = {
 export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const [loading, setLoading] = useState(false);
+  const [picture, setImage] = useState('');
 
   const NewBusinessSchema = Yup.object().shape({
     name: Yup.string().required('Yêu cầu nhập tên'),
-    phoneNum: Yup.string().required('Phone number is required'),
-    // image: Yup.mixed().required('image is required'),
-    email: Yup.string().required('Email is required').email(),
+    phoneNum: Yup.string().required('Yêu cầu nhập số điện thoại'),
+    image: Yup.mixed().required('Vui lòng thêm ảnh'),
+    email: Yup.string().required('Yêu cầu nhập email').email(),
     description: Yup.string().required('Yêu cầu nhập mô tả'),
-    taxIdentificationNumber: Yup.string().required('taxIdentificationNumber is required'),
-    address: Yup.string().required('Address is required')
+    taxIdentificationNumber: Yup.string().required('Yêu cầu nhập mã số thuế'),
+    address: Yup.string().required('Yêu cầu nhập địa chỉ')
   });
   const formik = useFormik({
     enableReinitialize: true,
@@ -84,63 +86,59 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
       }
     }
   });
-  console.log('name', formik);
 
-  const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
+  const { errors, values, touched, handleSubmit, isSubmitting, setFieldImage, getFieldProps } =
     formik;
-
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-      if (file) {
-        setFieldValue('image', {
-          ...file,
-          preview: URL.createObjectURL(file)
-        });
-      }
-    },
-    [setFieldValue]
-  );
+  console.log(formik);
+  const handleDrop = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    const data = new FormData();
+    if (files !== null) {
+      data.append('file', files[0]);
+      data.append('upload_preset', 'KrowdRSI');
+      setLoading(true);
+      const res = fetch('https://api.cloudinary.com/v1_1/fpt-claudary/image/upload', {
+        method: 'POST',
+        body: data
+      });
+      getFieldProps(files[0].name);
+      console.log('t da upload dc', res);
+      console.log('t da upload dc', files[0]);
+      setLoading(false);
+    }
+  };
 
   return (
     <FormikProvider value={formik}>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <Card sx={{ py: 10, px: 3 }}>
               <Box sx={{ mb: 5 }}>
-                {/* <UploadAvatar
-                  accept="image/*"
-                  file={values.image}
-                  onDrop={handleDrop}
-                  error={Boolean(touched.image && errors.image)}
-                  caption={
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        mt: 2,
-                        mx: 'auto',
-                        display: 'block',
-                        textAlign: 'center',
-                        color: 'text.secondary'
-                      }}
-                    >
-                      Allowed *.jpeg, *.jpg, *.png, *.gif
-                      <br /> max size of
-                    </Typography>
-                  }
-                />
+                <FormHelperText className="mb-2 ml-5">
+                  <Form>Picture</Form>
+                  <input type="file" onChange={handleDrop} />
+                  {loading ? <h3>Loading...</h3> : <img src={picture} style={{ width: '300px' }} />}
+                </FormHelperText>
                 <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
                   {touched.image && errors.image}
-                </FormHelperText> */}
+                </FormHelperText>
               </Box>
             </Card>
-          </Grid>
+          </Grid> */}
+          <Grid item xs={12} md={4}></Grid>
 
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3}>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                  <TextField
+                    fullWidth
+                    label="Ảnh đầy đủ"
+                    {...getFieldProps('image')}
+                    error={Boolean(touched.image && errors.image)}
+                    helperText={touched.image && errors.image}
+                  />
                   <TextField
                     fullWidth
                     label="Tên đầy đủ"

@@ -65,26 +65,6 @@ export type Product = {
   gender: ProductGender;
 };
 
-export type CartItem = {
-  id: string;
-  name: string;
-  cover: string;
-  available: number;
-  price: number;
-  color: string;
-  size: string;
-  quantity: number;
-  subtotal: number;
-};
-
-export type BillingAddress = {
-  receiver: string;
-  phone: string;
-  fullAddress: string;
-  addressType: string;
-  isDefault: boolean;
-};
-
 export type ProductState = {
   isLoading: boolean;
   error: boolean;
@@ -116,7 +96,25 @@ export type ProductFilter = {
   priceRange: string;
   rating: string;
 };
+export type CartItem = {
+  id: string;
+  name: string;
+  cover: string;
+  available: number;
+  price: number;
+  color: string;
+  size: string;
+  quantity: number;
+  subtotal: number;
+};
 
+export type BillingAddress = {
+  receiver: string;
+  phone: string;
+  fullAddress: string;
+  addressType: string;
+  isDefault: boolean;
+};
 export type PaymentFormikProps = FormikProps<{
   delivery: number;
   payment: string;

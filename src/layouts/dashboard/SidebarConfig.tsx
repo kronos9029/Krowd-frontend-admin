@@ -52,8 +52,8 @@ const sidebarConfig = [
   {
     subheader: 'Quản lý',
     items: [
-      { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
       { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business },
+      { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
       { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer },
       {
         title: 'Quản lý ví',
@@ -70,21 +70,21 @@ const sidebarConfig = [
   {
     subheader: 'Quản lý giao dịch',
     items: [
-      {
-        title: 'Thanh toán giữa các ví',
-        path: PATH_DASHBOARD.transaction.accountTransaction,
-        icon: ICONS.accountTransaction
-      },
+      // {
+      //   title: 'Thanh toán giữa các ví',
+      //   path: PATH_DASHBOARD.transaction.walletTransaction,
+      //   icon: ICONS.accountTransaction
+      // }
       {
         title: 'Giao dịch ngân hàng',
-        path: PATH_DASHBOARD.transaction.walletTransaction,
+        path: PATH_DASHBOARD.transaction.accountTransaction,
         icon: ICONS.bankTransaction
-      },
-      {
-        title: 'Lịch sử doanh thu',
-        path: PATH_DASHBOARD.transaction.PeriodRevenueHistory,
-        icon: ICONS.PeriodRevenueHistory
       }
+      // {
+      //   title: 'Lịch sử doanh thu',
+      //   path: PATH_DASHBOARD.transaction.PeriodRevenueHistory,
+      //   icon: ICONS.PeriodRevenueHistory
+      // }
     ]
   },
 

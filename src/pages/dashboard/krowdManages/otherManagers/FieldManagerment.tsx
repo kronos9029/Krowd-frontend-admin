@@ -209,11 +209,11 @@ export default function FieldManagement() {
                           </TableCell>
                           <TableCell align="center">{description}</TableCell>
                           <TableCell align="center" style={{ minWidth: 160 }}>
-                            {fDate(createDate)}
+                            {createDate}
                           </TableCell>
                           <TableCell align="center">{createBy || '-'}</TableCell>
                           <TableCell align="center" style={{ minWidth: 160 }}>
-                            {fDate(updateDate)}
+                            {updateDate}
                           </TableCell>
                           <TableCell align="center">{updateBy || '-'}</TableCell>
                           <OtherMoreMenu

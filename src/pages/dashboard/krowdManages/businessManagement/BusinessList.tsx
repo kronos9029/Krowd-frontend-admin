@@ -236,7 +236,7 @@ export default function UserList() {
                           <TableCell align="center">{numOfProject}</TableCell>
                           <TableCell align="center">{numOfSuccessfulProject}</TableCell>
                           <TableCell align="center">{successfulRate}</TableCell>
-                          <TableCell style={{ minWidth: 160 }}>{fDate(createDate)}</TableCell>
+                          <TableCell style={{ minWidth: 160 }}>{createDate}</TableCell>
                           <TableCell align="left">{createBy || '-'}</TableCell>
                           <TableCell align="left">{status}</TableCell>
                           <UserMoreMenu

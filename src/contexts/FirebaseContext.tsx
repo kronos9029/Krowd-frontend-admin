@@ -60,7 +60,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     () =>
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          const docRef = firebase.firestore().collection('users').doc(user.uid);
+          const docRef = firebase.firestore().collection('admin').doc(user.uid);
           docRef
             .get()
             .then((doc) => {
@@ -86,8 +86,8 @@ function AuthProvider({ children }: { children: ReactNode }) {
     [dispatch]
   );
 
-  const login = (phone: string, password: string) =>
-    firebase.auth().signInWithEmailAndPassword(phone, password);
+  const login = (email: string, password: string) =>
+    firebase.auth().signInWithEmailAndPassword(email, password);
 
   const loginWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();

@@ -87,7 +87,7 @@ export default function Router() {
         {
           path: 'transaction',
           children: [
-            { element: <Navigate to="/dashboard/transaction/" replace /> },
+            { element: <Navigate to="/dashboard/account-transaction" replace /> },
             { path: 'wallet-transaction', element: <FieldManagerment /> },
             { path: 'account-transaction', element: <AccountTransactionDetails /> },
             { path: 'history-investment', element: <FieldCreate /> }
@@ -112,8 +112,9 @@ export default function Router() {
           path: 'project',
           children: [
             { element: <Navigate to="/dashboard/project" replace /> },
-            { path: 'projectKrowd', element: <ProjectManagement /> },
-            { path: 'project/:name', element: <KrowdProjectDetails /> }
+            { path: 'projectKrowd', element: <ProjectList /> },
+            // { path: 'projectDetails', element: <KrowdProjectDetails /> }
+            { path: 'projectDetails', element: <ProjectKrowdAdminDetails /> }
           ]
         },
         {
@@ -131,7 +132,7 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/e-commerce/shop" replace /> },
             { path: 'shop', element: <FieldManagerment /> },
-            { path: 'product/:name', element: <KrowdProjectDetails /> },
+            { path: 'projectDetails', element: <KrowdProjectDetails /> },
             { path: 'list', element: <EcommerceProductList /> },
             { path: 'product/new', element: <EcommerceProductCreate /> },
             { path: 'product/:name/edit', element: <EcommerceProductCreate /> },
@@ -288,6 +289,10 @@ const EcommerceCheckout = Loadable(
 const BusinessDetails = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessDetails'))
 );
+
+const ProjectKrowdAdminDetails = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/ProjectKrowdAdminDetails'))
+);
 const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPosts')));
 const BlogPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPost')));
 const BlogNewPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogNewPost')));
@@ -296,11 +301,16 @@ const UserCards = Loadable(lazy(() => import('../pages/dashboard/templateManager
 const BusinessList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessList'))
 );
+const ProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/ProjectList'))
+);
 const SystemWalletList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/walletManagement/SystemWallet'))
 );
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserAccount')));
-const UserCreate = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserCreate')));
+const UserCreate = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/UserCreate'))
+);
 const Chat = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Chat')));
 const Mail = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Mail')));
 const Kanban = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Kanban')));

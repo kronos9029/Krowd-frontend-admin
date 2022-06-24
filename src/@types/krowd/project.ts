@@ -1,3 +1,5 @@
+import { FormikProps } from 'formik';
+
 export type ProjectStatus =
   | 'Chưa duyệt'
   | 'Từ chối'
@@ -6,17 +8,18 @@ export type ProjectStatus =
   | 'Hết thời gian kêu gọi'
   | 'Đóng dự án'
   | '';
+export type FormikPropsShopView = FormikProps<ProjectFilter>;
 
 export type Project = {
   id: string;
   managerId: string;
   businessId: string;
+  fieldId: string;
+  areaId: string;
   name: string;
   image: string;
   description: string;
-  category: string;
   address: string;
-  areaId: string;
   investmentTargetCapital: number;
   investedCapital: number;
   sharedRevenue: number;
@@ -24,39 +27,36 @@ export type Project = {
   duration: number;
   numOfStage: number;
   remainAmount: number;
-  startDate: Date | string | number;
-  endDate: Date | string | number;
+  startDate: string;
+  endDate: string;
   businessLicense: string;
-  approvedDate: Date | string | number;
+  approvedDate: string;
   approvedBy: string;
-  status: number;
-  createDate: Date | string | number;
+  status: ProjectStatus;
+  createDate: string;
   createBy: string;
-  updateDate: Date | string | number;
+  updateDate: string;
   updateBy: string;
   isDeleted: boolean;
 };
 
-export type ProductState = {
+export type ProjectState = {
   isLoading: boolean;
   error: boolean;
-  listOfProject: number;
   projects: Project[];
   project: Project | null;
   sortBy: string | null;
   filters: {
     status: string[];
-    category: string[];
-    businessField: string;
-    businessId: string;
+    // businessId: string;
     areaId: string;
+    // fieldId: string[];
   };
 };
 
 export type ProjectFilter = {
   status: string[];
-  category: string[];
-  businessField: string;
-  businessId: string;
+  // businessId: string;
   areaId: string;
+  // fieldId: string[];
 };

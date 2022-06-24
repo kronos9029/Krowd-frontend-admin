@@ -6,6 +6,7 @@ import { BusinessManager } from '../../../@types/krowd/business';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
+import { REACT_APP_API_URL } from 'config';
 
 // ----------------------------------------------------------------------
 
@@ -69,9 +70,7 @@ export function getBusinessList() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses'
-      );
+      const response = await axios.get(REACT_APP_API_URL + 'businesses');
       dispatch(slice.actions.getBusinessListSuccess(response.data));
       // console.log('aaaaa', response.data);
     } catch (error) {
@@ -83,9 +82,7 @@ export function getBusinessListById(bussinessId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses/${bussinessId}`
-      );
+      const response = await axios.get(REACT_APP_API_URL + `businesses/${bussinessId}`);
       dispatch(slice.actions.getBusinessListIDSuccess(response.data));
     } catch (error) {
       console.log('...');
@@ -97,12 +94,10 @@ export function getProjectByBusinessID(businessId: string, temp_field_role: 'ADM
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/projects',
-        {
-          params: { businessId, temp_field_role }
-        }
-      );
+      const response = await axios.get(REACT_APP_API_URL + 'projects', {
+        params: { businessId, temp_field_role }
+      });
+
       dispatch(slice.actions.getBusinessListSuccess(response.data));
     } catch (error) {
       console.log('...');
@@ -114,9 +109,7 @@ export function delBusinessListById(bussinessId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.delete(
-        `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses/${bussinessId}`
-      );
+      const response = await axios.delete(REACT_APP_API_URL + `businesses/${bussinessId}`);
       dispatch(getBusinessList());
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -128,9 +121,7 @@ export function postBusiness() {
     dispatch(slice.actions.startLoading());
     console.log('da tao o dong nay');
     try {
-      const response = await axios.post(
-        `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses`
-      );
+      const response = await axios.post(REACT_APP_API_URL + `businesses`);
       dispatch(slice.actions.getBusinessListSuccess(response.data));
     } catch (error) {
       console.log('da tao o dong nay 2');

@@ -40,7 +40,7 @@ export const PATH_DASHBOARD = {
   projects: {
     root: path(ROOTS_DASHBOARD, '/project'),
     projectKrowd: path(ROOTS_DASHBOARD, '/project/projectKrowd'),
-    project: path(ROOTS_DASHBOARD, '/project/:name'),
+    projectDetails: path(ROOTS_DASHBOARD, '/project/projectDetails'),
     projectById: path(ROOTS_DASHBOARD, '/project/nike-air-force-1-ndestrukt')
   },
   //doanh nghiệp
@@ -66,7 +66,7 @@ export const PATH_DASHBOARD = {
   },
   // giao dịch
   transaction: {
-    root: path(ROOTS_DASHBOARD, 'transaction'),
+    root: path(ROOTS_DASHBOARD, '/transaction/account-transaction'),
     walletTransaction: path(ROOTS_DASHBOARD, '/transaction/wallet'),
     accountTransaction: path(ROOTS_DASHBOARD, '/transaction/account-transaction'),
     PeriodRevenueHistory: path(ROOTS_DASHBOARD, '/transaction/account')
@@ -95,7 +95,7 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/e-commerce'),
     shop: path(ROOTS_DASHBOARD, '/e-commerce/shop'),
     product: path(ROOTS_DASHBOARD, '/e-commerce/product/:name'),
-    productById: path(ROOTS_DASHBOARD, '/e-commerce/product/nike-air-force-1-ndestrukt'),
+    productById: path(ROOTS_DASHBOARD, 'projectDetailst'),
     list: path(ROOTS_DASHBOARD, '/e-commerce/list'),
     newProduct: path(ROOTS_DASHBOARD, '/e-commerce/product/new'),
     editById: path(ROOTS_DASHBOARD, '/e-commerce/product/nike-blazer-low-77-vintage/edit'),

@@ -44,22 +44,22 @@ export default function AccountTransactionDetails() {
   );
 
   return (
-    <Page title="Giao dịch: Giữa các ví  | Krowd">
+    <Page title="Giao dịch: ngân hàng  | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Giao dịch các ví"
+          heading="Giao dịch ngân hàng"
           links={[
-            { name: 'Doanh nghiệp', href: PATH_DASHBOARD.transaction.root },
+            { name: 'Giao dịch', href: PATH_DASHBOARD.transaction.root },
             { name: sentenceCase(Busid) }
           ]}
         />
 
-        <Card sx={{ pt: 5, px: 5 }}>
+        <Card sx={{ pt: 5 }}>
           <Scrollbar>
-            <Typography paragraph variant="h6">
+            <Typography paragraph variant="h6" sx={{ textAlign: 'center' }}>
               Các giao dịch{' '}
             </Typography>
-            <TableContainer sx={{ minWidth: 960 }}>
+            <TableContainer sx={{ minWidth: 760 }}>
               <Table>
                 <TableHead
                   sx={{
@@ -68,7 +68,6 @@ export default function AccountTransactionDetails() {
                   }}
                 >
                   <TableRow>
-                    <TableCell width={40}>#</TableCell>
                     <TableCell align="left">Người gửi</TableCell>
                     <TableCell align="left">Người nhận</TableCell>
                     <TableCell align="left">Mô tả</TableCell>
@@ -84,21 +83,32 @@ export default function AccountTransactionDetails() {
                         borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
                       }}
                     >
-                      <InvoiceToolbar invoice={row} key={index} />
                       <TableCell align="left">
-                        <Box sx={{ maxWidth: 560 }}>
-                          <Typography variant="subtitle2">{row?.fromUserId}</Typography>
-                        </Box>
+                        <Typography variant="body2" noWrap>
+                          {row?.fromUserId}{' '}
+                        </Typography>
                       </TableCell>
                       <TableCell align="left">
                         <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
                           {row.toUserId}
                         </Typography>
                       </TableCell>
-                      <TableCell align="left">{row.description}</TableCell>
-                      <TableCell align="right">{row.createDate}</TableCell>
+                      <TableCell align="left">
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.description}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="right">
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.createDate}
+                        </Typography>
+                      </TableCell>
                       <TableCell align="right">{row.createBy}</TableCell>
                       {/* <TableCell align="right">{row.status}</TableCell> */}
+                      <TableCell align="right">
+                        {' '}
+                        <InvoiceToolbar invoice={row} />
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

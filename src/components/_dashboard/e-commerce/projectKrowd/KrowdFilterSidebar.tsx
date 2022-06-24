@@ -19,24 +19,22 @@ import {
   FormControlLabel
 } from '@mui/material';
 // @types
-import { FormikPropsShopView } from '../../../../@types/products';
 //
 import { MIconButton } from '../../../@material-extend';
 import Scrollbar from '../../../Scrollbar';
 import ColorManyPicker from '../../../ColorManyPicker';
+import { FormikPropsShopView } from '../../../../@types/krowd/project';
 
 // ----------------------------------------------------------------------
 
 export const SORT_BY_OPTIONS = [
-  { value: 'featured', label: 'Featured' },
   { value: 'newest', label: 'Newest' },
-  { value: 'priceDesc', label: 'Price: High-Low' },
-  { value: 'priceAsc', label: 'Price: Low-High' }
+  { value: 'ZtoA', label: 'Name: Z-A' },
+  { value: 'AtoZ', label: 'Name: A-Z' }
 ];
-export const FILTER_GENDER_OPTIONS = ['a', 'b', 'c'];
-export const FILTER_CATEGORY_OPTIONS = ['All', 'Shose', 'Apparel', 'Accessories'];
+export const FILTER_CATEGORY_OPTIONS = ['a', 'b', 'c'];
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
-export const FILTER_PRICE_OPTIONS = [
+export const FILTER_STATUS_OPTIONS = [
   { value: '0', label: 'Chưa duyệt' },
   { value: '1', label: 'Từ chối' },
   { value: '2', label: 'Đang kêu gọi đầu tư' },
@@ -115,37 +113,16 @@ export default function KrowdFilterSidebar({
               <Stack spacing={3} sx={{ p: 3 }}>
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
-                    Doanh nghiệp
+                    Khu vực
                   </Typography>
-                  <FormGroup>
-                    {FILTER_GENDER_OPTIONS.map((item) => (
-                      <FormControlLabel
-                        key={item}
-                        control={
-                          <Checkbox
-                            {...getFieldProps('gender')}
-                            value={item}
-                            checked={values.gender.includes(item)}
-                          />
-                        }
-                        label={item}
-                      />
-                    ))}
-                  </FormGroup>
-                </div>
-
-                <div>
-                  <Typography variant="subtitle1" gutterBottom>
-                    Thuộc loại
-                  </Typography>
-                  <RadioGroup {...getFieldProps('category')}>
+                  <RadioGroup {...getFieldProps('areaId')}>
                     {FILTER_CATEGORY_OPTIONS.map((item) => (
                       <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
                     ))}
                   </RadioGroup>
                 </div>
 
-                <div>
+                {/* <div>
                   <Typography variant="subtitle1" gutterBottom>
                     Khu vực
                   </Typography>
@@ -156,14 +133,14 @@ export default function KrowdFilterSidebar({
                     onChecked={(color) => values.colors.includes(color)}
                     sx={{ maxWidth: 36 * 4 }}
                   />
-                </div>
+                </div> */}
 
                 <div>
                   <Typography variant="subtitle1" gutterBottom>
                     Trạng thái
                   </Typography>
-                  <RadioGroup {...getFieldProps('priceRange')}>
-                    {FILTER_PRICE_OPTIONS.map((item) => (
+                  <RadioGroup {...getFieldProps('status')}>
+                    {FILTER_STATUS_OPTIONS.map((item) => (
                       <FormControlLabel
                         key={item.value}
                         value={item.value}

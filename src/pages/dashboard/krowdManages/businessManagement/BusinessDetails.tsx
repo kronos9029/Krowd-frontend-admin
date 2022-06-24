@@ -26,27 +26,52 @@ import { dispatch, RootState, useSelector } from 'redux/store';
 import { useParams } from 'react-router';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
-import { getBusinessList } from 'redux/slices/krowd_slices/business';
+import { getBusinessList, getBusinessListById } from 'redux/slices/krowd_slices/business';
+import { fDate } from 'utils/formatTime';
+import { MIconButton } from 'components/@material-extend';
+import {
+  delProjectListById,
+  getProjectId,
+  getProjectListById
+} from 'redux/slices/krowd_slices/project';
+import { Icon } from '@iconify/react';
+import closeFill from '@iconify/icons-eva/close-fill';
+import { useSnackbar } from 'notistack';
+import ProjectMoreMenu from 'components/_dashboard/e-commerce/projectKrowd/ProjectMoreMenu';
 
 // ----------------------------------------------------------------------
 
 export default function BusinessDetails() {
   const { themeStretch } = useSettings();
   // const [hello, setData] = useState();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const { Busid = '' } = useParams();
 
-  const { activeBussinessId: business } = useSelector((state: RootState) => {
-    return state.business;
-  });
+  const { activeBussinessId: business } = useSelector((state: RootState) => state.business);
   const { projectLists } = useSelector((state: RootState) => state.project);
 
+  const handleGetProjectById = (activeProjectId: string) => {
+    dispatch(getProjectId(activeProjectId));
+  };
+  console.log('number', projectLists.numOfProject);
+  console.log('projectLists', projectLists.listOfProject);
+  const handleDeleteProjectById = (activeProjectId: string) => {
+    dispatch(delProjectListById(activeProjectId));
+    enqueueSnackbar('Cập nhật trạng thái thành công', {
+      variant: 'success',
+      action: (key) => (
+        <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+          <Icon icon={closeFill} />
+        </MIconButton>
+      )
+    });
+  };
   // const businessListId2 = useSelector((state: RootState) => business(state));
   // const { activeBussinessId } = useSelector((state: RootState) => state.business.activeBussinessId);
   // console.log('value Object', Object.values(businessId));
   // console.log('projectOfBusiness at 1', Object.values(businessId).at(1));
   // console.log('mST-array', projectLists.businessId);
-
   return (
     <Page title="Chi tiết: Doanh nghiệp | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -98,7 +123,7 @@ export default function BusinessDetails() {
 
           <Scrollbar>
             <Typography paragraph variant="h6">
-              Các dự án{' '}
+              Tổng dự án của công ty ( {projectLists?.listOfProject.length} )
             </Typography>
             <TableContainer sx={{ minWidth: 960 }}>
               <Table>
@@ -109,33 +134,67 @@ export default function BusinessDetails() {
                   }}
                 >
                   <TableRow>
-                    <TableCell width={40}>#</TableCell>
                     <TableCell align="left">Tên dự án</TableCell>
-                    <TableCell align="left">Mô tả</TableCell>
-                    <TableCell align="right">Ngày tạo</TableCell>
-                    <TableCell align="right">Trạng thái</TableCell>
+                    <TableCell align="left">Ngày tạo</TableCell>
+                    <TableCell align="left">duration</TableCell>
+                    <TableCell align="right">numOfStage</TableCell>
+                    <TableCell align="right">remainAmount</TableCell>
+                    <TableCell align="right">Share</TableCell>
+                    <TableCell align="center">Ngày bắt đầu</TableCell>
+                    <TableCell align="center">Ngày kết thúc</TableCell>
                   </TableRow>
                 </TableHead>
 
                 <TableBody>
-                  {projectLists.businessId?.map((row, index) => (
+                  {projectLists.listOfProject?.map((row, index) => (
                     <TableRow
                       key={index}
                       sx={{
                         borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
                       }}
                     >
-                      <TableCell>{index + 1}</TableCell>
                       <TableCell align="left">
-                        <Box sx={{ maxWidth: 560 }}>
-                          <Typography variant="subtitle2">{row?.businessLicense}</Typography>
-                          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                            {row.businessId}
-                          </Typography>
+                        <Box sx={{ maxWidth: 600 }}>
+                          <Typography variant="subtitle2">{row?.name}</Typography>
+                          {/* <Typography variant="body2">{row.image}</Typography> */}
                         </Box>
                       </TableCell>
-                      <TableCell align="left">{row.address}</TableCell>
-                      <TableCell align="right"></TableCell>
+
+                      <TableCell align="left">
+                        <Typography variant="subtitle2"> {row?.createDate}</Typography>
+                      </TableCell>
+
+                      {/* <TableCell align="left">
+                        <Typography variant="subtitle2">{row.createBy}</Typography>
+                      </TableCell> */}
+
+                      <TableCell align="left">
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.duration}
+                        </Typography>
+                      </TableCell>
+
+                      <TableCell align="left">
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.numOfStage}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.remainAmount}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.sharedRevenue}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left">{row.startDate}</TableCell>
+                      <TableCell align="left">{row.endDate}</TableCell>
+                      <ProjectMoreMenu
+                        onView={() => handleGetProjectById(row.id)}
+                        onDelete={() => handleDeleteProjectById(row.id)}
+                      />
                     </TableRow>
                   ))}
                 </TableBody>

@@ -22,7 +22,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
-  marginBottom: theme.spacing(5)
+  marginBottom: theme.spacing(1)
 }));
 
 // ----------------------------------------------------------------------

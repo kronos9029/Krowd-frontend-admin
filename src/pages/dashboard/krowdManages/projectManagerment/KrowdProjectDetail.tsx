@@ -10,7 +10,7 @@ import { alpha, styled } from '@mui/material/styles';
 import { Box, Tab, Card, Grid, Divider, Skeleton, Container, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 // redux
-import { useDispatch, useSelector } from '../../../../redux/store';
+import { RootState, useDispatch, useSelector } from '../../../../redux/store';
 import { getProduct, addCart, onGotoStep } from '../../../../redux/slices/template_slice/product';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
@@ -37,6 +37,8 @@ import {
 } from 'components/_dashboard/general-analytics';
 import { BlogPostHero } from 'components/_dashboard/blog';
 import { BlogState } from '../../../../@types/blog';
+import { Project, ProjectState } from '../../../../@types/krowd/project';
+import { getProjectId } from 'redux/slices/krowd_slices/project';
 
 // ----------------------------------------------------------------------
 
@@ -60,22 +62,20 @@ export default function KrowdProjectDetails() {
   const dispatch = useDispatch();
   const [value, setValue] = useState('1');
   const { name = '' } = useParams();
-  const { product, error, checkout } = useSelector(
-    (state: { product: ProductState }) => state.product
-  );
-  const { post, recentPosts } = useSelector((state: { blog: BlogState }) => state.blog);
+  // const { product, error, checkout } = useSelector(
+  //   (state: { product: ProductState }) => state.product
+  // );
+  // const { project, error } = useSelector((state: { projectId: ProjectState }) => state.projectId);
+  // console.log('aaaaaaa 1', error);
 
-  useEffect(() => {
-    dispatch(getProduct(name));
-  }, [dispatch, name, post]);
+  const { activeProjectId: project } = useSelector((state: RootState) => {
+    return state.project;
+  });
+  console.log('aaaaa', project);
 
-  const handleAddCart = (product: CartItem) => {
-    dispatch(addCart(product));
-  };
-
-  const handleGotoStep = (step: number) => {
-    dispatch(onGotoStep(step));
-  };
+  // const handleGotoStep = (step: number) => {
+  //   dispatch(onGotoStep(step));
+  // };
 
   return (
     <Page title="Dự án: Chi tiết dự án | Krowd">
@@ -89,20 +89,15 @@ export default function KrowdProjectDetails() {
         />
 
         {/* <CartWidget /> */}
-        {product && (
+        {project && (
           <>
             <Card>
               <Grid container>
                 <Grid item xs={12} md={6} lg={7}>
-                  <ProjectDetailsCarousel product={product} />
+                  {/* <ProjectDetailsCarousel product={product} /> */}
                 </Grid>
                 <Grid item xs={12} md={6} lg={5}>
-                  <ProjecrDetailsSummary
-                    product={product}
-                    cart={checkout.cart}
-                    onAddCart={handleAddCart}
-                    onGotoStep={handleGotoStep}
-                  />
+                  <ProjecrDetailsSummary product={project} />
                 </Grid>
               </Grid>
             </Card>
@@ -159,15 +154,13 @@ export default function KrowdProjectDetails() {
 
                 <TabPanel value="1">
                   <Box sx={{ p: 3 }}>
-                    <Markdown children={product.description} />
+                    <Markdown children={project.description} />
                   </Box>
                 </TabPanel>
-                <TabPanel value="2">
-                  <ProjectDetailsReview product={product} />
-                </TabPanel>
+                <TabPanel value="2">{/* <ProjectDetailsReview product={product} /> */}</TabPanel>
                 <TabPanel value="3">
                   <Box sx={{ p: 3 }}>
-                    <Markdown children={product.description} />
+                    <Markdown children={project.description} />
                   </Box>
                 </TabPanel>
               </TabContext>
@@ -175,7 +168,7 @@ export default function KrowdProjectDetails() {
           </>
         )}
 
-        {!product && SkeletonLoad}
+        {!project && SkeletonLoad}
 
         {/* {error && <Typography variant="h6">404 Product not found</Typography>} */}
       </Container>

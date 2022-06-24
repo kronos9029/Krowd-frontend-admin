@@ -7,8 +7,7 @@ import { useTheme, styled } from '@mui/material/styles';
 import { Chip, Typography, Stack, Button } from '@mui/material';
 // utils
 import getColorName from '../../../../utils/getColorName';
-//
-import { ProductFilter, FormikPropsShopView } from '../../../../@types/products';
+import { ProjectFilter, FormikPropsShopView } from '../../../../@types/krowd/project';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +52,7 @@ function labelPriceRange(range: string) {
 
 type ShopTagFilteredProps = {
   formik: FormikPropsShopView;
-  filters: ProductFilter;
+  filters: ProjectFilter;
   isShowReset: boolean;
   isDefault: boolean;
   onResetFilter: VoidFunction;
@@ -68,48 +67,48 @@ export default function ShopTagFiltered({
 }: ShopTagFilteredProps) {
   const theme = useTheme();
   const { values, handleSubmit, setFieldValue, initialValues } = formik;
-  const { gender, category, colors, priceRange, rating } = filters;
+  const { areaId, status } = filters;
   const isShow = values !== initialValues && !isShowReset;
 
-  const handleRemoveGender = (value: string) => {
-    const newValue = filter(gender, (_item) => _item !== value);
+  const handleRemoveStatus = (value: string) => {
+    const newValue = filter(status, (_item) => _item !== value);
     handleSubmit();
-    setFieldValue('gender', newValue);
+    setFieldValue('status', newValue);
   };
 
-  const handleRemoveCategory = () => {
+  const handleRemoveAreaId = () => {
     handleSubmit();
-    setFieldValue('category', 'All');
+    setFieldValue('areaId', 'HCM');
   };
 
-  const handleRemoveColor = (value: string) => {
-    const newValue = filter(colors, (_item) => _item !== value);
-    handleSubmit();
-    setFieldValue('colors', newValue);
-  };
+  // const handleRemoveColor = (value: string) => {
+  //   const newValue = filter(colors, (_item) => _item !== value);
+  //   handleSubmit();
+  //   setFieldValue('colors', newValue);
+  // };
 
-  const handleRemovePrice = () => {
-    handleSubmit();
-    setFieldValue('priceRange', '');
-  };
+  // const handleRemovePrice = () => {
+  //   handleSubmit();
+  //   setFieldValue('priceRange', '');
+  // };
 
-  const handleRemoveRating = () => {
-    handleSubmit();
-    setFieldValue('rating', '');
-  };
+  // const handleRemoveRating = () => {
+  //   handleSubmit();
+  //   setFieldValue('rating', '');
+  // };
 
   return (
     <RootStyle>
-      {gender.length > 0 && (
+      {status?.length > 0 && (
         <WrapperStyle>
           <LabelStyle>Gender:</LabelStyle>
           <Stack direction="row" flexWrap="wrap" sx={{ p: 0.75 }}>
-            {gender.map((_gender) => (
+            {status.map((_status) => (
               <Chip
-                key={_gender}
-                label={_gender}
+                key={_status}
+                label={_status}
                 size="small"
-                onDelete={() => handleRemoveGender(_gender)}
+                onDelete={() => handleRemoveStatus(_status)}
                 sx={{ m: 0.5 }}
               />
             ))}
@@ -117,16 +116,16 @@ export default function ShopTagFiltered({
         </WrapperStyle>
       )}
 
-      {category !== 'All' && (
+      {areaId !== 'All' && (
         <WrapperStyle>
-          <LabelStyle>Category:</LabelStyle>
+          <LabelStyle>Area:</LabelStyle>
           <Stack direction="row" flexWrap="wrap" sx={{ p: 0.75 }}>
-            <Chip size="small" label={category} onDelete={handleRemoveCategory} sx={{ m: 0.5 }} />
+            <Chip size="small" label={areaId} onDelete={handleRemoveAreaId} sx={{ m: 0.5 }} />
           </Stack>
         </WrapperStyle>
       )}
 
-      {colors.length > 0 && (
+      {/* {colors.length > 0 && (
         <WrapperStyle>
           <LabelStyle>Colors:</LabelStyle>
           <Stack direction="row" flexWrap="wrap" sx={{ p: 0.75 }}>
@@ -179,7 +178,7 @@ export default function ShopTagFiltered({
             />
           </Stack>
         </WrapperStyle>
-      )}
+      )} */}
 
       {isShow && !isDefault && (
         <Button

@@ -22,8 +22,6 @@ import { LoadingButton } from '@mui/lab';
 // routes
 import { PATH_AUTH } from '../../../routes/paths';
 // hooks
-import facebookFill from '@iconify/icons-eva/facebook-fill';
-import googleFill from '@iconify/icons-eva/google-fill';
 import useAuth from '../../../hooks/useAuth';
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 //
@@ -39,17 +37,26 @@ type InitialValues = {
   afterSubmit?: string;
 };
 export default function LoginForm() {
-  // const { loginWithGoogle } = useAuth();
+  const { loginWithGoogle } = useAuth();
   const { login } = useAuth();
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
-  const [phoneNum, setPhoneNum] = useState('');
+
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email phải đúng định dạng').required('Yêu cầu nhập Phone'),
+    email: Yup.string().email('Email phải đúng định dạng').required('Yêu cầu nhập email'),
     password: Yup.string().required('Yêu cầu nhập mật khẩu')
   });
 
+  const handleLoginGoogle = async () => {
+    try {
+      await loginWithGoogle?.();
+      console.log('okela');
+    } catch (error) {
+      console.log('loi ne');
+      console.error(error);
+    }
+  };
   // const { loginWithGoogle, loginWithFaceBook, login, loginWithPhone } = useAuth();
   // const SOCIALS = [
   //   { name: 'FaceBook', icon: facebookFill },
@@ -138,7 +145,7 @@ export default function LoginForm() {
         resetForm();
         if (isMountedRef.current) {
           setSubmitting(false);
-          setErrors({ afterSubmit: error.message });
+          // setErrors({ afterSubmit: error.message });
         }
       }
     }
@@ -280,7 +287,7 @@ export default function LoginForm() {
         Login with Phone
       </LoadingButton> */}
       {/*van dang chay lenh phia duoi*/}
-      {/* <LoadingButton
+      <LoadingButton
         style={{
           backgroundColor: '#FFF',
           color: 'black',
@@ -294,9 +301,13 @@ export default function LoginForm() {
         loading={isSubmitting}
         onClick={handleLoginGoogle}
       >
-        <Icon icon={googleFill} color="green" height={24} />
+        <img
+          src={`/static/icons/navbar/ic_google.svg`}
+          style={{ paddingRight: '1rem' }}
+          height={24}
+        />{' '}
         Login with google
-      </LoadingButton> */}
+      </LoadingButton>
       {/* <LoadingButton
         fullWidth
         size="large"

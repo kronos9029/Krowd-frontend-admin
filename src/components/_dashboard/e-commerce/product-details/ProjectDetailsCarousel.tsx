@@ -9,6 +9,7 @@ import { Product } from '../../../../@types/products';
 //
 import LightboxModal from '../../../LightboxModal';
 import { CarouselControlsArrowsIndex } from '../../../carousel';
+import { Project } from '../../../../@types/krowd/project';
 
 // ----------------------------------------------------------------------
 
@@ -85,7 +86,7 @@ function ThumbnailItem({ item }: { item: string }) {
 }
 
 type ProductDetailsCarouselProps = {
-  product: Product;
+  product: Project;
 };
 
 export default function ProjectDetailsCarousel({ product }: ProductDetailsCarouselProps) {
@@ -97,13 +98,13 @@ export default function ProjectDetailsCarousel({ product }: ProductDetailsCarous
   const [nav2, setNav2] = useState<Slider>();
   const slider1 = useRef<Slider | null>(null);
   const slider2 = useRef<Slider | null>(null);
-  const imagesLightbox = product.images.map((_image) => _image);
+  // const imageLightbox = product.image.map((_image) => _image);
 
-  const handleOpenLightbox = (url: string) => {
-    const selectedImage = findIndex(imagesLightbox, (index) => index === url);
-    setOpenLightbox(true);
-    setSelectedImage(selectedImage);
-  };
+  // const handleOpenLightbox = (url: string) => {
+  //   const selectedImage = findIndex(imageLightbox, (index) => index === url);
+  //   setOpenLightbox(true);
+  //   setSelectedImage(selectedImage);
+  // };
 
   const settings1 = {
     dots: false,
@@ -123,7 +124,7 @@ export default function ProjectDetailsCarousel({ product }: ProductDetailsCarous
     focusOnSelect: true,
     variableWidth: true,
     centerPadding: '0px',
-    slidesToShow: product.images.length > 3 ? 3 : product.images.length
+    slidesToShow: product.image.length > 3 ? 3 : product.image.length
   };
 
   useEffect(() => {
@@ -150,14 +151,14 @@ export default function ProjectDetailsCarousel({ product }: ProductDetailsCarous
             position: 'relative'
           }}
         >
-          <Slider {...settings1} asNavFor={nav2} ref={slider1}>
-            {product.images.map((item) => (
+          {/* <Slider {...settings1} asNavFor={nav2} ref={slider1}>
+            {product.image.map((item) => (
               <LargeItem key={item} item={item} onOpenLightbox={handleOpenLightbox} />
             ))}
-          </Slider>
+          </Slider> */}
           {/* <CarouselControlsArrowsIndex
             index={currentIndex}
-            total={product.images.length}
+            total={product.image.length}
             onNext={handleNext}
             onPrevious={handlePrevious}
           /> */}
@@ -171,12 +172,12 @@ export default function ProjectDetailsCarousel({ product }: ProductDetailsCarous
           my: 3,
           mx: 'auto',
           '& .slick-current .isActive': { opacity: 1 },
-          ...(product.images.length === 1 && { maxWidth: THUMB_SIZE * 1 + 16 }),
-          ...(product.images.length === 2 && { maxWidth: THUMB_SIZE * 2 + 32 }),
-          ...(product.images.length === 3 && { maxWidth: THUMB_SIZE * 3 + 48 }),
-          ...(product.images.length === 4 && { maxWidth: THUMB_SIZE * 3 + 48 }),
-          ...(product.images.length >= 5 && { maxWidth: THUMB_SIZE * 6 }),
-          ...(product.images.length > 2 && {
+          ...(product.image.length === 1 && { maxWidth: THUMB_SIZE * 1 + 16 }),
+          ...(product.image.length === 2 && { maxWidth: THUMB_SIZE * 2 + 32 }),
+          ...(product.image.length === 3 && { maxWidth: THUMB_SIZE * 3 + 48 }),
+          ...(product.image.length === 4 && { maxWidth: THUMB_SIZE * 3 + 48 }),
+          ...(product.image.length >= 5 && { maxWidth: THUMB_SIZE * 6 }),
+          ...(product.image.length > 2 && {
             position: 'relative',
             '&:before, &:after': {
               top: 0,
@@ -195,7 +196,7 @@ export default function ProjectDetailsCarousel({ product }: ProductDetailsCarous
         }}
       >
         <Slider {...settings2} asNavFor={nav1} ref={slider2}>
-          {product.images.map((item) => (
+          {product.image.map((item) => (
             <ThumbnailItem key={item} item={item} />
           ))}
         </Slider>
@@ -203,7 +204,7 @@ export default function ProjectDetailsCarousel({ product }: ProductDetailsCarous
 
       {/*Phóng to ảnh*/}
       {/* <LightboxModal
-        images={imagesLightbox}
+        image={imageLightbox}
         photoIndex={selectedImage}
         setPhotoIndex={setSelectedImage}
         isOpen={openLightbox}

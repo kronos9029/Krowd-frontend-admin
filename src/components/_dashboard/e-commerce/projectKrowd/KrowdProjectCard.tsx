@@ -9,9 +9,8 @@ import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { fCurrency } from '../../../../utils/formatNumber';
 //
 import Label from '../../../Label';
-import ColorPreview from '../../../ColorPreview';
 
-import { Product } from '../../../../@types/products';
+import { Project } from '../../../../@types/krowd/project';
 
 // ----------------------------------------------------------------------
 
@@ -26,11 +25,11 @@ const ProductImgStyle = styled('img')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 type KrowdProjectCardProps = {
-  product: Product;
+  product: Project;
 };
 
 export default function KrowdProjectCard({ product }: KrowdProjectCardProps) {
-  const { name, cover, price, colors, status, priceSale } = product;
+  const { name, image, remainAmount, areaId, status, sharedRevenue } = product;
   const linkTo = `${PATH_DASHBOARD.projects.root}/project/${paramCase(name)}`;
 
   return (
@@ -50,7 +49,7 @@ export default function KrowdProjectCard({ product }: KrowdProjectCardProps) {
             {status}
           </Label>
         )}
-        <ProductImgStyle alt={name} src={cover} />
+        <ProductImgStyle alt={name} src={image} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
@@ -61,10 +60,11 @@ export default function KrowdProjectCard({ product }: KrowdProjectCardProps) {
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={colors} /> type here
+          {/* <ColorPreview colors={colors} /> type here */}
+          {areaId}
           <Typography variant="subtitle1">
             &nbsp;
-            {fCurrency(price)}
+            {fCurrency(remainAmount)}
           </Typography>
         </Stack>
       </Stack>

@@ -167,7 +167,7 @@ export default function EcommerceShop() {
           </Typography>
         )}
 
-        <Stack
+        {/* <Stack
           direction="row"
           flexWrap="wrap-reverse"
           alignItems="center"
@@ -197,7 +197,7 @@ export default function EcommerceShop() {
         <KrowdProjectList
           products={filteredProducts}
           isLoad={!filteredProducts && !initialValues}
-        />
+        /> */}
         <CartWidget />
       </Container>
     </Page>

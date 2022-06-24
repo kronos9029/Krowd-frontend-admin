@@ -10,7 +10,7 @@ import { RiskTypes } from '../../../@types/krowd/riskTypeKrowd';
 type RiskTypeState = {
   isLoading: boolean;
   error: boolean;
-  riskTpyeList: RiskTypes[];
+  riskTypeList: RiskTypes[];
   activeRiskTypeId: RiskTypes | null;
 };
 
@@ -18,7 +18,7 @@ const initialState: RiskTypeState = {
   isLoading: false,
   error: false,
   activeRiskTypeId: null,
-  riskTpyeList: []
+  riskTypeList: []
 };
 
 const slice = createSlice({
@@ -37,7 +37,7 @@ const slice = createSlice({
     },
     getRiskTypeListSuccess(state, action) {
       state.isLoading = false;
-      state.riskTpyeList = action.payload;
+      state.riskTypeList = action.payload;
     },
     getRiskTypeIDSuccess(state, action) {
       state.isLoading = false;

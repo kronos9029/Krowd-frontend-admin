@@ -14,7 +14,7 @@ import fieldKrowdReducer from './slices/krowd_slices/field';
 import AreaKrowdReducer from './slices/krowd_slices/area';
 import RiskReducer from './slices/krowd_slices/riskType';
 import WalletReducer from './slices/krowd_slices/wallet';
-import ProjectReducer from './slices/krowd_slices/project';
+import projectReducer from './slices/krowd_slices/project';
 import RolesReducer from './slices/krowd_slices/roles';
 import TransactionReducer from './slices/krowd_slices/transaction';
 
@@ -33,6 +33,16 @@ const productPersistConfig = {
   keyPrefix: 'redux-',
   whitelist: ['sortBy', 'checkout']
 };
+const businessPersistConfig = {
+  key: 'business',
+  storage,
+  keyPrefix: 'redux-'
+};
+const projectPersistConfig = {
+  key: 'project',
+  storage,
+  keyPrefix: 'redux-'
+};
 
 const rootReducer = combineReducers({
   mail: mailReducer,
@@ -40,14 +50,15 @@ const rootReducer = combineReducers({
   blog: blogReducer,
   user: userReducer,
   kanban: kanbanReducer,
-  business: businessReducer,
+  // business: businessReducer,
+  business: persistReducer(businessPersistConfig, businessReducer),
   userKrowd: userKrowdReducer,
   fieldKrowd: fieldKrowdReducer,
   areaKrowd: AreaKrowdReducer,
   riskKrowd: RiskReducer,
   roleKrowd: RolesReducer,
   wallet: WalletReducer,
-  project: ProjectReducer,
+  project: persistReducer(projectPersistConfig, projectReducer),
   transaction: TransactionReducer,
   product: persistReducer(productPersistConfig, productReducer)
 });

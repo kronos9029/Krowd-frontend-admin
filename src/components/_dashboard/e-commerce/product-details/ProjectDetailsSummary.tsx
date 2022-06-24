@@ -32,6 +32,7 @@ import Label from '../../../Label';
 import { MIconButton } from '../../../@material-extend';
 import ColorSinglePicker from '../../../ColorSinglePicker';
 import { Product, CartItem } from '../../../../@types/products';
+import { Project } from '../../../../@types/krowd/project';
 
 // ----------------------------------------------------------------------
 
@@ -115,211 +116,109 @@ const Incrementer = ({ name, available }: { name: string; available: number }) =
 };
 
 type ProductDetailsSumaryprops = {
-  product: Product;
-  cart: CartItem[];
-  onAddCart: (cartItem: CartItem) => void;
-  onGotoStep: (step: number) => void;
+  product: Project;
 };
 
-export default function ProjecrDetailsSummary({
-  product,
-  cart,
-  onAddCart,
-  onGotoStep,
-  ...other
-}: ProductDetailsSumaryprops) {
+export default function ProjecrDetailsSummary({ product }: ProductDetailsSumaryprops) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const {
-    id,
-    name,
-    sizes,
-    price,
-    cover,
-    status,
-    colors,
-    available,
-    priceSale,
-    totalRating,
-    totalReview,
-    inventoryType
-  } = product;
-
-  const alreadyProduct = cart.map((item) => item.id).includes(id);
-  const isMaxQuantity =
-    cart.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
-
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      id,
-      name,
-      cover,
-      available,
-      price,
-      color: colors[0],
-      size: sizes[4],
-      quantity: available < 1 ? 0 : 1
-    },
-    onSubmit: async (values, { setErrors, setSubmitting }) => {
-      try {
-        if (!alreadyProduct) {
-          onAddCart({
-            ...values,
-            subtotal: values.price * values.quantity
-          });
-        }
-        setSubmitting(false);
-        onGotoStep(0);
-        navigate(PATH_DASHBOARD.eCommerce.checkout);
-      } catch (error) {
-        setSubmitting(false);
-      }
-    }
-  });
-
-  const { values, touched, errors, getFieldProps, handleSubmit } = formik;
+  const { id, name, address, approvedBy, businessId, createBy, areaId, image, status } = product;
 
   return (
-    <RootStyle {...other}>
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Label
-            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-            color={inventoryType === 'in_stock' ? 'success' : 'error'}
-            sx={{ textTransform: 'uppercase' }}
-          >
-            {sentenceCase(inventoryType || '')}
-          </Label>
+    <RootStyle>
+      <Form autoComplete="off" noValidate>
+        <Typography
+          variant="overline"
+          sx={{
+            mt: 2,
+            mb: 1,
+            display: 'block'
+          }}
+        >
+          {status}
+        </Typography>
 
-          <Typography
-            variant="overline"
-            sx={{
-              mt: 2,
-              mb: 1,
-              display: 'block'
-            }}
-          >
-            {status}
+        <Typography variant="h5" paragraph>
+          {name}
+        </Typography>
+
+        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
+          <Typography variant="body2" sx={{ color: '#212B36' }}>
+            Người tạo : 'type'
           </Typography>
+        </Box>
 
-          <Typography variant="h5" paragraph>
-            {name}
+        <Box
+          sx={{
+            mb: 3,
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+            Thuộc doanh nghiệp
           </Typography>
+          KFC
+        </Box>
+        <Box
+          sx={{
+            my: 3,
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+            Thuộc Khu vực:
+          </Typography>
+          Thành phố HCM
+        </Box>
 
-          <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
-            {/* <Rating value={totalRating} precision={0.1} readOnly /> */}
-            <Typography variant="body2" sx={{ color: '#212B36' }}>
-              Người tạo : 'type'
-            </Typography>
-          </Box>
+        <Box
+          sx={{
+            mb: 3,
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
+          <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+            Địa chỉ:
+          </Typography>
+          Quận 12
+        </Box>
+        <Box sx={{ mt: 3, textAlign: 'center' }}>
+          {SOCIALS.map((social) => (
+            <Tooltip key={social.name} title={social.name}>
+              <MIconButton>{social.icon}</MIconButton>
+            </Tooltip>
+          ))}
+        </Box>
+        <Divider sx={{ borderStyle: 'dashed' }} />
 
-          <Box
-            sx={{
-              mb: 3,
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-              Thuộc doanh nghiệp
-            </Typography>
-            KFC
-          </Box>
-          <Box
-            sx={{
-              my: 3,
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-              Thuộc Khu vực:
-            </Typography>
-            {/* <ColorSinglePicker
-              {...getFieldProps('color')}
-              colors={colors}
-              sx={{
-                ...(colors.length > 4 && {
-                  maxWidth: 144,
-                  justifyContent: 'flex-end'
-                })
-              }}
-            /> */}
-            Thành phố HCM
-          </Box>
-
-          <Box
-            sx={{
-              mb: 3,
-              display: 'flex',
-              justifyContent: 'space-between'
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-              Địa chỉ:
-            </Typography>
-            {/* <TextField
-              select
-              size="small"
-              {...getFieldProps('size')}
-              SelectProps={{ native: true }}
-              FormHelperTextProps={{
-                sx: {
-                  textAlign: 'right',
-                  margin: 0,
-                  mt: 1
-                }
-              }}
-              helperText={
-                <Link href="#" underline="always" color="text.primary">
-                  Size Chart
-                </Link>
-              }
-            >
-              {sizes.map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
-              ))}
-            </TextField> */}
-            Quận 12
-          </Box>
-          <Box sx={{ mt: 3, textAlign: 'center' }}>
-            {SOCIALS.map((social) => (
-              <Tooltip key={social.name} title={social.name}>
-                <MIconButton>{social.icon}</MIconButton>
-              </Tooltip>
-            ))}
-          </Box>
-          <Divider sx={{ borderStyle: 'dashed' }} />
-
-          <Box sx={{ mt: 5 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <Button
-                  fullWidth
-                  size="large"
-                  type="button"
-                  // color="warning"
-                  variant="contained"
-                  // startIcon={<Icon icon={roundAddShoppingCart} />}
-                  // onClick={handleAddCart}
-                  sx={{ whiteSpace: 'nowrap' }}
-                >
-                  Duyệt dự án
-                </Button>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <Button fullWidth size="large" color="error" variant="contained">
-                  TỪ chối
-                </Button>
-              </Grid>
+        <Box sx={{ mt: 5 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                size="large"
+                type="button"
+                // color="warning"
+                variant="contained"
+                // startIcon={<Icon icon={roundAddShoppingCart} />}
+                // onClick={handleAddCart}
+                sx={{ whiteSpace: 'nowrap' }}
+              >
+                Duyệt dự án
+              </Button>
             </Grid>
-          </Box>
-        </Form>
-      </FormikProvider>
+
+            <Grid item xs={12} sm={6}>
+              <Button fullWidth size="large" color="error" variant="contained">
+                TỪ chối
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Form>
     </RootStyle>
   );
 }

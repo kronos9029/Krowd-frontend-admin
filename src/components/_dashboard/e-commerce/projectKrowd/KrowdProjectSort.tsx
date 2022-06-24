@@ -13,23 +13,19 @@ import { ProductState } from '../../../../@types/products';
 // ----------------------------------------------------------------------
 
 const SORT_BY_OPTIONS = [
-  { value: 'featured', label: 'Featured' },
   { value: 'newest', label: 'Newest' },
-  { value: 'priceDesc', label: 'Price: High-Low' },
-  { value: 'priceAsc', label: 'Price: Low-High' }
+  { value: 'nameDesc', label: 'Name: Z-A' },
+  { value: 'nameAsc', label: 'Name: A-Z' }
 ];
 
 function renderLabel(label: string | null) {
-  if (label === 'featured') {
-    return 'Featured';
-  }
   if (label === 'newest') {
     return 'Newest';
   }
-  if (label === 'priceDesc') {
-    return 'Price: High-Low';
+  if (label === 'nameDesc') {
+    return 'Name: Z-A';
   }
-  return 'Price: Low-High';
+  return 'Name: A-Z';
 }
 
 export default function KrowdProjectSort() {

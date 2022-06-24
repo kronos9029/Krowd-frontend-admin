@@ -106,13 +106,13 @@ export default function FieldManagement() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { riskTpyeList } = useSelector((state: RootState) => state.riskKrowd);
+  const { riskTypeList } = useSelector((state: RootState) => state.riskKrowd);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -148,9 +148,9 @@ export default function FieldManagement() {
     setFilterName(filterName);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - riskTpyeList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - riskTypeList.length) : 0;
 
-  const filteredUsers = applySortFilter(riskTpyeList, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(riskTypeList, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -186,7 +186,7 @@ export default function FieldManagement() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={riskTpyeList.length}
+                  rowCount={riskTypeList.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                 />
@@ -221,20 +221,25 @@ export default function FieldManagement() {
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="center">{description}</TableCell>
-                          <TableCell align="center" style={{ minWidth: 160 }}>
-                            {fDate(createDate)}
+                          <TableCell align="left">
+                            <Typography>{description}</Typography>
                           </TableCell>
+                          <TableCell align="center" style={{ minWidth: 160 }}>
+                            <Typography noWrap> {createDate}</Typography>
+                          </TableCell>
+
                           <TableCell align="center">{createBy || '-'}</TableCell>
                           <TableCell align="center" style={{ minWidth: 160 }}>
-                            {fDate(updateDate)}
+                            <Typography noWrap> {updateDate}</Typography>
                           </TableCell>
                           <TableCell align="center">{updateBy || '-'}</TableCell>
-                          <OtherMoreMenuRisk
-                            onDelete={() => handleDeleteRiskTypeById(id)}
-                            onEdit={() => handleGetFieldById(id)}
-                            editById={id}
-                          />
+                          <TableCell align="center">
+                            <OtherMoreMenuRisk
+                              onDelete={() => handleDeleteRiskTypeById(id)}
+                              onEdit={() => handleGetFieldById(id)}
+                              editById={id}
+                            />
+                          </TableCell>
                         </TableRow>
                       );
                     })}
@@ -260,7 +265,7 @@ export default function FieldManagement() {
           <TablePagination
             rowsPerPageOptions={[]}
             component="div"
-            count={riskTpyeList.length}
+            count={riskTypeList.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(e, page) => setPage(page)}

@@ -22,9 +22,9 @@ export default function RiskTypeCreate() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id = '' } = useParams();
-  const { riskTpyeList } = useSelector((state: RootState) => state.riskKrowd);
+  const { riskTypeList } = useSelector((state: RootState) => state.riskKrowd);
   const isEdit = pathname.includes('edit');
-  const currentRisk = riskTpyeList.find((riskType) => paramCase(riskType.id) === id);
+  const currentRisk = riskTypeList.find((riskType) => paramCase(riskType.id) === id);
 
   useEffect(() => {
     dispatch(getRiskTypeById(id));
