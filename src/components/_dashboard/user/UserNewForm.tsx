@@ -87,7 +87,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
     }
   });
 
-  const { errors, values, touched, handleSubmit, isSubmitting, setFieldImage, getFieldProps } =
+  const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
     formik;
   console.log(formik);
   const handleDrop = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +101,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
         method: 'POST',
         body: data
       });
-      getFieldProps(files[0].name);
+      // getFieldProps(files[0].name);
       console.log('t da upload dc', res);
       console.log('t da upload dc', files[0]);
       setLoading(false);
