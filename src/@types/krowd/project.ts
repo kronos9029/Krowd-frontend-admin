@@ -15,6 +15,7 @@ export type Project = {
   managerId: string;
   businessId: string;
   fieldId: string;
+  fieldName: string;
   areaId: string;
   name: string;
   image: string;

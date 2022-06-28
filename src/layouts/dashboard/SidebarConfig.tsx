@@ -43,8 +43,8 @@ const sidebarConfig = [
         icon: ICONS.dashboard
       },
       { title: 'Bảng điều khiển', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
-      { title: 'Tổng quan ngày', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking },
-      { title: 'Tổng quan tháng', path: PATH_DASHBOARD.general.booking, icon: ICONS.dayOverview }
+      { title: 'Tổng quan ngày', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking }
+      // { title: 'Tổng quan tháng', path: PATH_DASHBOARD.general.booking, icon: ICONS.dayOverview }
     ]
   },
 
@@ -54,17 +54,17 @@ const sidebarConfig = [
     items: [
       { title: 'Quản lý doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business },
       { title: 'Quản lý dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
-      { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer },
-      {
-        title: 'Quản lý ví',
-        path: PATH_DASHBOARD.wallet.root,
-        icon: ICONS.wallet,
-        children: [
-          { title: 'Ví của hệ thống', path: PATH_DASHBOARD.wallet.system },
-          { title: 'Ví doanh thu', path: PATH_DASHBOARD.wallet.transaction },
-          { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.wallet.allWallet }
-        ]
-      }
+      { title: 'Quản lý người dùng', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer }
+      // {
+      //   title: 'Quản lý ví',
+      //   path: PATH_DASHBOARD.wallet.root,
+      //   icon: ICONS.wallet,
+      //   children: [
+      //     { title: 'Ví của hệ thống', path: PATH_DASHBOARD.wallet.system },
+      //     { title: 'Ví doanh thu', path: PATH_DASHBOARD.wallet.transaction },
+      //     { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.wallet.allWallet }
+      //   ]
+      // }
     ]
   },
   {

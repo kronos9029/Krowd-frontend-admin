@@ -171,6 +171,7 @@ export default function ProjectList() {
                         name,
                         image,
                         businessLicense,
+                        fieldName,
                         managerId,
                         fieldId,
                         createDate,
@@ -209,7 +210,7 @@ export default function ProjectList() {
                           </TableCell>
 
                           <TableCell scope="row" padding="none">
-                            <Typography noWrap>{fieldId}</Typography>
+                            <Typography noWrap>{fieldName}</Typography>
                           </TableCell>
                           <TableCell align="left">
                             <Typography noWrap>{createDate || '-'}</Typography>
