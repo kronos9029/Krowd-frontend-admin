@@ -12,7 +12,9 @@ const RootStyle = styled(Card)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: theme.spacing(2, 2, 2, 3)
+  padding: theme.spacing(2, 2, 2, 3),
+  backgroundColor: '#14b7cc',
+  color: 'black'
 }));
 
 // ----------------------------------------------------------------------
@@ -24,9 +26,7 @@ export default function BookingTotal() {
     <RootStyle>
       <div>
         <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
-        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }}>
-          Tổng người tham gia
-        </Typography>
+        <Typography variant="subtitle2">Tổng người tham gia</Typography>
       </div>
       <Box
         sx={{
@@ -37,7 +37,16 @@ export default function BookingTotal() {
           bgcolor: 'background.neutral'
         }}
       >
-        <BookingIllustration />
+        <Box
+          component="img"
+          src="/static/illustrations/illustration_project_member.png"
+          sx={{
+            zIndex: 9,
+            width: 140,
+            filter: 'drop-shadow(0 12px 24px rgba(0,0,0,0.24))'
+          }}
+        />
+        {/* <BookingIllustration /> */}
       </Box>
     </RootStyle>
   );

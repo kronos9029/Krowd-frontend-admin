@@ -1,35 +1,11 @@
-import { capitalCase } from 'change-case';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import {
-  Box,
-  Card,
-  Stack,
-  Link,
-  Alert,
-  Tooltip,
-  Container,
-  Typography,
-  Tabs,
-  Tab,
-  Grid
-} from '@mui/material';
-// routes
-import { PATH_AUTH } from '../../routes/paths';
-// hooks
-import useAuth from '../../hooks/useAuth';
-// layouts
-import AuthLayout from '../../layouts/AuthLayout';
+import { Card, Stack, Container, Typography } from '@mui/material';
+
 // components
 import Page from '../../components/Page';
 import { MHidden } from '../../components/@material-extend';
 import { LoginForm } from '../../components/authentication/login';
-import { useState } from 'react';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-// import { AuthContext } from '../contexts/FirebaseContext';
-
-// ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -56,46 +32,29 @@ const ContentStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0)
 }));
 
-// ----------------------------------------------------------------------
-
 export default function Login() {
-  // const { } = useAuth();
-  const [value, setValue] = useState('1');
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
   return (
     <RootStyle title="Login | Krowd">
-      <AuthLayout>
-        Bạn chưa có tại khoản? &nbsp;
-        <Link underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-          Đăng ký ngay
-        </Link>
-      </AuthLayout>
-
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Chào mừng trở lại
+            Chào mừng admin trở lại
           </Typography>
-          <img src="/static/illustrations/login-krowd.svg" alt="login" />
+          <img src="/static/illustrations/illustration_admin_login.png" alt="login" />
         </SectionStyle>
       </MHidden>
 
       <Container maxWidth="sm">
         <ContentStyle>
           <Stack direction="column" justifyContent="space-between" sx={{ mb: 3 }}>
+            <Typography
+              variant="h4"
+              sx={{ px: 5, mt: 5, mb: 5, color: '#14b7cc', textAlign: 'center' }}
+            >
+              Đăng nhập vào KROWD
+            </Typography>
             <LoginForm />
           </Stack>
-
-          <MHidden width="smUp">
-            <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-              Bạn chưa có tài khoản?&nbsp;
-              <Link variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
-                Đăng ký ngay
-              </Link>
-            </Typography>
-          </MHidden>
         </ContentStyle>
       </Container>
     </RootStyle>

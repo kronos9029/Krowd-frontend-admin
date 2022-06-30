@@ -1,7 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import { Typography, Button, Card, CardContent, CardProps } from '@mui/material';
+import { Typography, Button, Card, CardContent, CardProps, Box } from '@mui/material';
 import { SeoIllustration } from '../../../assets';
 
 // ----------------------------------------------------------------------
@@ -9,7 +9,7 @@ import { SeoIllustration } from '../../../assets';
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   textAlign: 'center',
-  backgroundColor: theme.palette.primary.lighter,
+  backgroundColor: '#14b7cc',
   [theme.breakpoints.up('md')]: {
     height: '100%',
     display: 'flex',
@@ -48,14 +48,21 @@ export default function AppWelcome({ displayName }: AppWelcomeProps) {
           Go Now
         </Button> */}
       </CardContent>
-
-      <SeoIllustration
+      <Box
+        component="img"
+        src="/static/illustrations/illustration_admin_control.png"
         sx={{
           p: 3,
           width: 360,
           margin: { xs: 'auto', md: 'inherit' }
         }}
       />
+      {/* <SeoIllustration
+        sx={{
+          width: 360,
+          margin: { xs: 'auto', md: 'inherit' }
+        }}
+      /> */}
     </RootStyle>
   );
 }

@@ -16,8 +16,8 @@ import BaseOptionChart from '../../charts/BaseOptionChart';
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: 'none',
   padding: theme.spacing(3),
-  color: theme.palette.primary.darker,
-  backgroundColor: theme.palette.primary.lighter
+  color: 'black',
+  backgroundColor: '#41daecf7'
 }));
 
 // ----------------------------------------------------------------------

@@ -23,4 +23,5 @@ export type UserKrowd = {
   updateDate: Date;
   updateBy: string;
   isDeleted: boolean;
+  status: boolean;
 };

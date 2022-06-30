@@ -60,18 +60,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
     () =>
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          const docRef = firebase.firestore().collection('admin').doc(user.uid);
-          docRef
-            .get()
-            .then((doc) => {
-              if (doc.exists) {
-                setProfile(doc.data());
-              }
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-
           dispatch({
             type: Types.Initial,
             payload: { isAuthenticated: true, user }
@@ -132,27 +120,14 @@ function AuthProvider({ children }: { children: ReactNode }) {
     await firebase.auth().sendPasswordResetEmail(email);
   };
 
-  const auth = { ...state.user };
+  const auth = { ...firebase.auth().currentUser };
 
   return (
     <AuthContext.Provider
       value={{
         ...state,
         method: 'firebase',
-        user: {
-          id: auth.uid,
-          email: auth.email,
-          photoURL: auth.photoURL || profile?.photoURL,
-          displayName: auth.displayName || profile?.displayName,
-          role: ADMIN_EMAILS.includes(auth.email) ? 'business' : 'user',
-          phoneNumber: auth.phoneNumber || profile?.phoneNumber || '',
-          country: profile?.country || '',
-          address: profile?.address || ''
-          // state: profile?.state || '',
-          // city: profile?.city || '',
-          // zipCode: profile?.zipCode || '',
-          // about: profile?.about || ''
-        },
+        user: auth,
         login,
         register,
         loginWithGoogle,

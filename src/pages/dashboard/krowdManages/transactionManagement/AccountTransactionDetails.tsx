@@ -56,7 +56,7 @@ export default function AccountTransactionDetails() {
 
         <Card sx={{ pt: 5 }}>
           <Scrollbar>
-            <Typography paragraph variant="h6" sx={{ textAlign: 'center' }}>
+            <Typography paragraph variant="h6" sx={{ pl: 3 }}>
               Các giao dịch{' '}
             </Typography>
             <TableContainer sx={{ minWidth: 760 }}>

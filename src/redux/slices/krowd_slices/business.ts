@@ -2,7 +2,7 @@ import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../../store';
 // utils
-import { BusinessManager } from '../../../@types/krowd/business';
+import { Business } from '../../../@types/krowd/business';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
@@ -13,8 +13,11 @@ import { REACT_APP_API_URL } from 'config';
 type BusinessState = {
   isLoading: boolean;
   error: boolean;
-  businessList: BusinessManager[];
-  activeBussinessId: BusinessManager | null;
+  businessLists: {
+    numOfBusiness: number;
+    listOfBusiness: Business[];
+  };
+  activeBussinessId: Business | null;
   status: string[];
 };
 
@@ -22,7 +25,8 @@ const initialState: BusinessState = {
   isLoading: false,
   error: false,
   activeBussinessId: null,
-  businessList: [],
+  businessLists: { numOfBusiness: 0, listOfBusiness: [] },
+
   status: ['Đang hoạt động', 'Ngừng hoạt động', 'Bị khóa']
 };
 
@@ -44,7 +48,7 @@ const slice = createSlice({
     // GET MANAGE USERS
     getBusinessListSuccess(state, action) {
       state.isLoading = false;
-      state.businessList = action.payload;
+      state.businessLists = action.payload;
     },
 
     getBusinessListIDSuccess(state, action) {
@@ -52,7 +56,7 @@ const slice = createSlice({
       state.activeBussinessId = action.payload;
     },
     delBusinessListIDSuccess(state, action) {
-      state.businessList = action.payload;
+      state.businessLists = action.payload;
     }
   }
 });
@@ -66,13 +70,15 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getBusinessList() {
+export function getBusinessList(temp_field_role: 'ADMIN') {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(REACT_APP_API_URL + 'businesses');
+      const response = await axios.get(REACT_APP_API_URL + 'businesses', {
+        params: { temp_field_role }
+      });
       dispatch(slice.actions.getBusinessListSuccess(response.data));
-      // console.log('aaaaa', response.data);
+      console.log('aaaaa', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -110,7 +116,7 @@ export function delBusinessListById(bussinessId: string) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.delete(REACT_APP_API_URL + `businesses/${bussinessId}`);
-      dispatch(getBusinessList());
+      dispatch(getBusinessList('ADMIN'));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

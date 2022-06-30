@@ -24,9 +24,11 @@ export default function UserCreate() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id = '' } = useParams();
-  const { businessList } = useSelector((state: RootState) => state.business);
+  const { businessLists } = useSelector((state: RootState) => state.business);
   const isEdit = pathname.includes('edit');
-  const currentUser = businessList.find((business) => paramCase(business.id) === id);
+  const currentUser = businessLists.listOfBusiness.find(
+    (business) => paramCase(business.id) === id
+  );
 
   useEffect(() => {
     dispatch(getFieldListById(id));

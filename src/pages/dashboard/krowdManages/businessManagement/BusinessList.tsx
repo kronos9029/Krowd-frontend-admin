@@ -36,7 +36,7 @@ import { getProjectByBusinessID } from 'redux/slices/krowd_slices/project';
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // hooks
 import useSettings from '../../../../hooks/useSettings';
-import { BusinessManager } from '../../../../@types/krowd/business';
+import { Business } from '../../../../@types/krowd/business';
 // components
 import Page from '../../../../components/Page';
 import Scrollbar from '../../../../components/Scrollbar';
@@ -50,11 +50,12 @@ import { KrowdBusinessFilter } from 'components/_dashboard/e-commerce/projectKro
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Tên', alignRight: false },
+  { id: 'filedList.name', label: 'Thuộc loại', alignRight: false },
   { id: 'numOfProject', label: 'Số dự án', alignRight: false },
   { id: 'numOfSuccessfulProject', label: 'Dự án hoàn thành', alignRight: false },
   { id: 'successfulRate', label: 'Tỉ lệ thành công', alignRight: false },
   { id: 'createDate', label: 'Thành lập', alignRight: false },
-  { id: 'createBy', label: 'Chủ công ty', alignRight: false },
+  { id: 'manager.firstName', label: 'Người đại diện', alignRight: false },
   { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: '' }
 ];
@@ -79,11 +80,7 @@ function getComparator(order: string, orderBy: string) {
     : (a: Anonymous, b: Anonymous) => -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(
-  array: BusinessManager[],
-  comparator: (a: any, b: any) => number,
-  query: string
-) {
+function applySortFilter(array: Business[], comparator: (a: any, b: any) => number, query: string) {
   const stabilizedThis = array.map((el, index) => [el, index] as const);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -101,7 +98,7 @@ export default function UserList() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const { businessList } = useSelector((state: RootState) => state.business);
+  const { businessLists } = useSelector((state: RootState) => state.business);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [selected, setSelected] = useState<string[]>([]);
@@ -113,7 +110,7 @@ export default function UserList() {
   // const { isLoading, data: ListBusiness, error, isFetching } = getAllBusiness();
   // API
   useEffect(() => {
-    dispatch(getBusinessList());
+    dispatch(getBusinessList('ADMIN'));
   }, [dispatch]);
   const handleDeleteBusinessById = (activeBussinessId: string) => {
     dispatch(delBusinessListById(activeBussinessId));
@@ -140,7 +137,7 @@ export default function UserList() {
 
   const handleSelectAllClick = (checked: boolean) => {
     if (checked) {
-      const newSelecteds = businessList.map((n) => n.name);
+      const newSelecteds = businessLists.listOfBusiness.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -156,9 +153,14 @@ export default function UserList() {
     setFilterName(filterName);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - businessList.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - businessLists.listOfBusiness.length) : 0;
 
-  const filteredUsers = applySortFilter(businessList, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(
+    businessLists.listOfBusiness,
+    getComparator(order, orderBy),
+    filterName
+  );
 
   const isUserNotFound = filteredUsers.length === 0;
   return (
@@ -195,7 +197,7 @@ export default function UserList() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={businessList.length}
+                  rowCount={businessLists.numOfBusiness}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   // onSelectAllClick={handleSelectAllClick}
@@ -212,7 +214,9 @@ export default function UserList() {
                         numOfSuccessfulProject,
                         successfulRate,
                         createDate,
+                        fieldList,
                         createBy,
+                        manager,
                         status
                       } = row;
                       const isItemSelected = selected.indexOf(name) !== -1;
@@ -233,16 +237,30 @@ export default function UserList() {
                               </Typography>
                             </Stack>
                           </TableCell>
+                          <TableCell component="th" scope="row" sx={{ pl: 3 }}>
+                            <Typography variant="subtitle2" noWrap>
+                              {fieldList[0].name}
+                            </Typography>
+                          </TableCell>
                           <TableCell align="center">{numOfProject}</TableCell>
                           <TableCell align="center">{numOfSuccessfulProject}</TableCell>
                           <TableCell align="center">{successfulRate}</TableCell>
-                          <TableCell style={{ minWidth: 160 }}>{createDate}</TableCell>
-                          <TableCell align="left">{createBy || '-'}</TableCell>
+                          <TableCell>
+                            <Typography variant="subtitle2" noWrap>
+                              {createDate}
+                            </Typography>
+                          </TableCell>
+                          <TableCell align="left">
+                            {manager.firstName + ' ' + manager.lastName || '-'}
+                          </TableCell>
                           <TableCell align="left">{status}</TableCell>
-                          <UserMoreMenu
-                            onView={() => handleGetBusinessById(id)}
-                            onDelete={() => handleDeleteBusinessById(id)}
-                          />
+                          <TableCell align="left">
+                            {' '}
+                            <UserMoreMenu
+                              onView={() => handleGetBusinessById(id)}
+                              onDelete={() => handleDeleteBusinessById(id)}
+                            />
+                          </TableCell>
                         </TableRow>
                       );
                     })}
@@ -268,7 +286,7 @@ export default function UserList() {
           <TablePagination
             rowsPerPageOptions={[]}
             component="div"
-            count={businessList.length}
+            count={businessLists.numOfBusiness}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={(e, page) => setPage(page)}

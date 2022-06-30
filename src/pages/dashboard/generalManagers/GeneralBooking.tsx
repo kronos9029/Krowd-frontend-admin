@@ -45,9 +45,9 @@ export default function GeneralBooking() {
                 <BookingTotalIncomes />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              {/* <Grid item xs={12} md={6}>
                 <BookingBookedRoom />
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12} md={12}>
                 <BookingCheckInWidgets />

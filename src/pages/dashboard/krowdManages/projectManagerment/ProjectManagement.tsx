@@ -40,9 +40,9 @@ function applyFilter(products: Project[], sortBy: string | null, filters: Projec
     products = orderBy(products, ['name'], ['asc']);
   }
   // FILTER Project
-  if (filters.status?.length > 0) {
-    products = filter(products, (_product) => includes(filters.status, _product.status));
-  }
+  // if (filters.status?.length > 0) {
+  //   products = filter(products, (_product) => includes(filters.status, _product.status));
+  // }
   if (filters.areaId !== 'HCM') {
     return filter(products, (_product) => includes(filters.areaId, _product.areaId));
   }

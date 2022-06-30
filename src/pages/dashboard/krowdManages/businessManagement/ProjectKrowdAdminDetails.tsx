@@ -61,11 +61,72 @@ export default function ProjectKrowdAdminDetails() {
               <img alt="logo" src={project?.image} />
             </Grid>
             <Grid item xs={12} sm={7} sx={{ mb: 5 }}>
-              <Box sx={{ textAlign: { sm: 'right' }, mb: 3 }}>
-                <Label color="success" sx={{ textTransform: 'uppercase', mb: 2 }}>
+              <Box
+                sx={{
+                  mb: 3,
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+                  Doanh thu chia sẻ
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ fontSize: '27px', color: '#19c157', fontWeight: 'boild' }}
+                >
+                  {project?.sharedRevenue} (%)
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  mb: 3,
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+                  Thành viên đã tham gia
+                </Typography>
+                <Typography variant="subtitle1" sx={{ fontSize: '27px' }}>
+                  {project?.multiplier} (Thành viên)
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  mb: 3,
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+                  Hệ số nhân
+                </Typography>
+                <Typography variant="subtitle1" sx={{ fontSize: '27px' }}>
+                  {project?.multiplier}x
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  mb: 3,
+                  display: 'flex',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
+                  Thời hạn
+                </Typography>
+                <Typography variant="subtitle1" sx={{ fontSize: '27px' }}>
+                  {project?.duration} (tháng)
+                </Typography>
+              </Box>
+              <Divider sx={{ borderStyle: 'dashed' }} />
+
+              <Box sx={{ textAlign: { sm: 'right' }, mb: 3, mt: 3 }}>
+                {/* <Label color="success" sx={{ textTransform: 'uppercase', mb: 2 }}>
                   {project?.status}
-                </Label>
-                <Typography variant="h6">
+                </Label> */}
+                <Typography variant="subtitle1">
                   Giấy phép kinh doanh: {project?.businessLicense}
                 </Typography>
               </Box>
@@ -77,10 +138,11 @@ export default function ProjectKrowdAdminDetails() {
                 }}
               >
                 <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-                  Thuộc doanh nghiệp
+                  Tên doanh nghiệp
                 </Typography>
-                {project?.businessId}
+                {project?.business.name}
               </Box>
+
               <Box
                 sx={{
                   my: 3,
@@ -89,7 +151,7 @@ export default function ProjectKrowdAdminDetails() {
                 }}
               >
                 <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-                  Thuộc Khu vực:
+                  Khu vực
                 </Typography>
                 {project?.areaId}
               </Box>
@@ -105,54 +167,6 @@ export default function ProjectKrowdAdminDetails() {
                   Địa chỉ:
                 </Typography>
                 {project?.address}
-              </Box>
-              <Box
-                sx={{
-                  mb: 3,
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-                  Doanh thu chia sẻ
-                </Typography>
-                {project?.sharedRevenue}
-              </Box>
-              <Box
-                sx={{
-                  mb: 3,
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-                  Thành viên đã tham gia
-                </Typography>
-                {project?.multiplier}
-              </Box>
-              <Box
-                sx={{
-                  mb: 3,
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-                  Hệ số nhân
-                </Typography>
-                {project?.multiplier}
-              </Box>
-              <Box
-                sx={{
-                  mb: 3,
-                  display: 'flex',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-                  Thời hạn
-                </Typography>
-                {project?.duration}
               </Box>
               <Divider sx={{ borderStyle: 'dashed' }} />
 

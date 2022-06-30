@@ -51,11 +51,11 @@ const TABLE_HEAD = [
   // { id: 'name', label: 'Tên', alignRight: false },
   { id: 'city', label: 'Thành phố', alignRight: false },
   { id: 'district', label: 'Quận', alignRight: true },
-  { id: 'ward', label: 'Phường', alignRight: true },
+  // { id: 'ward', label: 'Phường', alignRight: true },
   { id: 'createDate', label: 'Ngày tạo', alignRight: true },
-  { id: 'createBy', label: 'Người tạo', alignRight: true },
-  { id: 'updateDate', label: 'Người cập nhật', alignRight: true },
-  { id: 'updateBy', label: 'Người cập nhật', alignRight: true },
+  // { id: 'createBy', label: 'Người tạo', alignRight: true },
+  { id: 'updateDate', label: 'Ngày cập nhật', alignRight: true },
+  // { id: 'updateBy', label: 'Người cập nhật', alignRight: true },
   { id: '' }
 ];
 
@@ -199,15 +199,15 @@ export default function FieldManagement() {
                             </Stack>
                           </TableCell>
                           <TableCell align="center">{district}</TableCell>
-                          <TableCell align="center">{ward}</TableCell>
+                          {/* <TableCell align="center">{ward}</TableCell> */}
                           <TableCell align="center" style={{ minWidth: 160 }}>
-                            {fDate(createDate)}
+                            {createDate}
                           </TableCell>
-                          <TableCell align="center">{createBy || '-'}</TableCell>
+                          {/* <TableCell align="center">{createBy || '-'}</TableCell> */}
                           <TableCell align="center" style={{ minWidth: 160 }}>
-                            {fDate(updateDate)}
+                            {updateDate}
                           </TableCell>
-                          <TableCell align="center">{updateBy || '-'}</TableCell>
+                          {/* <TableCell align="center">{updateBy || '-'}</TableCell> */}
                         </TableRow>
                       );
                     })}

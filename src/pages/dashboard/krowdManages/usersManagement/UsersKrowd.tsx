@@ -5,14 +5,11 @@ import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
-import { useTheme } from '@mui/material/styles';
 import {
   Card,
   Table,
   Stack,
   Avatar,
-  Button,
-  Checkbox,
   TableRow,
   TableBody,
   TableCell,
@@ -23,38 +20,29 @@ import {
 } from '@mui/material';
 // redux
 import { RootState, useDispatch, useSelector } from '../../../../redux/store';
-// import { getUserList, deleteUser } from '../../redux/slices/user';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // hooks
 import useSettings from '../../../../hooks/useSettings';
-// @types
-// import { UserManager } from '../../@types/user';
-// components
 import Page from '../../../../components/Page';
-import Label from '../../../../components/Label';
 import Scrollbar from '../../../../components/Scrollbar';
 import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
-import {
-  UserListHead,
-  KrowdListToolbar,
-  UserMoreMenu
-} from '../../../../components/_dashboard/user/list';
+import { UserListHead, KrowdListToolbar } from '../../../../components/_dashboard/user/list';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
-import { UserKrowd } from '../../../../@types/users';
+import { UserKrowd } from '../../../../@types/krowd/users';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'businessId', label: 'Mã doanh nghiệp', alignRight: false },
-  { id: 'roleId', label: 'Vai trò', alignRight: false },
   { id: 'lastName', label: 'Tên', alignRight: false },
   { id: 'phoneNum', label: 'Số điện thoại', alignRight: false },
   { id: 'email', label: 'Địa chỉ email', alignRight: false },
   { id: 'taxIdentificationNumber', label: 'Mã số thuế', alignRight: false },
-  { id: 'createDate', label: 'Ngày tạo', alignRight: false },
-  { id: 'isDeleted', label: 'Trạng thái', alignRight: false },
+  // { id: 'businessId', label: 'Doanh nghiệp', alignRight: true },
+  // { id: 'roleId', label: 'Vai trò', alignRight: true },
+  { id: 'createDate', label: 'Ngày tạo', alignRight: true },
+  { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: '' }
 ];
 
@@ -97,7 +85,6 @@ function applySortFilter(
 
 export default function UsersKrowd() {
   const { themeStretch } = useSettings();
-  const theme = useTheme();
   const dispatch = useDispatch();
 
   const { userKrowdList } = useSelector((state: RootState) => state.userKrowd);
@@ -140,14 +127,12 @@ export default function UsersKrowd() {
           heading="Danh sách người dùng"
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Danh sách' }]}
         />
-
         <Card>
           <KrowdListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
           />
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -168,30 +153,69 @@ export default function UsersKrowd() {
                         businessId,
                         roleId,
                         lastName,
+                        firstName,
                         phoneNum,
                         email,
                         taxIdentificationNumber,
                         createDate,
+                        image,
+                        status,
                         isDeleted
                       } = row;
-                      const isItemSelected = selected.indexOf(email) !== -1;
                       return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
+                        <TableRow key={id}>
                           <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
+                            <Stack direction="row" alignItems="center" spacing={2} sx={{ pt: 3 }}>
+                              <Avatar src={image} />
+                              <Typography sx={{ width: '100px' }} variant="subtitle2">
+                                {firstName + ' ' + lastName}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Typography sx={{ pl: 2, width: '120px' }}>{phoneNum}</Typography>
+                          </TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack
+                              direction="row"
+                              alignItems="left"
+                              sx={{ pl: 2, maxWidth: '200px' }}
+                              spacing={2}
+                            >
                               <Typography variant="subtitle2" noWrap>
                                 {email}
                               </Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell align="left">{isDeleted ? 'Đã xác nhận' : 'Chưa'}</TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack direction="row" alignItems="center" sx={{ pl: 2 }} spacing={2}>
+                              <Typography variant="subtitle2" noWrap>
+                                {taxIdentificationNumber}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
+                          {/* <TableCell component="th" padding="none">
+                            <Typography sx={{ textAlign: 'center', pl: 2 }} variant="subtitle2">
+                              {businessId}
+                            </Typography>
+                          </TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Typography variant="subtitle2" sx={{ textAlign: 'center', pl: 2 }}>
+                              {roleId}
+                            </Typography>
+                          </TableCell> */}
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack direction="row" alignItems="center" spacing={2} sx={{ pl: 2 }}>
+                              <Typography noWrap>{createDate || '-'}</Typography>
+                            </Stack>
+                          </TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack direction="row" alignItems="center" spacing={2} sx={{ pl: 2 }}>
+                              <Typography align="center" noWrap>
+                                {status ? 'Đang hoạt động' : 'Chưa hoạt động'}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
                         </TableRow>
                       );
                     })}

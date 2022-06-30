@@ -22,7 +22,7 @@ type ProjectState = {
   sortBy: Project | null;
   filters: {
     areaId: string;
-    status: ProjectStatus[];
+    status: string[];
   };
 };
 

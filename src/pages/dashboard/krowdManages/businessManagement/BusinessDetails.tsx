@@ -11,7 +11,8 @@ import {
   TableHead,
   TableCell,
   Typography,
-  TableContainer
+  TableContainer,
+  Button
 } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../../routes/paths';
@@ -123,7 +124,7 @@ export default function BusinessDetails() {
 
           <Scrollbar>
             <Typography paragraph variant="h6">
-              Tổng dự án của công ty ( {projectLists?.listOfProject.length} )
+              Tổng dự án của công ty ( {projectLists?.numOfProject} )
             </Typography>
             <TableContainer sx={{ minWidth: 960 }}>
               <Table>
@@ -135,11 +136,12 @@ export default function BusinessDetails() {
                 >
                   <TableRow>
                     <TableCell align="left">Tên dự án</TableCell>
-                    <TableCell align="left">Ngày tạo</TableCell>
-                    <TableCell align="left">duration</TableCell>
-                    <TableCell align="right">numOfStage</TableCell>
-                    <TableCell align="right">remainAmount</TableCell>
-                    <TableCell align="right">Share</TableCell>
+                    <TableCell align="left">Thời hạn</TableCell>
+                    <TableCell sx={{ maxWidth: 70 }} align="left">
+                      Số kỳ
+                    </TableCell>
+                    <TableCell align="center">Đã đầu tư</TableCell>
+                    <TableCell align="right">Mục tiêu</TableCell>
                     <TableCell align="center">Ngày bắt đầu</TableCell>
                     <TableCell align="center">Ngày kết thúc</TableCell>
                   </TableRow>
@@ -154,47 +156,49 @@ export default function BusinessDetails() {
                       }}
                     >
                       <TableCell align="left">
-                        <Box sx={{ maxWidth: 600 }}>
+                        <Box sx={{ minWidth: 200 }}>
                           <Typography variant="subtitle2">{row?.name}</Typography>
                           {/* <Typography variant="body2">{row.image}</Typography> */}
                         </Box>
                       </TableCell>
 
                       <TableCell align="left">
-                        <Typography variant="subtitle2"> {row?.createDate}</Typography>
+                        <Typography sx={{ color: 'text.secondary' }} noWrap>
+                          {row.duration} tháng
+                        </Typography>
                       </TableCell>
-
-                      {/* <TableCell align="left">
-                        <Typography variant="subtitle2">{row.createBy}</Typography>
-                      </TableCell> */}
-
+                      <TableCell align="left">
+                        <Typography sx={{ color: 'text.secondary' }} noWrap>
+                          {row.numOfStage} tháng
+                        </Typography>
+                      </TableCell>
                       <TableCell align="left">
                         <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
-                          {row.duration}
+                          {row.investedCapital}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.investmentTargetCapital}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.startDate}
+                        </Typography>
+                      </TableCell>
+                      <TableCell align="left">
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
+                          {row.endDate}
                         </Typography>
                       </TableCell>
 
                       <TableCell align="left">
-                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
-                          {row.numOfStage}
-                        </Typography>
+                        <ProjectMoreMenu
+                          onView={() => handleGetProjectById(row.id)}
+                          onDelete={() => handleDeleteProjectById(row.id)}
+                        />
                       </TableCell>
-                      <TableCell align="left">
-                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
-                          {row.remainAmount}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="left">
-                        <Typography variant="subtitle2" sx={{ color: 'text.secondary' }} noWrap>
-                          {row.sharedRevenue}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="left">{row.startDate}</TableCell>
-                      <TableCell align="left">{row.endDate}</TableCell>
-                      <ProjectMoreMenu
-                        onView={() => handleGetProjectById(row.id)}
-                        onDelete={() => handleDeleteProjectById(row.id)}
-                      />
                     </TableRow>
                   ))}
                 </TableBody>

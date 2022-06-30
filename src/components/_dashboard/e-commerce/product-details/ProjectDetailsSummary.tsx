@@ -122,7 +122,7 @@ type ProductDetailsSumaryprops = {
 export default function ProjecrDetailsSummary({ product }: ProductDetailsSumaryprops) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { id, name, address, approvedBy, businessId, createBy, areaId, image, status } = product;
+  const { id, name, address, approvedBy, business, createBy, areaId, image, status } = product;
 
   return (
     <RootStyle>

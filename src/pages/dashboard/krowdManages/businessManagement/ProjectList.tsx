@@ -37,15 +37,15 @@ import Scrollbar from '../../../../components/Scrollbar';
 import SearchNotFound from '../../../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 import { UserListHead, KrowdListToolbar } from '../../../../components/_dashboard/user/list';
-import { Project } from '../../../../@types/krowd/project';
+import { Project, ProjectStatus } from '../../../../@types/krowd/project';
 import ProjectMoreMenu from 'components/_dashboard/e-commerce/product-details/ProjectMoreMenu';
 import { ShopTagFiltered } from 'components/_dashboard/e-commerce/projectKrowd';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Tên', alignRight: true },
-  { id: 'managerId', label: 'Người quản lý', alignRight: true },
+  { id: 'name', label: 'Tên', alignRight: false },
+  { id: 'managerId', label: 'Người quản lý', alignRight: false },
   { id: 'businessLicense', label: 'Giấy phép kinh doanh', alignRight: false },
   { id: 'fieldId', label: 'Lĩnh vực', alignRight: true },
   { id: 'createDate', label: 'Ngày tạo', alignRight: false },
@@ -172,8 +172,9 @@ export default function ProjectList() {
                         image,
                         businessLicense,
                         fieldName,
-                        managerId,
-                        fieldId,
+                        manager,
+                        field,
+                        business,
                         createDate,
                         createBy,
                         status
@@ -189,19 +190,18 @@ export default function ProjectList() {
                           aria-checked={isItemSelected}
                         >
                           <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="column" alignItems="center" sx={{ pt: 2 }}>
+                            <Stack
+                              sx={{ maxWidth: '250px' }}
+                              direction="row"
+                              alignItems="center"
+                              spacing={2}
+                            >
                               <Avatar alt={name} src={image} />
-                              <Typography variant="subtitle2" noWrap>
-                                {name}
-                              </Typography>
+                              <Typography variant="subtitle2">{name}</Typography>
                             </Stack>
                           </TableCell>
-                          <TableCell
-                            component="th"
-                            scope="row"
-                            sx={{ padding: '1rem', textAlign: 'center' }}
-                          >
-                            <Typography>{managerId}</Typography>
+                          <TableCell component="th" scope="row" sx={{ textAlign: 'left' }}>
+                            <Typography>{manager.lastName}</Typography>
                           </TableCell>
                           <TableCell component="th" padding="none">
                             <Typography sx={{ textAlign: 'center' }} variant="subtitle2">
@@ -210,13 +210,18 @@ export default function ProjectList() {
                           </TableCell>
 
                           <TableCell scope="row" padding="none">
-                            <Typography noWrap>{fieldName}</Typography>
+                            <Typography noWrap>{field.name}</Typography>
                           </TableCell>
                           <TableCell align="left">
                             <Typography noWrap>{createDate || '-'}</Typography>
                           </TableCell>
 
-                          <TableCell align="left">{status}</TableCell>
+                          <TableCell
+                            sx={{ color: `${ProjectStatus.at(status)?.color}`, fontWeight: 'bold' }}
+                            align="left"
+                          >
+                            {ProjectStatus.at(status)?.name}
+                          </TableCell>
                           <TableCell>
                             <ProjectMoreMenu
                               onView={() => handleGetProjectById(id)}

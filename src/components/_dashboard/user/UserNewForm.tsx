@@ -27,7 +27,7 @@ import { UserManager } from '../../../@types/user';
 import Label from '../../Label';
 import countries from './countries';
 import { UploadAvatar } from 'components/upload';
-import { BusinessManager } from '../../../@types/krowd/business';
+import { Business } from '../../../@types/krowd/business';
 import { postBusiness } from 'redux/slices/krowd_slices/business';
 import axios from 'axios';
 import { dispatch } from 'redux/store';
@@ -37,7 +37,7 @@ import { useForm } from 'react-hook-form';
 
 type UserNewFormProps = {
   isEdit: boolean;
-  currentUser?: BusinessManager;
+  currentUser?: Business;
 };
 
 export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
