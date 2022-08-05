@@ -2,11 +2,12 @@ import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../../store';
 // utils
-import { Business } from '../../../@types/krowd/business';
+import { Business, TempBusiness } from '../../../@types/krowd/business';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
 import { REACT_APP_API_URL } from 'config';
+import FirebaseService from 'api/firebase';
 
 // ----------------------------------------------------------------------
 
@@ -17,16 +18,17 @@ type BusinessState = {
     numOfBusiness: number;
     listOfBusiness: Business[];
   };
-  activeBussinessId: Business | null;
+  businessDetail: Business | null;
+  tempBusinessList: TempBusiness[];
   status: string[];
 };
 
 const initialState: BusinessState = {
   isLoading: false,
   error: false,
-  activeBussinessId: null,
+  businessDetail: null,
   businessLists: { numOfBusiness: 0, listOfBusiness: [] },
-
+  tempBusinessList: [],
   status: ['Đang hoạt động', 'Ngừng hoạt động', 'Bị khóa']
 };
 
@@ -53,10 +55,15 @@ const slice = createSlice({
 
     getBusinessListIDSuccess(state, action) {
       state.isLoading = false;
-      state.activeBussinessId = action.payload;
+      state.businessDetail = action.payload;
     },
     delBusinessListIDSuccess(state, action) {
       state.businessLists = action.payload;
+    },
+
+    getAllTempBusiness(state, action) {
+      state.tempBusinessList = action.payload;
+      state.isLoading = false;
     }
   }
 });
@@ -78,7 +85,17 @@ export function getBusinessList(temp_field_role: 'ADMIN') {
         params: { temp_field_role }
       });
       dispatch(slice.actions.getBusinessListSuccess(response.data));
-      console.log('aaaaa', response.data);
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function getAllTempBusiness() {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const res = await FirebaseService.getAllTempBusiness();
+      dispatch(slice.actions.getAllTempBusiness(res));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

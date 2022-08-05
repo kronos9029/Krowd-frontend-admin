@@ -4,7 +4,6 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // routes
-import { PATH_DASHBOARD } from '../../../../routes/paths';
 // icons
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import editFill from '@iconify/icons-eva/edit-fill';
@@ -12,18 +11,18 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import moreVerticalFill from '@iconify/icons-eva/more-vertical-fill';
 
 import { paramCase } from 'change-case';
+import { PATH_DASHBOARD } from 'routes/paths';
 
 // ----------------------------------------------------------------------
 
-type UserMoreMenuProps = {
-  onView: VoidFunction;
+type KrowdTableMoreMenuProps = {
+  viewPath: string;
   onDelete: VoidFunction;
 };
 
-export default function UserMoreMenu({ onView, onDelete }: UserMoreMenuProps) {
+export default function KrowdTableMoreMenu({ viewPath, onDelete }: KrowdTableMoreMenuProps) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -40,12 +39,7 @@ export default function UserMoreMenu({ onView, onDelete }: UserMoreMenuProps) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem
-          component={RouterLink}
-          to={`${PATH_DASHBOARD.business.details}`}
-          sx={{ color: 'text.secondary' }}
-          onClick={onView}
-        >
+        <MenuItem component={RouterLink} to={viewPath} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Icon icon={eyeFill} width={24} height={24} />
           </ListItemIcon>

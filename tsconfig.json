@@ -2,10 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "target": "es5",
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom", "DOM.Iterable", "ScriptHost", "ES2016.Array.Include"],
     "noImplicitAny": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
@@ -23,8 +20,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx", "src/Firebase.js",
-  ]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/Firebase.js"]
 }

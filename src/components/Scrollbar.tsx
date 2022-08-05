@@ -1,7 +1,8 @@
-import SimpleBarReact, { Props } from 'simplebar-react';
+import SimpleBar, { Props } from 'simplebar-react';
 // material
 import { alpha, styled } from '@mui/material/styles';
 import { Box, BoxProps } from '@mui/material';
+import { createRef } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +12,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   overflow: 'hidden'
 }));
 
-const SimpleBarStyle = styled(SimpleBarReact)(({ theme }) => ({
+const SimpleBarStyle = styled(SimpleBar)(({ theme }) => ({
   maxHeight: '100%',
   '& .simplebar-scrollbar': {
     '&:before': {
@@ -46,10 +47,10 @@ export default function Scrollbar({ children, sx, ...other }: BoxProps & Props) 
       </Box>
     );
   }
-
+  const scrollableNodeRef = createRef<SimpleBar>();
   return (
     <RootStyle>
-      <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>
+      <SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other} ref={scrollableNodeRef}>
         {children}
       </SimpleBarStyle>
     </RootStyle>

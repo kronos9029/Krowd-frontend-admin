@@ -27,7 +27,11 @@ import { dispatch, RootState, useSelector } from 'redux/store';
 import { useParams } from 'react-router';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
-import { getBusinessList, getBusinessListById } from 'redux/slices/krowd_slices/business';
+import {
+  getBusinessList,
+  getBusinessListById,
+  getProjectByBusinessID
+} from 'redux/slices/krowd_slices/business';
 import { fDate } from 'utils/formatTime';
 import { MIconButton } from 'components/@material-extend';
 import {
@@ -44,19 +48,21 @@ import ProjectMoreMenu from 'components/_dashboard/e-commerce/projectKrowd/Proje
 
 export default function BusinessDetails() {
   const { themeStretch } = useSettings();
-  // const [hello, setData] = useState();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const { Busid = '' } = useParams();
+  const { id = '' } = useParams();
 
-  const { activeBussinessId: business } = useSelector((state: RootState) => state.business);
+  const { businessDetail: business } = useSelector((state: RootState) => state.business);
   const { projectLists } = useSelector((state: RootState) => state.project);
+
+  useEffect(() => {
+    dispatch(getBusinessListById(id));
+    dispatch(getProjectByBusinessID(id, 'ADMIN'));
+  }, [dispatch]);
 
   const handleGetProjectById = (activeProjectId: string) => {
     dispatch(getProjectId(activeProjectId));
   };
-  console.log('number', projectLists.numOfProject);
-  console.log('projectLists', projectLists.listOfProject);
   const handleDeleteProjectById = (activeProjectId: string) => {
     dispatch(delProjectListById(activeProjectId));
     enqueueSnackbar('Cập nhật trạng thái thành công', {
@@ -80,11 +86,9 @@ export default function BusinessDetails() {
           heading="Chi tiết doanh nghiệp"
           links={[
             { name: 'Doanh nghiệp', href: PATH_DASHBOARD.business.list },
-            { name: sentenceCase(Busid) }
+            { name: sentenceCase(id) }
           ]}
         />
-
-        {/* <InvoiceToolbar invoice={INVOICE} /> */}
         <Card sx={{ pt: 5, px: 5 }}>
           <Grid container>
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
@@ -148,7 +152,7 @@ export default function BusinessDetails() {
                 </TableHead>
 
                 <TableBody>
-                  {projectLists.listOfProject?.map((row, index) => (
+                  {projectLists.listOfProject.map((row, index) => (
                     <TableRow
                       key={index}
                       sx={{

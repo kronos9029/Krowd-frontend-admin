@@ -137,7 +137,7 @@ export default function Router() {
             { path: 'product/new', element: <EcommerceProductCreate /> },
             { path: 'product/:name/edit', element: <EcommerceProductCreate /> },
             { path: 'checkout', element: <EcommerceCheckout /> },
-            { path: 'invoice', element: <BusinessDetails /> }
+            { path: 'details', element: <BusinessDetails /> }
           ]
         },
         {
@@ -148,9 +148,10 @@ export default function Router() {
             { path: 'cards', element: <UserCards /> },
             { path: 'list', element: <BusinessList /> },
             { path: 'new', element: <UserCreate /> },
+            { path: 'newAccount', element: <UserCreateAccount /> },
             { path: ':name/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> },
-            { path: 'invoice', element: <BusinessDetails /> }
+            { path: 'details/:id', element: <BusinessDetails /> }
           ]
         },
         {
@@ -310,6 +311,9 @@ const SystemWalletList = Loadable(
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserAccount')));
 const UserCreate = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/UserCreate'))
+);
+const UserCreateAccount = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/UserCreateAccount'))
 );
 const Chat = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Chat')));
 const Mail = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Mail')));

@@ -15,6 +15,11 @@ export const firebaseConfig = {
   appId: '1:71002133649:web:1f8ca95c618519df339b30',
   measurementId: 'G-YPFBPWMLF6'
 };
+export const firebaseConfigSecondary = {
+  apiKey: 'AIzaSyAnOIHrRunqD82BN6yscpcg78rNTLxSAhM',
+  appId: '1:71002133649:web:1f8ca95c618519df339b30',
+  projectId: 'revenuesharinginvest-44354'
+};
 export const REACT_APP_API_URL =
   'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/';
 

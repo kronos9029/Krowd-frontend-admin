@@ -50,9 +50,10 @@ export const PATH_DASHBOARD = {
     cards: path(ROOTS_DASHBOARD, '/business/cards'),
     list: path(ROOTS_DASHBOARD, '/business/list'),
     newUser: path(ROOTS_DASHBOARD, '/business/new'),
+    newAccount: path(ROOTS_DASHBOARD, '/business/newAccount'),
     editById: path(ROOTS_DASHBOARD, `/business/reece-chung/edit`),
     account: path(ROOTS_DASHBOARD, '/business/account'),
-    invoice: path(ROOTS_DASHBOARD, '/business/invoice')
+    details: path(ROOTS_DASHBOARD, '/business/details')
   },
   //Người dùng
   admin: {

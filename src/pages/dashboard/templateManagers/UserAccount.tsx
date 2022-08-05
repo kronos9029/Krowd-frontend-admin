@@ -65,30 +65,30 @@ export default function UserAccount() {
 
   const ACCOUNT_TABS = [
     {
-      value: 'tong quan',
+      value: 'Thông tin cá nhân',
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
       component: <AccountGeneral />
-    },
-    {
-      value: 'thanh toan',
-      icon: <Icon icon={roundReceipt} width={20} height={20} />,
-      component: <AccountBilling cards={cards} addressBook={addressBook} invoices={invoices} />
-    },
-    {
-      value: 'thong bao',
-      icon: <Icon icon={bellFill} width={20} height={20} />,
-      component: <AccountNotifications notifications={notifications} />
-    },
-    {
-      value: 'mang xa hoi',
-      icon: <Icon icon={shareFill} width={20} height={20} />,
-      component: <AccountSocialLinks myProfile={myProfile} />
-    },
-    {
-      value: 'thay doi mat khau',
-      icon: <Icon icon={roundVpnKey} width={20} height={20} />,
-      component: <AccountChangePassword />
     }
+    // {
+    //   value: 'thanh toan',
+    //   icon: <Icon icon={roundReceipt} width={20} height={20} />,
+    //   component: <AccountBilling cards={cards} addressBook={addressBook} invoices={invoices} />
+    // },
+    // {
+    //   value: 'thong bao',
+    //   icon: <Icon icon={bellFill} width={20} height={20} />,
+    //   component: <AccountNotifications notifications={notifications} />
+    // },
+    // {
+    //   value: 'mang xa hoi',
+    //   icon: <Icon icon={shareFill} width={20} height={20} />,
+    //   component: <AccountSocialLinks myProfile={myProfile} />
+    // },
+    // {
+    //   value: 'thay doi mat khau',
+    //   icon: <Icon icon={roundVpnKey} width={20} height={20} />,
+    //   component: <AccountChangePassword />
+    // }
   ];
 
   return (
@@ -114,7 +114,7 @@ export default function UserAccount() {
             <Tab
               disableRipple
               key={tab.value}
-              label={capitalCase(tab.value)}
+              label={tab.value}
               icon={tab.icon}
               value={tab.value}
             />

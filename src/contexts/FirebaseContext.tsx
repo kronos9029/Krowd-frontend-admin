@@ -6,7 +6,7 @@ import 'firebase/firestore';
 // @types
 import { ActionMap, AuthState, AuthUser, FirebaseContextType } from '../@types/authentication';
 //
-import { firebaseConfig } from '../config';
+import { firebaseConfig, firebaseConfigSecondary } from '../config';
 
 // ----------------------------------------------------------------------
 
@@ -14,6 +14,7 @@ const ADMIN_EMAILS = ['datdam2407@gmail.com'];
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfigSecondary, 'Secondary');
   firebase.firestore();
 }
 

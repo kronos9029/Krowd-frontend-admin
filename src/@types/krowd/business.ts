@@ -49,3 +49,9 @@ export type Business = {
 export type BusinessFilter = {
   status: string[];
 };
+export type TempBusiness = {
+  email: string;
+  displayName: string;
+  uid: string;
+  password: string;
+};
