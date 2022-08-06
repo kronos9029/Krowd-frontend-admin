@@ -24,7 +24,8 @@ export default function UserCreate() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id = '' } = useParams();
-  const { businessLists } = useSelector((state: RootState) => state.business);
+  const { businessState } = useSelector((state: RootState) => state.business);
+  const { businessLists } = businessState;
   const isEdit = pathname.includes('edit');
   const currentUser = businessLists.listOfBusiness.find(
     (business) => paramCase(business.id) === id

@@ -29,7 +29,7 @@ import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import {
   getBusinessList,
-  getBusinessListById,
+  getBusinessById,
   getProjectByBusinessID
 } from 'redux/slices/krowd_slices/business';
 import { fDate } from 'utils/formatTime';
@@ -52,11 +52,12 @@ export default function BusinessDetails() {
 
   const { id = '' } = useParams();
 
-  const { businessDetail: business } = useSelector((state: RootState) => state.business);
+  const { businessDetailState } = useSelector((state: RootState) => state.business);
+  const { businessDetail: business } = businessDetailState;
   const { projectLists } = useSelector((state: RootState) => state.project);
 
   useEffect(() => {
-    dispatch(getBusinessListById(id));
+    dispatch(getBusinessById(id));
     dispatch(getProjectByBusinessID(id, 'ADMIN'));
   }, [dispatch]);
 

@@ -1,41 +1,18 @@
 import * as Yup from 'yup';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSnackbar } from 'notistack';
 import { useNavigate } from 'react-router-dom';
 import { Form, FormikProvider, useFormik } from 'formik';
 // material
-import firebase from 'firebase/app';
 
 import { LoadingButton } from '@mui/lab';
-import {
-  Box,
-  Card,
-  Grid,
-  Stack,
-  Switch,
-  TextField,
-  Typography,
-  FormHelperText,
-  FormControlLabel,
-  Button
-} from '@mui/material';
+import { Box, Card, Grid, Stack, TextField, Button } from '@mui/material';
 // utils
-import { fData } from '../../../utils/formatNumber';
-import fakeRequest from '../../../utils/fakeRequest';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // @types
-import { UserManager } from '../../../@types/user';
 //
-import Label from '../../Label';
-import countries from './countries';
-import { UploadAvatar } from 'components/upload';
 import { Business } from '../../../@types/krowd/business';
-import { postBusiness } from 'redux/slices/krowd_slices/business';
-import axios from 'axios';
-import { dispatch } from 'redux/store';
-import { slice } from 'lodash';
-import { useForm } from 'react-hook-form';
 import FirebaseService from 'api/firebase';
 // ----------------------------------------------------------------------
 

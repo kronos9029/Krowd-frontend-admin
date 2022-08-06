@@ -28,7 +28,6 @@ import Label from '../../Label';
 import countries from './countries';
 import { UploadAvatar } from 'components/upload';
 import { Business } from '../../../@types/krowd/business';
-import { postBusiness } from 'redux/slices/krowd_slices/business';
 import axios from 'axios';
 import { dispatch } from 'redux/store';
 import { slice } from 'lodash';

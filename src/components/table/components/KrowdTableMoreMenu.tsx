@@ -16,7 +16,7 @@ import { PATH_DASHBOARD } from 'routes/paths';
 // ----------------------------------------------------------------------
 
 type KrowdTableMoreMenuProps = {
-  viewPath: string;
+  viewPath?: string;
   onDelete: VoidFunction;
 };
 
@@ -39,12 +39,14 @@ export default function KrowdTableMoreMenu({ viewPath, onDelete }: KrowdTableMor
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to={viewPath} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Icon icon={eyeFill} width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        {viewPath && (
+          <MenuItem component={RouterLink} to={viewPath} sx={{ color: 'text.secondary' }}>
+            <ListItemIcon>
+              <Icon icon={eyeFill} width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText primary="View" primaryTypographyProps={{ variant: 'body2' }} />
+          </MenuItem>
+        )}
 
         <MenuItem onClick={onDelete}>
           <ListItemIcon>

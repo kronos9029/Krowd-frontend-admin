@@ -34,10 +34,10 @@ export type RowData = {
 };
 export type KrowdTableProps = {
   headingTitle: string;
-  createNewRecordButton: { pathTo: string; label: string } | null;
+  createNewRecordButton?: { pathTo: string; label: string };
   header: { id: string; label: string; align: string }[];
   getData: () => Array<RowData>;
-  viewPath: string;
+  viewPath?: string;
   deleteRecord: (id: string) => void;
   isLoading: boolean;
 };
@@ -155,7 +155,7 @@ export function KrowdTable({
                       })}
                       <TableCell align="left">
                         <KrowdTableMoreMenu
-                          viewPath={viewPath + `/${data.id}`}
+                          viewPath={viewPath && viewPath + `/${data.id}`}
                           onDelete={() => deleteRecord(data.id)}
                         />
                       </TableCell>

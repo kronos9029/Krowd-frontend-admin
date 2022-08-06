@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react';
 import { MIconButton } from 'components/@material-extend';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
-import { delBusinessListById, getBusinessList } from 'redux/slices/krowd_slices/business';
+import { deleteBusinessById, getBusinessList } from 'redux/slices/krowd_slices/business';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { DATA_TYPE, KrowdTable, RowData } from './krowd-table/KrowdTable';
@@ -22,15 +22,17 @@ const TABLE_HEAD = [
 ];
 
 export default function BusinessTable() {
-  const { businessLists, isLoading } = useSelector((state: RootState) => state.business);
+  const { businessState } = useSelector((state: RootState) => state.business);
+  const { businessLists, isLoading } = businessState;
+  const { listOfBusiness: list } = businessLists;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(getBusinessList('ADMIN'));
   }, [dispatch]);
 
-  const handleDeleteBusinessById = (activeBussinessId: string) => {
-    dispatch(delBusinessListById(activeBussinessId));
+  const handleDeleteBusinessById = (businessId: string) => {
+    dispatch(deleteBusinessById(businessId));
     enqueueSnackbar('Cập nhật trạng thái thành công', {
       variant: 'success',
       action: (key) => (
@@ -41,56 +43,55 @@ export default function BusinessTable() {
     });
   };
 
-  const { listOfBusiness } = businessLists;
   const getData = (): RowData[] => {
-    if (!listOfBusiness) return [];
-    return listOfBusiness.map<RowData>((business) => {
+    if (!list) return [];
+    return list.map<RowData>((_item) => {
       return {
-        id: business.id,
+        id: _item.id,
         items: [
           {
             name: 'image',
-            value: business.image,
+            value: _item.image,
             type: DATA_TYPE.IMAGE
           },
           {
             name: 'name',
-            value: business.name,
+            value: _item.name,
             type: DATA_TYPE.TEXT
           },
           {
             name: 'field',
-            value: business.fieldList.map((_field) => _field.name),
+            value: _item.fieldList.map((_field) => _field.name),
             type: DATA_TYPE.LIST_TEXT
           },
           {
             name: 'numOfProject',
-            value: business.numOfProject,
+            value: _item.numOfProject,
             type: DATA_TYPE.TEXT
           },
           {
             name: 'numOfSuccessfulProject',
-            value: business.numOfSuccessfulProject,
+            value: _item.numOfSuccessfulProject,
             type: DATA_TYPE.TEXT
           },
           {
             name: 'successfulRate',
-            value: business.successfulRate,
+            value: _item.successfulRate,
             type: DATA_TYPE.TEXT
           },
           {
             name: 'createDate',
-            value: business.createDate,
+            value: _item.createDate,
             type: DATA_TYPE.TEXT
           },
           {
             name: 'managerName',
-            value: `${business.manager.firstName} ${business.manager.lastName}`,
+            value: `${_item.manager.firstName} ${_item.manager.lastName}`,
             type: DATA_TYPE.TEXT
           },
           {
             name: 'status',
-            value: business.status,
+            value: _item.status,
             type: DATA_TYPE.TEXT
           }
         ]
@@ -101,10 +102,6 @@ export default function BusinessTable() {
   return (
     <KrowdTable
       headingTitle="Các doanh nghiệp chính thức"
-      createNewRecordButton={{
-        pathTo: PATH_DASHBOARD.business.newUser,
-        label: 'Tạo mới doanh nghiệp'
-      }}
       header={TABLE_HEAD}
       getData={getData}
       viewPath={PATH_DASHBOARD.business.details}

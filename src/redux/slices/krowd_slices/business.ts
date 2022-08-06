@@ -8,62 +8,113 @@ import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
 import { REACT_APP_API_URL } from 'config';
 import FirebaseService from 'api/firebase';
+import { Project } from '../../../@types/krowd/project';
 
 // ----------------------------------------------------------------------
 
 type BusinessState = {
-  isLoading: boolean;
-  error: boolean;
-  businessLists: {
-    numOfBusiness: number;
-    listOfBusiness: Business[];
+  businessState: {
+    isLoading: boolean;
+    businessLists: {
+      numOfBusiness: number;
+      listOfBusiness: Business[];
+    };
+    error: boolean;
   };
-  businessDetail: Business | null;
-  tempBusinessList: TempBusiness[];
-  status: string[];
+  tempBusinessState: {
+    isLoading: boolean;
+    tempBusinessList: TempBusiness[];
+    error: boolean;
+  };
+  businessDetailState: {
+    isLoading: boolean;
+    businessDetail: Business | null;
+    projectsOfBusiness: Project[] | null;
+    error: boolean;
+  };
 };
 
 const initialState: BusinessState = {
-  isLoading: false,
-  error: false,
-  businessDetail: null,
-  businessLists: { numOfBusiness: 0, listOfBusiness: [] },
-  tempBusinessList: [],
-  status: ['Đang hoạt động', 'Ngừng hoạt động', 'Bị khóa']
+  businessState: {
+    isLoading: false,
+    businessLists: {
+      numOfBusiness: 0,
+      listOfBusiness: []
+    },
+    error: false
+  },
+  tempBusinessState: {
+    isLoading: false,
+    tempBusinessList: [],
+    error: false
+  },
+  businessDetailState: {
+    isLoading: false,
+    businessDetail: null,
+    projectsOfBusiness: null,
+    error: false
+  }
 };
 
 const slice = createSlice({
   name: 'business',
   initialState,
   reducers: {
+    //-------------------BUSINESS------------------
     // START LOADING
-    startLoading(state) {
-      state.isLoading = true;
+    startBusinessLoading(state) {
+      state.businessState.isLoading = true;
+    },
+
+    // GET MANAGE BUSINESS
+    getBusinessListSuccess(state, action) {
+      state.businessState.isLoading = false;
+      state.businessState.businessLists = action.payload;
     },
 
     // HAS ERROR
-    hasError(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
+    hasBusinessError(state, action) {
+      state.businessState.isLoading = false;
+      state.businessState.error = action.payload;
+    },
+    //-------------------TEMP BUSINESS------------------
+    // START LOADING
+    startTempBusinessLoading(state) {
+      state.tempBusinessState.isLoading = true;
     },
 
-    // GET MANAGE USERS
-    getBusinessListSuccess(state, action) {
-      state.isLoading = false;
-      state.businessLists = action.payload;
+    // GET MANAGE TEMP BUSINESS
+    getAllTempBusinessSuccess(state, action) {
+      state.tempBusinessState.isLoading = false;
+      state.tempBusinessState.tempBusinessList = action.payload;
     },
 
-    getBusinessListIDSuccess(state, action) {
-      state.isLoading = false;
-      state.businessDetail = action.payload;
-    },
-    delBusinessListIDSuccess(state, action) {
-      state.businessLists = action.payload;
+    // HAS ERROR
+    hasTempBusinessError(state, action) {
+      state.tempBusinessState.isLoading = false;
+      state.tempBusinessState.error = action.payload;
     },
 
-    getAllTempBusiness(state, action) {
-      state.tempBusinessList = action.payload;
-      state.isLoading = false;
+    //-------------------DETAIL OF BUSINESS------------------
+    // START LOADING
+    startBusinessDetailLoading(state) {
+      state.businessDetailState.isLoading = true;
+    },
+
+    // GET MANAGE BUSINESS DETAIL
+    getBusinessDetailSuccess(state, action) {
+      state.businessDetailState.isLoading = false;
+      state.businessDetailState.businessDetail = action.payload;
+    },
+    // HAS ERROR
+    hasBusinessDetailError(state, action) {
+      state.businessDetailState.isLoading = false;
+      state.businessDetailState.error = action.payload;
+    },
+    // GET MANAGE PROJECT OF BUSINESS
+    getProjectOfBusiness(state, action) {
+      state.businessDetailState.isLoading = false;
+      state.businessDetailState.projectsOfBusiness = action.payload;
     }
   }
 });
@@ -79,76 +130,66 @@ export default slice.reducer;
 
 export function getBusinessList(temp_field_role: 'ADMIN') {
   return async () => {
-    dispatch(slice.actions.startLoading());
+    dispatch(slice.actions.startBusinessLoading());
     try {
       const response = await axios.get(REACT_APP_API_URL + 'businesses', {
         params: { temp_field_role }
       });
       dispatch(slice.actions.getBusinessListSuccess(response.data));
     } catch (error) {
-      dispatch(slice.actions.hasError(error));
+      dispatch(slice.actions.hasBusinessError(error));
     }
   };
 }
+
 export function getAllTempBusiness() {
   return async () => {
-    dispatch(slice.actions.startLoading());
+    dispatch(slice.actions.startTempBusinessLoading());
     try {
       const res = await FirebaseService.getAllTempBusiness();
-      dispatch(slice.actions.getAllTempBusiness(res));
+      dispatch(slice.actions.getAllTempBusinessSuccess(res));
     } catch (error) {
-      dispatch(slice.actions.hasError(error));
+      dispatch(slice.actions.hasTempBusinessError(error));
     }
   };
 }
-export function getBusinessListById(bussinessId: string) {
+
+export function getBusinessById(bussinessId: string) {
   return async () => {
-    dispatch(slice.actions.startLoading());
+    dispatch(slice.actions.startBusinessDetailLoading());
     try {
       const response = await axios.get(REACT_APP_API_URL + `businesses/${bussinessId}`);
-      dispatch(slice.actions.getBusinessListIDSuccess(response.data));
+      dispatch(slice.actions.getBusinessDetailSuccess(response.data));
     } catch (error) {
       console.log('...');
-      dispatch(slice.actions.hasError(error));
+      dispatch(slice.actions.hasBusinessDetailError(error));
     }
   };
 }
+
 export function getProjectByBusinessID(businessId: string, temp_field_role: 'ADMIN') {
   return async () => {
-    dispatch(slice.actions.startLoading());
+    dispatch(slice.actions.startBusinessDetailLoading());
     try {
       const response = await axios.get(REACT_APP_API_URL + 'projects', {
         params: { businessId, temp_field_role }
       });
 
-      dispatch(slice.actions.getBusinessListSuccess(response.data));
+      dispatch(slice.actions.getProjectOfBusiness(response.data));
     } catch (error) {
-      console.log('...');
-      dispatch(slice.actions.hasError(error));
+      dispatch(slice.actions.hasBusinessDetailError(error));
     }
   };
 }
-export function delBusinessListById(bussinessId: string) {
+
+export function deleteBusinessById(bussinessId: string) {
   return async () => {
-    dispatch(slice.actions.startLoading());
+    dispatch(slice.actions.startBusinessLoading());
     try {
       const response = await axios.delete(REACT_APP_API_URL + `businesses/${bussinessId}`);
       dispatch(getBusinessList('ADMIN'));
     } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
-export function postBusiness() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    console.log('da tao o dong nay');
-    try {
-      const response = await axios.post(REACT_APP_API_URL + `businesses`);
-      dispatch(slice.actions.getBusinessListSuccess(response.data));
-    } catch (error) {
-      console.log('da tao o dong nay 2');
-      dispatch(slice.actions.hasError(error));
+      dispatch(slice.actions.hasBusinessError(error));
     }
   };
 }
