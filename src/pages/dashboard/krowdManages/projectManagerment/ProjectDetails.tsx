@@ -18,19 +18,20 @@ import useSettings from '../../../../hooks/useSettings';
 import Page from '../../../../components/Page';
 import Label from '../../../../components/Label';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
-import { RootState, useSelector } from 'redux/store';
+import { dispatch, RootState, useSelector } from 'redux/store';
 import { useParams } from 'react-router';
 import { sentenceCase } from 'change-case';
 import { alpha, styled } from '@mui/material/styles';
 
 import { useSnackbar } from 'notistack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MIconButton } from 'components/@material-extend';
 import twitterFill from '@iconify/icons-eva/twitter-fill';
 import linkedinFill from '@iconify/icons-eva/linkedin-fill';
 import facebookFill from '@iconify/icons-eva/facebook-fill';
 import { useFormik, Form, FormikProvider, useField } from 'formik';
 import instagramFilled from '@iconify/icons-ant-design/instagram-filled';
+import { getProjectId } from 'redux/slices/krowd_slices/project';
 // ----------------------------------------------------------------------
 const ThumbImgStyle = styled('img')(({ theme }) => ({
   width: '100%',
@@ -40,10 +41,11 @@ const ThumbImgStyle = styled('img')(({ theme }) => ({
 export default function ProjectKrowdAdminDetails() {
   const { themeStretch } = useSettings();
   // const [hello, setData] = useState();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-  const { activeProjectId: project } = useSelector((state: RootState) => state.project);
-
+  const { id = '' } = useParams();
+  const { projectDetail: project } = useSelector((state: RootState) => state.project);
+  useEffect(() => {
+    dispatch(getProjectId(id));
+  }, [dispatch]);
   return (
     <Page title="Chi tiết: Dự án | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>

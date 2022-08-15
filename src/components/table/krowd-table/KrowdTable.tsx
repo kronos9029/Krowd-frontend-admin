@@ -12,25 +12,42 @@ import {
   TableContainer,
   TablePagination,
   Box,
-  CircularProgress
+  CircularProgress,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Chip
 } from '@mui/material';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Scrollbar from 'components/Scrollbar';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link, Link as RouterLink } from 'react-router-dom';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Icon } from '@iconify/react';
-import KrowdTableMoreMenu from '../components/KrowdTableMoreMenu';
 import KrowdTableListHead from '../components/KrowdTableListHead';
-
+import { fDate, fDateTimeSuffix } from 'utils/formatTime';
+import { fCurrency } from 'utils/formatNumber';
+import eyeFill from '@iconify/icons-eva/eye-fill';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 export enum DATA_TYPE {
   TEXT = 'text',
+  CHIP_TEXT = 'chip_text',
   IMAGE = 'image',
-  LIST_TEXT = 'list_text'
+  LIST_TEXT = 'list_text',
+  NUMBER = 'number',
+  WRAP_TEXT = 'wrap_text',
+  DATE = 'date',
+  CURRENCY = 'currency'
 }
 export type RowData = {
   id: string;
-  items: { name: string; value: any; type: DATA_TYPE }[];
+  items: {
+    name: string;
+    value: any;
+    type: DATA_TYPE;
+    textColor?: string;
+    textMapColor?: { status: string; color: string }[];
+  }[];
 };
 export type KrowdTableProps = {
   headingTitle: string;
@@ -38,7 +55,7 @@ export type KrowdTableProps = {
   header: { id: string; label: string; align: string }[];
   getData: () => Array<RowData>;
   viewPath?: string;
-  deleteRecord: (id: string) => void;
+  deleteRecord?: (id: string) => void;
   isLoading: boolean;
 };
 
@@ -47,14 +64,13 @@ export function KrowdTable({
   createNewRecordButton,
   header,
   getData,
+  isLoading,
   viewPath,
-  deleteRecord,
-  isLoading
+  deleteRecord
 }: KrowdTableProps) {
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
   const data = getData();
-
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -67,7 +83,7 @@ export function KrowdTable({
   return (
     <>
       <HeaderBreadcrumbs
-        heading={headingTitle}
+        heading={`${headingTitle.toUpperCase()} (${data.length})`}
         links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Danh sách' }]}
         action={
           createNewRecordButton && (
@@ -117,8 +133,80 @@ export function KrowdTable({
                                 padding="normal"
                               >
                                 <Stack direction="row" alignItems="center" spacing={2}>
-                                  <Typography variant="subtitle2" noWrap>
+                                  <Typography
+                                    variant="subtitle2"
+                                    noWrap
+                                    color={_item.textColor ?? 'text.primary'}
+                                  >
                                     {_item.value}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.CURRENCY:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography
+                                    variant="subtitle2"
+                                    noWrap
+                                    sx={{ color: _item.textColor ?? 'text.primary' }}
+                                  >
+                                    {fCurrency(_item.value)}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.WRAP_TEXT:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography variant="subtitle2">{_item.value}</Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.NUMBER:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography
+                                    variant="subtitle2"
+                                    noWrap
+                                    mx="auto"
+                                    color={_item.textColor ?? 'text.primary'}
+                                  >
+                                    {_item.value}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.DATE:
+                            const date = String(_item.value).split(' ')[0];
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography variant="subtitle2" noWrap>
+                                    {date}
                                   </Typography>
                                 </Stack>
                               </TableCell>
@@ -151,14 +239,57 @@ export function KrowdTable({
                                 </Stack>
                               </TableCell>
                             );
+                          case DATA_TYPE.CHIP_TEXT:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography variant="subtitle2" noWrap>
+                                    <Chip
+                                      label={_item.value}
+                                      sx={{
+                                        bgcolor:
+                                          _item.textMapColor?.find((v) => v.status === _item.value)
+                                            ?.color || 'text.primary',
+                                        color: '#ffffff'
+                                      }}
+                                    />
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
                         }
                       })}
-                      <TableCell align="left">
-                        <KrowdTableMoreMenu
-                          viewPath={viewPath && viewPath + `/${data.id}`}
-                          onDelete={() => deleteRecord(data.id)}
-                        />
-                      </TableCell>
+                      {viewPath && (
+                        <TableCell align="center">
+                          <Link to={viewPath + `/${data.id}`}>
+                            <Icon
+                              icon={eyeFill}
+                              width={24}
+                              height={24}
+                              style={{ margin: '0px auto' }}
+                              color={'rgb(255, 127, 80)'}
+                            />
+                          </Link>
+                        </TableCell>
+                      )}
+                      {deleteRecord && (
+                        <TableCell align="center">
+                          <Button onClick={() => deleteRecord(data.id)}>
+                            <Icon
+                              icon={trash2Outline}
+                              width={24}
+                              height={24}
+                              style={{ margin: '0px auto' }}
+                              color={'rgb(255, 127, 80)'}
+                            />
+                          </Button>
+                        </TableCell>
+                      )}
                       <TableCell
                         key={'__borderRowRight'}
                         component="th"
@@ -170,7 +301,6 @@ export function KrowdTable({
                     </TableRow>
                   );
                 })}
-              ;
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell

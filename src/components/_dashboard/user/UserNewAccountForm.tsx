@@ -62,7 +62,6 @@ export default function UserNewAccountForm({ isEdit, currentUser }: UserNewFormP
         });
         navigate(PATH_DASHBOARD.business.list);
       } catch (error) {
-        console.error(error);
         setSubmitting(false);
       }
     }
@@ -96,14 +95,13 @@ export default function UserNewAccountForm({ isEdit, currentUser }: UserNewFormP
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
-                    fullWidth
                     disabled
                     label="Mật khẩu"
                     value={password}
                     error={Boolean(touched.password && errors.password)}
                     helperText={touched.password && errors.password}
                   />
-                  <Button onClick={generatePassword}>Generate password</Button>
+                  <Button onClick={generatePassword}>Khởi tạo mật khẩu</Button>
                 </Stack>
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>

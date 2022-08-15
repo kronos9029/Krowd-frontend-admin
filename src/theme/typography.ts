@@ -18,7 +18,7 @@ function responsiveFontSizes({ sm, md, lg }: { sm: number; md: number; lg: numbe
   };
 }
 
-const FONT_PRIMARY = 'Raleway, sans-serif'; // Google Font
+const FONT_PRIMARY = 'Public Sans, sans-serif'; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 const typography = {

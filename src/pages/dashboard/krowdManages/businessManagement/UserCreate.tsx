@@ -15,7 +15,6 @@ import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import UserNewForm from 'components/_dashboard/user/UserNewForm';
 import { getBusinessList } from 'redux/slices/krowd_slices/business';
-import { getFieldListById } from 'redux/slices/krowd_slices/field';
 
 // ----------------------------------------------------------------------
 
@@ -24,26 +23,16 @@ export default function UserCreate() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id = '' } = useParams();
-  const { businessState } = useSelector((state: RootState) => state.business);
-  const { businessLists } = businessState;
-  const isEdit = pathname.includes('edit');
-  const currentUser = businessLists.listOfBusiness.find(
-    (business) => paramCase(business.id) === id
-  );
-
-  useEffect(() => {
-    dispatch(getFieldListById(id));
-  }, [dispatch]);
 
   return (
     <Page title="Doanh nghiệp: Tạo mới | Krowd">
-      <Container maxWidth={themeStretch ? false : 'lg'}>
+      <Container maxWidth={false}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Tạo mới doanh nghiệp' : 'Cập nhật người dùng'}
+          heading={'Tạo mới doanh nghiệp'}
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Tạo mới' }]}
         />
 
-        <UserNewForm isEdit={isEdit} currentUser={currentUser} />
+        <UserNewForm isEdit={false} />
       </Container>
     </Page>
   );

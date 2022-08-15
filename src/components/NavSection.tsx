@@ -83,7 +83,7 @@ function NavItem({ item, isShow }: { item: NavItemProps; isShow?: boolean | unde
   const { title, path, icon, info, children } = item;
   const isActiveRoot = path ? !!matchPath({ path, end: false }, pathname) : false;
 
-  const [open, setOpen] = useState(isActiveRoot);
+  const [open, setOpen] = useState(true);
 
   const handleOpen = () => {
     setOpen(!open);

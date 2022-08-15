@@ -14,22 +14,25 @@ import useSettings from 'hooks/useSettings';
 import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import UserNewForm from 'components/_dashboard/user/UserNewForm';
-import { getFieldList, getFieldListById } from 'redux/slices/krowd_slices/field';
+import { getFieldList, getFieldById } from 'redux/slices/krowd_slices/field';
 import FieldNewForm from '../../../../components/_dashboard/other/Field/FieldNewForm';
 
 // ----------------------------------------------------------------------
-
+enum PATH {
+  NEW = '/new',
+  EDIT = '/edit'
+}
 export default function FieldCreate() {
   const { themeStretch } = useSettings();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id = '' } = useParams();
   const { fieldList } = useSelector((state: RootState) => state.fieldKrowd);
-  const isEdit = pathname.includes('edit');
+  const isEdit = pathname.includes(PATH.EDIT);
   const currentField = fieldList.find((field) => paramCase(field.id) === id);
 
   useEffect(() => {
-    dispatch(getFieldListById(id));
+    dispatch(getFieldById(id));
   }, [dispatch]);
 
   return (
@@ -40,7 +43,7 @@ export default function FieldCreate() {
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Tạo mới' }]}
         />
 
-        <FieldNewForm isEdit={isEdit} currentField={currentField} />
+        {/* <FieldNewForm isEdit={isEdit} currentField={currentField} /> */}
       </Container>
     </Page>
   );

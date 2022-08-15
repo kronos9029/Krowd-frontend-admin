@@ -1,5 +1,7 @@
 import { Field } from './fields';
-
+export enum BUSINESS_STATUS_ENUM {
+  ACTIVE = 'ACTIVE'
+}
 export type Business = {
   id: string;
   name: string;
@@ -43,7 +45,7 @@ export type Business = {
     isDeleted: boolean;
   };
   fieldList: [Field];
-  status?: 'Bị khóa' | 'Đang hoạt động' | 'Dừng hoạt động';
+  status: BUSINESS_STATUS_ENUM;
 };
 
 export type BusinessFilter = {
@@ -54,4 +56,14 @@ export type TempBusiness = {
   displayName: string;
   uid: string;
   password: string;
+  description: string;
+  phoneNum: string;
+  status: string;
+  address: string;
+  denied_message: string;
+  taxIdentificationNumber: string;
+  fieldList: {
+    id: string;
+    name: string;
+  }[];
 };

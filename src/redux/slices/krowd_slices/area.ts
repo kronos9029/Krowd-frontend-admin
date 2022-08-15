@@ -59,7 +59,6 @@ export function getAreasList() {
         'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/areas'
       );
       dispatch(slice.actions.getAreaListSuccess(response.data));
-      console.log('Areas data:', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

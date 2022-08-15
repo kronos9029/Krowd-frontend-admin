@@ -22,11 +22,46 @@ class FirebaseService {
         email: data.email,
         displayName: data.name,
         uid: data.uid,
-        password: data.password
+        password: data.password,
+        description: data.description,
+        phoneNum: data.phoneNum,
+        status: data.status,
+        address: data.address,
+        denied_message: data.denied_message,
+        taxIdentificationNumber: data.taxIdentificationNumber,
+        fieldList: data.fieldList
       };
       listBusiness.push(business);
     });
     return listBusiness;
+  }
+
+  static async getTempBusinessID(uid: string) {
+    const _firebase = firebase.app('Secondary');
+    const businessRef = await _firebase
+      .firestore()
+      .collection(FIREBASE_DATASTORAGE_CONFIG.colection.business)
+      .where('uid', '==', uid)
+      .get();
+
+    const snapshot = businessRef.docs.at(0);
+    const data = snapshot?.data();
+    const businessID: TempBusiness | null =
+      (data && {
+        email: data.email,
+        displayName: data.name,
+        uid: data.uid,
+        password: data.password,
+        description: data.description,
+        phoneNum: data.phoneNum,
+        status: data.status,
+        address: data.address,
+        denied_message: data.denied_message,
+        taxIdentificationNumber: data.taxIdentificationNumber,
+        fieldList: data.fieldList
+      }) ||
+      null;
+    return businessID;
   }
 
   static async createTempBusinessFirebase(email: string, password: string, name: string) {

@@ -33,16 +33,6 @@ const productPersistConfig = {
   keyPrefix: 'redux-',
   whitelist: ['sortBy', 'checkout']
 };
-const businessPersistConfig = {
-  key: 'business',
-  storage,
-  keyPrefix: 'redux-'
-};
-const projectPersistConfig = {
-  key: 'project',
-  storage,
-  keyPrefix: 'redux-'
-};
 
 const rootReducer = combineReducers({
   mail: mailReducer,
@@ -51,14 +41,13 @@ const rootReducer = combineReducers({
   user: userReducer,
   kanban: kanbanReducer,
   business: businessReducer,
-  // business: persistReducer(businessPersistConfig, businessReducer),
   userKrowd: userKrowdReducer,
   fieldKrowd: fieldKrowdReducer,
   areaKrowd: AreaKrowdReducer,
   riskKrowd: RiskReducer,
   roleKrowd: RolesReducer,
   wallet: WalletReducer,
-  project: persistReducer(projectPersistConfig, projectReducer),
+  project: projectReducer,
   transaction: TransactionReducer,
   product: persistReducer(productPersistConfig, productReducer)
 });

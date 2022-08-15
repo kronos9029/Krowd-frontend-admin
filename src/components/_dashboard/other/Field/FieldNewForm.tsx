@@ -4,112 +4,110 @@ import { useNavigate } from 'react-router-dom';
 import { Form, FormikProvider, useFormik } from 'formik';
 // material
 import { LoadingButton } from '@mui/lab';
-import { Box, Card, Grid, Stack, TextField } from '@mui/material';
+import { Box, Button, Card, Container, Grid, Stack, TextField } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from 'routes/paths';
 // @types
 import axios from 'axios';
 import { Field } from '../../../../@types/krowd/fields';
+import Page from 'components/Page';
+import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
+import { Icon } from '@iconify/react';
+import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import Typography from 'theme/overrides/Typography';
 // ----------------------------------------------------------------------
 
 type FieldNewFormProps = {
-  isEdit: boolean;
-  currentField?: Field;
+  currentField: Field;
 };
 
-export default function FieldNewForm({ isEdit, currentField }: FieldNewFormProps) {
+export default function FieldNewForm({ currentField: field }: FieldNewFormProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const NewBusinessSchema = Yup.object().shape({
-    name: Yup.string().required('Yêu cầu nhập tên'),
-    description: Yup.string().required('Yêu cầu nhập mô tả')
-  });
-  const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: {
-      name: currentField?.name || '',
-      description: currentField?.description || ''
-    },
-    validationSchema: NewBusinessSchema,
-
-    onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
-      if (!isEdit) {
-        try {
-          await axios.post(
-            `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields`,
-            values
-          );
-          resetForm();
-          setSubmitting(true);
-          enqueueSnackbar('Tạo mới thành công', {
-            variant: 'success'
-          });
-          navigate(PATH_DASHBOARD.other.field);
-        } catch (error) {
-          console.error(error);
-          setSubmitting(false);
-        }
-      } else {
-        try {
-          await axios.put(
-            `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields/${currentField?.id}`,
-            values
-          );
-          resetForm();
-          setSubmitting(true);
-          enqueueSnackbar('Cập nhật thành công', {
-            variant: 'success'
-          });
-          navigate(PATH_DASHBOARD.other.field);
-        } catch (error) {
-          console.error(error);
-          setSubmitting(false);
-        }
-      }
-    }
-  });
-
-  const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
-    formik;
-
   return (
-    <FormikProvider value={formik}>
-      <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+    <Page title="Lĩnh vực: Tạo mới | Krowd">
+      <Container maxWidth={false}>
+        <HeaderBreadcrumbs
+          heading={'Chi tiết lĩnh vực'}
+          links={[
+            { name: 'Bảng điều khiển', href: PATH_DASHBOARD.root },
+            { name: 'Danh sách lĩnh vực', href: PATH_DASHBOARD.other.fields },
+            { name: field.name }
+          ]}
+          action={
+            <Button
+              variant="contained"
+              onClick={() => {}}
+              startIcon={<Icon icon={trash2Outline} />}
+            >
+              "Xóa lĩnh vực"
+            </Button>
+          }
+        />
+
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3}>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Tên"
-                    {...getFieldProps('name')}
-                    error={Boolean(touched.name && errors.name)}
-                    helperText={touched.name && errors.name}
-                  />
+                  {field.name}
                 </Stack>
-
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Mô tả"
-                    {...getFieldProps('description')}
-                    error={Boolean(touched.description && errors.description)}
-                    helperText={touched.description && errors.description}
-                  />
-                </Stack>
-
-                <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!isEdit ? 'Tạo mới lĩnh vực' : 'Lưu thay đổi'}
-                  </LoadingButton>
-                </Box>
               </Stack>
             </Card>
           </Grid>
         </Grid>
-      </Form>
-    </FormikProvider>
+      </Container>
+    </Page>
   );
 }
+// const formik = useFormik({
+//   enableReinitialize: true,
+//   initialValues: {
+//     name: currentField?.name || '',
+//     description: currentField?.description || ''
+//   },
+//   validationSchema: NewBusinessSchema,
+//  const NewBusinessSchema = Yup.object().shape({
+//     name: Yup.string().required('Yêu cầu nhập tên'),
+//     description: Yup.string().required('Yêu cầu nhập mô tả')
+//   });
+//   onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
+//     if (!isEdit) {
+//       try {
+//         await axios.post(
+//           `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields`,
+//           values
+//         );
+//         resetForm();
+//         setSubmitting(true);
+//         enqueueSnackbar('Tạo mới thành công', {
+//           variant: 'success'
+//         });
+//         navigate(PATH_DASHBOARD.other.field);
+//       } catch (error) {
+//         console.error(error);
+//         setSubmitting(false);
+//       }
+//     } else {
+//       try {
+//         await axios.put(
+//           `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields/${currentField?.id}`,
+//           values
+//         );
+//         resetForm();
+//         setSubmitting(true);
+//         enqueueSnackbar('Cập nhật thành công', {
+//           variant: 'success'
+//         });
+//         navigate(PATH_DASHBOARD.other.field);
+//       } catch (error) {
+//         console.error(error);
+//         setSubmitting(false);
+//       }
+//     }
+//   }
+// });
+
+// const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
+//   formik;

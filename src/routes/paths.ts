@@ -41,6 +41,11 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/project'),
     projectKrowd: path(ROOTS_DASHBOARD, '/project/projectKrowd'),
     projectDetails: path(ROOTS_DASHBOARD, '/project/projectDetails'),
+    draftProject: path(ROOTS_DASHBOARD, '/project/draftProject'),
+    callingProject: path(ROOTS_DASHBOARD, '/project/callingProject'),
+    overdateProject: path(ROOTS_DASHBOARD, '/project/overdateProject'),
+    closeProject: path(ROOTS_DASHBOARD, '/project/closeProject'),
+    activeProject: path(ROOTS_DASHBOARD, '/project/activeProject'),
     projectById: path(ROOTS_DASHBOARD, '/project/nike-air-force-1-ndestrukt')
   },
   //doanh nghiệp
@@ -50,7 +55,8 @@ export const PATH_DASHBOARD = {
     cards: path(ROOTS_DASHBOARD, '/business/cards'),
     list: path(ROOTS_DASHBOARD, '/business/list'),
     newUser: path(ROOTS_DASHBOARD, '/business/new'),
-    newAccount: path(ROOTS_DASHBOARD, '/business/newAccount'),
+    createBusiness: path(ROOTS_DASHBOARD, '/business/tempBusiness/new'),
+    tempBusiness: path(ROOTS_DASHBOARD, '/business/tempBusiness/details'),
     editById: path(ROOTS_DASHBOARD, `/business/reece-chung/edit`),
     account: path(ROOTS_DASHBOARD, '/business/account'),
     details: path(ROOTS_DASHBOARD, '/business/details')
@@ -60,9 +66,11 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/admin'),
     profile: path(ROOTS_DASHBOARD, '/admin/profile'),
     cards: path(ROOTS_DASHBOARD, '/admin/cards'),
-    list: path(ROOTS_DASHBOARD, '/admin/list'),
+    listBusiness: path(ROOTS_DASHBOARD, '/admin/list_business'),
+    listInvestor: path(ROOTS_DASHBOARD, '/admin/list_investor'),
+    listProjectOwner: path(ROOTS_DASHBOARD, '/admin/list_project_owner'),
     newUser: path(ROOTS_DASHBOARD, '/admin/new'),
-    editById: path(ROOTS_DASHBOARD, `/admin/reece-chung/edit`),
+    userKrowd: path(ROOTS_DASHBOARD, `/admin/userKrowd`),
     account: path(ROOTS_DASHBOARD, '/admin/account')
   },
   // giao dịch
@@ -83,9 +91,9 @@ export const PATH_DASHBOARD = {
   other: {
     root: path(ROOTS_DASHBOARD, '/other'),
     list: path(ROOTS_DASHBOARD, '/other/list'),
-    field: path(ROOTS_DASHBOARD, '/other/field'),
+    fields: path(ROOTS_DASHBOARD, '/other/fields'),
     newRiskType: path(ROOTS_DASHBOARD, '/other/risk_type-new'),
-    newField: path(ROOTS_DASHBOARD, '/other/field-new'),
+    field: path(ROOTS_DASHBOARD, '/other/field'),
     area: path(ROOTS_DASHBOARD, '/other/area'),
     role: path(ROOTS_DASHBOARD, '/other/role'),
     risk: path(ROOTS_DASHBOARD, '/other/risk'),

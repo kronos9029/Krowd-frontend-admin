@@ -7,7 +7,7 @@ import { RiskTypes } from '../../../@types/krowd/riskTypeKrowd';
 
 // ----------------------------------------------------------------------
 
-type RiskTypeState = {
+export type RiskTypeState = {
   isLoading: boolean;
   error: boolean;
   riskTypeList: RiskTypes[];

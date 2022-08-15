@@ -84,7 +84,7 @@ export type Project = {
   businessLicense: string;
   approvedDate: string;
   approvedBy: string;
-  status: number;
+  status: string;
   createDate: string;
   createBy: string;
   updateDate: string;

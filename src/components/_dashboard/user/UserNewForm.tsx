@@ -32,45 +32,38 @@ import axios from 'axios';
 import { dispatch } from 'redux/store';
 import { slice } from 'lodash';
 import { useForm } from 'react-hook-form';
+import { UserKrowd } from '../../../@types/krowd/users';
 // ----------------------------------------------------------------------
 
 type UserNewFormProps = {
   isEdit: boolean;
-  currentUser?: Business;
+  currentUser?: UserKrowd;
 };
 
 export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const [loading, setLoading] = useState(false);
-  const [picture, setImage] = useState('');
 
   const NewBusinessSchema = Yup.object().shape({
-    name: Yup.string().required('Yêu cầu nhập tên'),
-    phoneNum: Yup.string().required('Yêu cầu nhập số điện thoại'),
-    image: Yup.mixed().required('Vui lòng thêm ảnh'),
-    email: Yup.string().required('Yêu cầu nhập email').email(),
-    description: Yup.string().required('Yêu cầu nhập mô tả'),
-    taxIdentificationNumber: Yup.string().required('Yêu cầu nhập mã số thuế'),
-    address: Yup.string().required('Yêu cầu nhập địa chỉ')
+    lastName: Yup.string().required('Yêu cầu nhập họ'),
+    firstName: Yup.string().required('Yêu cầu nhập tên'),
+    email: Yup.string().required('Yêu cầu nhập email').email()
   });
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: currentUser?.name || '',
-      phoneNum: currentUser?.phoneNum || '',
-      image: currentUser?.image || null,
+      lastName: currentUser?.lastName || '',
+      firstName: currentUser?.firstName || '',
+      image: currentUser?.image || '',
       email: currentUser?.email || '',
-      description: currentUser?.description || '',
-      taxIdentificationNumber: currentUser?.taxIdentificationNumber || '',
-      address: currentUser?.address || ''
+      roleId: '015ae3c5-eee9-4f5c-befb-57d41a43d9df'
     },
     validationSchema: NewBusinessSchema,
 
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
         await axios.post(
-          `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses`,
+          `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users`,
           values
         );
         resetForm();
@@ -78,7 +71,7 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
         enqueueSnackbar('Tạo mới thành công', {
           variant: 'success'
         });
-        navigate(PATH_DASHBOARD.business.list);
+        navigate(PATH_DASHBOARD.admin.listBusiness);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -89,23 +82,23 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
   const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
     formik;
   console.log(formik);
-  const handleDrop = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    const data = new FormData();
-    if (files !== null) {
-      data.append('file', files[0]);
-      data.append('upload_preset', 'KrowdRSI');
-      setLoading(true);
-      const res = fetch('https://api.cloudinary.com/v1_1/fpt-claudary/image/upload', {
-        method: 'POST',
-        body: data
-      });
-      // getFieldProps(files[0].name);
-      console.log('t da upload dc', res);
-      console.log('t da upload dc', files[0]);
-      setLoading(false);
-    }
-  };
+  // const handleDrop = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = e.target.files;
+  //   const data = new FormData();
+  //   if (files !== null) {
+  //     data.append('file', files[0]);
+  //     data.append('upload_preset', 'KrowdRSI');
+  //     setLoading(true);
+  //     const res = fetch('https://api.cloudinary.com/v1_1/fpt-claudary/image/upload', {
+  //       method: 'POST',
+  //       body: data
+  //     });
+  //     // getFieldProps(files[0].name);
+  //     console.log('t da upload dc', res);
+  //     console.log('t da upload dc', files[0]);
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <FormikProvider value={formik}>
@@ -125,26 +118,26 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
               </Box>
             </Card>
           </Grid> */}
-          <Grid item xs={12} md={4}></Grid>
 
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={12}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3}>
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Ảnh đầy đủ"
-                    {...getFieldProps('image')}
-                    error={Boolean(touched.image && errors.image)}
-                    helperText={touched.image && errors.image}
+                    label="Họ"
+                    {...getFieldProps('firstName')}
+                    error={Boolean(touched.firstName && errors.firstName)}
+                    helperText={touched.firstName && errors.firstName}
                   />
                   <TextField
                     fullWidth
-                    label="Tên đầy đủ"
-                    {...getFieldProps('name')}
-                    error={Boolean(touched.name && errors.name)}
-                    helperText={touched.name && errors.name}
+                    label="Tên"
+                    {...getFieldProps('lastName')}
+                    error={Boolean(touched.lastName && errors.lastName)}
+                    helperText={touched.lastName && errors.lastName}
                   />
+
                   <TextField
                     fullWidth
                     label="Địa chỉ email"
@@ -154,46 +147,9 @@ export default function UserNewForm({ isEdit, currentUser }: UserNewFormProps) {
                   />
                 </Stack>
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Di động"
-                    {...getFieldProps('phoneNum')}
-                    error={Boolean(touched.phoneNum && errors.phoneNum)}
-                    helperText={touched.phoneNum && errors.phoneNum}
-                  />
-
-                  <TextField
-                    fullWidth
-                    label="Địa chỉ"
-                    {...getFieldProps('address')}
-                    error={Boolean(touched.address && errors.address)}
-                    helperText={touched.address && errors.address}
-                  />
-                  <TextField
-                    fullWidth
-                    label="Mã số thuế"
-                    {...getFieldProps('taxIdentificationNumber')}
-                    error={Boolean(
-                      touched.taxIdentificationNumber && errors.taxIdentificationNumber
-                    )}
-                    helperText={touched.taxIdentificationNumber && errors.taxIdentificationNumber}
-                  />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Mô tả"
-                    {...getFieldProps('description')}
-                    error={Boolean(touched.description && errors.description)}
-                    helperText={touched.description && errors.description}
-                  />
-                </Stack>
-
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    {!isEdit ? 'Create User' : 'Lưu thay đổi'}
+                    {!isEdit ? 'Tạo mới' : 'Lưu thay đổi'}
                   </LoadingButton>
                 </Box>
               </Stack>

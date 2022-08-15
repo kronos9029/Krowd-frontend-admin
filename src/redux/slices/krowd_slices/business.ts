@@ -12,7 +12,7 @@ import { Project } from '../../../@types/krowd/project';
 
 // ----------------------------------------------------------------------
 
-type BusinessState = {
+export type BusinessState = {
   businessState: {
     isLoading: boolean;
     businessLists: {
@@ -24,12 +24,20 @@ type BusinessState = {
   tempBusinessState: {
     isLoading: boolean;
     tempBusinessList: TempBusiness[];
+    tempBusiness: TempBusiness | null;
     error: boolean;
   };
   businessDetailState: {
     isLoading: boolean;
     businessDetail: Business | null;
-    projectsOfBusiness: Project[] | null;
+    error: boolean;
+  };
+  projectsOfBusinessState: {
+    isLoading: boolean;
+    projectsOfBusiness: {
+      numOfProject: number;
+      listOfProject: Project[];
+    };
     error: boolean;
   };
 };
@@ -46,12 +54,20 @@ const initialState: BusinessState = {
   tempBusinessState: {
     isLoading: false,
     tempBusinessList: [],
+    tempBusiness: null,
     error: false
   },
   businessDetailState: {
     isLoading: false,
     businessDetail: null,
-    projectsOfBusiness: null,
+    error: false
+  },
+  projectsOfBusinessState: {
+    isLoading: false,
+    projectsOfBusiness: {
+      numOfProject: 0,
+      listOfProject: []
+    },
     error: false
   }
 };
@@ -88,6 +104,10 @@ const slice = createSlice({
       state.tempBusinessState.isLoading = false;
       state.tempBusinessState.tempBusinessList = action.payload;
     },
+    getTempBusinessIDSuccess(state, action) {
+      state.tempBusinessState.isLoading = false;
+      state.tempBusinessState.tempBusiness = action.payload;
+    },
 
     // HAS ERROR
     hasTempBusinessError(state, action) {
@@ -111,10 +131,22 @@ const slice = createSlice({
       state.businessDetailState.isLoading = false;
       state.businessDetailState.error = action.payload;
     },
+
+    //-------------------PROJECTS OF BUSINESS------------------
+    // START LOADING
+    startProjectsOfBusinessLoading(state) {
+      state.projectsOfBusinessState.isLoading = true;
+    },
+
     // GET MANAGE PROJECT OF BUSINESS
-    getProjectOfBusiness(state, action) {
-      state.businessDetailState.isLoading = false;
-      state.businessDetailState.projectsOfBusiness = action.payload;
+    getProjectsOfBusiness(state, action) {
+      state.projectsOfBusinessState.isLoading = false;
+      state.projectsOfBusinessState.projectsOfBusiness = action.payload;
+    },
+    // HAS ERROR
+    hasProjectsOfBusinessError(state, action) {
+      state.projectsOfBusinessState.isLoading = false;
+      state.projectsOfBusinessState.error = action.payload;
     }
   }
 });
@@ -153,7 +185,17 @@ export function getAllTempBusiness() {
     }
   };
 }
-
+export function getTempBusinessById(uid: string) {
+  return async () => {
+    dispatch(slice.actions.startTempBusinessLoading());
+    try {
+      const res = await FirebaseService.getTempBusinessID(uid);
+      dispatch(slice.actions.getTempBusinessIDSuccess(res));
+    } catch (error) {
+      dispatch(slice.actions.hasTempBusinessError(error));
+    }
+  };
+}
 export function getBusinessById(bussinessId: string) {
   return async () => {
     dispatch(slice.actions.startBusinessDetailLoading());
@@ -169,15 +211,15 @@ export function getBusinessById(bussinessId: string) {
 
 export function getProjectByBusinessID(businessId: string, temp_field_role: 'ADMIN') {
   return async () => {
-    dispatch(slice.actions.startBusinessDetailLoading());
+    dispatch(slice.actions.startProjectsOfBusinessLoading());
     try {
       const response = await axios.get(REACT_APP_API_URL + 'projects', {
         params: { businessId, temp_field_role }
       });
 
-      dispatch(slice.actions.getProjectOfBusiness(response.data));
+      dispatch(slice.actions.getProjectsOfBusiness(response.data));
     } catch (error) {
-      dispatch(slice.actions.hasBusinessDetailError(error));
+      dispatch(slice.actions.hasProjectsOfBusinessError(error));
     }
   };
 }

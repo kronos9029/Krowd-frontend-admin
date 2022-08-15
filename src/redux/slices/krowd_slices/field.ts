@@ -7,7 +7,7 @@ import { Field } from '../../../@types/krowd/fields';
 
 // ----------------------------------------------------------------------
 
-type FieldState = {
+export type FieldState = {
   isLoading: boolean;
   error: boolean;
   fieldList: Field[];
@@ -36,7 +36,7 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
-    getFieldListIDSuccess(state, action) {
+    getFieldByIdSuccess(state, action) {
       state.isLoading = false;
       state.activeFieldId = action.payload;
     },
@@ -71,14 +71,14 @@ export function getFieldList() {
   };
 }
 
-export function getFieldListById(fieldId: string) {
+export function getFieldById(fieldId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get(
         `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields/${fieldId}`
       );
-      dispatch(slice.actions.getFieldListIDSuccess(response.data));
+      dispatch(slice.actions.getFieldByIdSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

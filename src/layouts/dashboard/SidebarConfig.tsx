@@ -47,26 +47,66 @@ const sidebarConfig = [
       // { title: 'Tổng quan tháng', path: PATH_DASHBOARD.general.booking, icon: ICONS.dayOverview }
     ]
   },
-
+  {
+    subheader: 'Quản lý chung',
+    items: [{ title: 'Doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business }]
+  },
   // MANAGEMENT
   {
-    subheader: 'Quản lý',
+    subheader: 'Quản lý người dùng',
     items: [
-      { title: 'Doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business },
-      { title: 'Dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
-      { title: 'Nhà đầu tư', path: PATH_DASHBOARD.admin.list, icon: ICONS.customer }
-      // {
-      //   title: 'Quản lý ví',
-      //   path: PATH_DASHBOARD.wallet.root,
-      //   icon: ICONS.wallet,
-      //   children: [
-      //     { title: 'Ví của hệ thống', path: PATH_DASHBOARD.wallet.system },
-      //     { title: 'Ví doanh thu', path: PATH_DASHBOARD.wallet.transaction },
-      //     { title: 'Các loại ví đầu tư', path: PATH_DASHBOARD.wallet.allWallet }
-      //   ]
-      // }
+      {
+        title: 'Quản lý doanh nghiệp',
+        path: PATH_DASHBOARD.admin.listBusiness,
+        icon: ICONS.customer
+      },
+      {
+        title: 'Người đầu tư',
+        path: PATH_DASHBOARD.admin.listInvestor,
+        icon: ICONS.customer
+      },
+      {
+        title: 'Người quản lý dự án',
+        path: PATH_DASHBOARD.admin.listProjectOwner,
+        icon: ICONS.customer
+      }
     ]
   },
+  {
+    subheader: 'Quản lý dự án',
+    items: [
+      { title: 'Tất cả dự án', path: PATH_DASHBOARD.projects.projectKrowd, icon: ICONS.project },
+      {
+        title: 'Theo từng giai đoạn',
+        path: PATH_DASHBOARD.general.app,
+        icon: ICONS.project,
+        children: [
+          {
+            title: 'Dự án phác thảo',
+            path: PATH_DASHBOARD.projects.draftProject
+          },
+          {
+            title: 'Dự án mở đầu tư',
+            path: PATH_DASHBOARD.projects.callingProject
+          },
+
+          {
+            title: 'Dự án quá hạn đầu tư',
+            path: PATH_DASHBOARD.projects.overdateProject
+          },
+          {
+            title: 'Dự án đang hoạt động',
+            path: PATH_DASHBOARD.projects.activeProject
+          },
+          {
+            title: 'Dự án đã kết thúc',
+            path: PATH_DASHBOARD.projects.closeProject
+          }
+        ]
+      }
+    ]
+  },
+
   {
     subheader: 'Quản lý giao dịch',
     items: [
@@ -87,20 +127,18 @@ const sidebarConfig = [
       // }
     ]
   },
-
   {
-    subheader: '---------------------------------------',
+    subheader: 'Quản lý khác',
     items: [
       {
-        title: 'Quản lý khác:',
-        path: PATH_DASHBOARD.other.root,
+        title: 'Quản lý khác',
+        path: PATH_DASHBOARD.general.app,
         icon: ICONS.other,
         children: [
-          { title: 'Lĩnh vực', path: PATH_DASHBOARD.other.field },
+          { title: 'Lĩnh vực', path: PATH_DASHBOARD.other.fields },
           { title: 'Khu vực', path: PATH_DASHBOARD.other.area },
           { title: 'Vai trò', path: PATH_DASHBOARD.other.role },
           { title: 'Rủi ro', path: PATH_DASHBOARD.other.risk }
-          // { title: 'Đầu tư', path: PATH_DASHBOARD.other.investment }
         ]
       }
     ]

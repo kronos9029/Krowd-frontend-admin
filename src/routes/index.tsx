@@ -10,8 +10,11 @@ import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import UsersKrowd from 'pages/dashboard/krowdManages/usersManagement/UsersKrowd';
-
+import UsersKrowd from 'pages/dashboard/krowdManages/usersManagement/UserKrowdTable';
+import KrowdDetailView from 'components/table/krowd-table/KrowdDetailView';
+import InvestorKrowdTable from 'components/table/manage-user/InvestorKrowdTable';
+import BusinessManagerKrowdTable from 'pages/dashboard/krowdManages/usersManagement/BusinessManagerKrowdTable';
+import ProjectOwnerKrowdTable from 'components/table/manage-user/ProjectOwnerKrowdTable';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: React.ElementType) => (props: any) => {
@@ -97,14 +100,21 @@ export default function Router() {
           path: 'other',
           children: [
             { element: <Navigate to="/dashboard/other/field" replace /> },
-            { path: 'field', element: <FieldManagerment /> },
-            { path: 'field-new', element: <FieldCreate /> },
-            { path: ':id/edit', element: <FieldCreate /> },
+            { path: 'fields', element: <FieldManagerment /> },
+            { path: 'field/new', element: <FieldCreate /> },
+            {
+              path: 'field/:id',
+              element: <KrowdDetailView />
+            },
+            {
+              path: 'risk/:id',
+              element: <KrowdDetailView />
+            },
             { path: 'area', element: <AreasManagement /> },
             { path: 'role', element: <RolesManagement /> },
             { path: 'risk_type-new', element: <RiskTypeCreate /> },
             { path: ':id/edit/risk', element: <RiskTypeCreate /> },
-            { path: 'risk', element: <RiskTypesManagement /> },
+            { path: 'risks', element: <RiskTypesManagement /> },
             { path: 'investment', element: <EcommerceProductList /> }
           ]
         },
@@ -113,8 +123,12 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/project" replace /> },
             { path: 'projectKrowd', element: <ProjectList /> },
-            // { path: 'projectDetails', element: <KrowdProjectDetails /> }
-            { path: 'projectDetails', element: <ProjectKrowdAdminDetails /> }
+            { path: 'draftProject', element: <DraftProjectList /> },
+            { path: 'callingProject', element: <CallingProjectList /> },
+            { path: 'overdateProject', element: <OverDateProjectList /> },
+            { path: 'closeProject', element: <CloseProjectList /> },
+            { path: 'activeProject', element: <ActiveProjectList /> },
+            { path: 'projectDetails/:id', element: <ProjectDetails /> }
           ]
         },
         {
@@ -132,7 +146,6 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/e-commerce/shop" replace /> },
             { path: 'shop', element: <FieldManagerment /> },
-            { path: 'projectDetails', element: <KrowdProjectDetails /> },
             { path: 'list', element: <EcommerceProductList /> },
             { path: 'product/new', element: <EcommerceProductCreate /> },
             { path: 'product/:name/edit', element: <EcommerceProductCreate /> },
@@ -148,10 +161,11 @@ export default function Router() {
             { path: 'cards', element: <UserCards /> },
             { path: 'list', element: <BusinessList /> },
             { path: 'new', element: <UserCreate /> },
-            { path: 'newAccount', element: <UserCreateAccount /> },
+            { path: 'tempBusiness/new', element: <KrowdDetailView /> },
+            { path: 'tempBusiness/details/:id', element: <KrowdDetailView /> },
             { path: ':name/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> },
-            { path: 'details/:id', element: <BusinessDetails /> }
+            { path: 'details/:id', element: <KrowdDetailView /> }
           ]
         },
         {
@@ -160,9 +174,15 @@ export default function Router() {
             { element: <Navigate to="/dashboard/admin/profile" replace /> },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
-            { path: 'list', element: <UsersKrowd /> },
+            { path: 'list_business', element: <BusinessManagerKrowdTable /> },
+            { path: 'list_investor', element: <InvestorKrowdTable /> },
+            { path: 'list_project_owner', element: <ProjectOwnerKrowdTable /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':name/edit', element: <UserCreate /> },
+            {
+              path: 'userKrowd/:id',
+              element: <KrowdDetailView />
+            },
             { path: 'account', element: <UserAccount /> }
           ]
         },
@@ -239,9 +259,7 @@ const GeneralBanking = Loadable(
 const GeneralBooking = Loadable(
   lazy(() => import('../pages/dashboard/generalManagers/GeneralBooking'))
 );
-const ProjectManagement = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectManagement'))
-);
+
 const AccountTransactionDetails = Loadable(
   lazy(
     () => import('../pages/dashboard/krowdManages/transactionManagement/AccountTransactionDetails')
@@ -275,9 +293,6 @@ const RiskTypesManagement = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/otherManagers/RiskTypesManagement'))
 );
 
-const KrowdProjectDetails = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/KrowdProjectDetail'))
-);
 const EcommerceProductList = Loadable(
   lazy(() => import('../pages/dashboard/templateManagers/EcommerceProductList'))
 );
@@ -290,10 +305,6 @@ const EcommerceCheckout = Loadable(
 const BusinessDetails = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessDetails'))
 );
-
-const ProjectKrowdAdminDetails = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/ProjectKrowdAdminDetails'))
-);
 const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPosts')));
 const BlogPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPost')));
 const BlogNewPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogNewPost')));
@@ -303,7 +314,28 @@ const BusinessList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessList'))
 );
 const ProjectList = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/ProjectList'))
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectList'))
+);
+const DraftProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/DraftProjectList'))
+);
+const CallingProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/CallingProjectList'))
+);
+const OverDateProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/OverDateProjectList'))
+);
+const ActiveProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ActiveProjectList'))
+);
+const CloseProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/CloseProjectList'))
+);
+const OverDeathProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/OverDateProjectList'))
+);
+const ProjectDetails = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectDetails'))
 );
 const SystemWalletList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/walletManagement/SystemWallet'))
@@ -311,9 +343,6 @@ const SystemWalletList = Loadable(
 const UserAccount = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserAccount')));
 const UserCreate = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/UserCreate'))
-);
-const UserCreateAccount = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/businessManagement/UserCreateAccount'))
 );
 const Chat = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Chat')));
 const Mail = Loadable(lazy(() => import('../pages/dashboard/templateManagers/Mail')));

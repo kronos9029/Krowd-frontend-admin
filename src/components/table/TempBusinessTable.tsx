@@ -9,6 +9,7 @@ import { PATH_DASHBOARD } from 'routes/paths';
 import { DATA_TYPE, KrowdTable, RowData } from './krowd-table/KrowdTable';
 
 const TABLE_HEAD = [
+  { id: 'idx', label: 'STT', align: 'center' },
   { id: 'uid', label: 'UID', align: 'left' },
   { id: 'name', label: 'TÊN DOANH NGHIỆP', align: 'left' },
   { id: 'email', label: 'EMAIL', align: 'left' },
@@ -19,7 +20,6 @@ const TABLE_HEAD = [
 export default function BusinessTable() {
   const { tempBusinessState } = useSelector((state: RootState) => state.business);
   const { tempBusinessList: list, isLoading } = tempBusinessState;
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(getAllTempBusiness());
@@ -27,10 +27,15 @@ export default function BusinessTable() {
 
   const getData = (): RowData[] => {
     if (!list) return [];
-    return list.map<RowData>((_item) => {
+    return list.map<RowData>((_item, _idx) => {
       return {
         id: _item.uid,
         items: [
+          {
+            name: 'idx',
+            value: _idx + 1,
+            type: DATA_TYPE.NUMBER
+          },
           {
             name: 'uid',
             value: _item.uid,
@@ -60,13 +65,13 @@ export default function BusinessTable() {
     <KrowdTable
       headingTitle="Các doanh nghiệp chưa công khai"
       createNewRecordButton={{
-        pathTo: PATH_DASHBOARD.business.newUser,
+        pathTo: PATH_DASHBOARD.business.createBusiness,
         label: 'Tạo mới doanh nghiệp'
       }}
       header={TABLE_HEAD}
       getData={getData}
-      deleteRecord={() => {}}
       isLoading={isLoading}
+      viewPath={PATH_DASHBOARD.business.tempBusiness}
     />
   );
 }
