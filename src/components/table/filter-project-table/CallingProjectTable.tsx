@@ -38,7 +38,7 @@ export default function CallingProjectTable() {
   };
 
   useEffect(() => {
-    dispatch(getAllProject('ADMIN'));
+    dispatch(getAllProject());
   }, [dispatch]);
 
   const getData = (): RowData[] => {

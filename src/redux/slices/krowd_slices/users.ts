@@ -5,6 +5,7 @@ import { dispatch } from '../../store';
 import { UserKrowd } from '../../../@types/krowd/users';
 import axios from 'axios';
 import { SnackbarKey, useSnackbar } from 'notistack';
+import { UserKrowdAPI } from '_apis_/krowd_apis/UserKrowd';
 
 // ----------------------------------------------------------------------
 
@@ -102,15 +103,14 @@ export function getUserKrowdList() {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users'
-      );
+      const response = await UserKrowdAPI.getUserKrowd();
       dispatch(slice.actions.getUserKrowdListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
+
 export function getUserKrowdDetail(userID: string) {
   return async () => {
     dispatch(slice.actions.startUserKrowdDetailLoading());

@@ -126,7 +126,7 @@ export default function UserProfile() {
           links={[
             { name: 'Bảng điều khiển', href: PATH_DASHBOARD.root },
             { name: 'Người dùng', href: PATH_DASHBOARD.business.root },
-            { name: user?.displayName || '' }
+            { name: user?.firstName || '' }
           ]}
         />
         <Card

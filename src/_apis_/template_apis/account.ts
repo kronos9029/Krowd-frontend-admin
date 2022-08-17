@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 // utils
-import fakeRequest from '../utils/fakeRequest';
-import { verify, sign } from '../utils/jwt';
+import fakeRequest from '../../utils/fakeRequest';
+import { verify, sign } from '../../utils/jwt';
 // @types
-import { User } from '../@types/account';
+import { User } from '../../@types/account';
 //
 import mock from './mock';
 

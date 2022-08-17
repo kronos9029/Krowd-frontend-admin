@@ -7,6 +7,7 @@ import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
 import { Project, ProjectStatus } from '../../../@types/krowd/project';
 import { REACT_APP_API_URL } from '../../../config';
+import { ProjectAPI } from '_apis_/krowd_apis/project';
 // ----------------------------------------------------------------------
 
 type ProjectState = {
@@ -90,18 +91,13 @@ export const { sortByProducts, filterProducts } = slice.actions;
 
 // ----------------------------------------------------------------------
 
-export function getAllProject(temp_field_role: 'ADMIN') {
+export function getAllProject() {
   return async () => {
     const { dispatch } = store;
 
     dispatch(slice.actions.startLoading());
     try {
-      const response: { data: { products: Project[] } } = await axios.get(
-        REACT_APP_API_URL + 'projects',
-        {
-          params: { temp_field_role }
-        }
-      );
+      const response: { data: { products: Project[] } } = await ProjectAPI.getAll();
       dispatch(slice.actions.getProjectListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

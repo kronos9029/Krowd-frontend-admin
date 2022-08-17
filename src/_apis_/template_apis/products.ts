@@ -2,7 +2,7 @@ import { random, sample } from 'lodash';
 import { paramCase } from 'change-case';
 // utils
 import mock from './mock';
-import mockData from '../utils/mock-data';
+import mockData from '../../utils/mock-data';
 
 // ----------------------------------------------------------------------
 

@@ -42,9 +42,6 @@ const sidebarConfig = [
         path: PATH_DASHBOARD.general.app,
         icon: ICONS.dashboard
       }
-      // { title: 'Bảng điều khiển', path: PATH_DASHBOARD.general.analytics, icon: ICONS.analytics },
-      // { title: 'Tổng quan ngày', path: PATH_DASHBOARD.general.banking, icon: ICONS.banking }
-      // { title: 'Tổng quan tháng', path: PATH_DASHBOARD.general.booking, icon: ICONS.dayOverview }
     ]
   },
   {
@@ -137,8 +134,8 @@ const sidebarConfig = [
         children: [
           { title: 'Lĩnh vực', path: PATH_DASHBOARD.other.fields },
           { title: 'Khu vực', path: PATH_DASHBOARD.other.area },
-          { title: 'Vai trò', path: PATH_DASHBOARD.other.role },
-          { title: 'Rủi ro', path: PATH_DASHBOARD.other.risk }
+          { title: 'Vai trò', path: PATH_DASHBOARD.other.role }
+          // { title: 'Rủi ro', path: PATH_DASHBOARD.other.risk }
         ]
       }
     ]

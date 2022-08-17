@@ -61,7 +61,7 @@ export default function ProjectOwnerKrowdTable() {
             {
               name: 'phoneNum',
               value: _item.phoneNum,
-              type: DATA_TYPE.LIST_TEXT
+              type: DATA_TYPE.TEXT
             },
             {
               name: 'email',
@@ -85,7 +85,7 @@ export default function ProjectOwnerKrowdTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách người sở hữu dự án"
+      headingTitle="Danh sách chủ sở hữu dự án"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

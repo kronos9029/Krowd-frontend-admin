@@ -15,7 +15,7 @@ const TABLE_HEAD = [
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 
-export default function InvestorKrowdTable() {
+export default function BusinessManagerKrowdTable() {
   const { userLists, isLoading } = useSelector((state: RootState) => state.userKrowd);
   const { listOfUser: list } = userLists;
 
@@ -23,22 +23,10 @@ export default function InvestorKrowdTable() {
     dispatch(getUserKrowdList());
   }, [dispatch]);
 
-  // const handleDeleteBusinessById = (businessId: string) => {
-  //   dispatch(deleteBusinessById(businessId));
-  //   enqueueSnackbar('Cập nhật trạng thái thành công', {
-  //     variant: 'success',
-  //     action: (key) => (
-  //       <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-  //         <Icon icon={closeFill} />
-  //       </MIconButton>
-  //     )
-  //   });
-  // };
-
   const getData = (): RowData[] => {
     if (!list) return [];
     return list
-      .filter((_item) => _item.role.name === ROLE_USER_TYPE.INVESTOR)
+      .filter((_item) => _item.role.name === ROLE_USER_TYPE.BUSINESS_MANAGER)
       .map<RowData>((_item, _idx) => {
         return {
           id: _item.id,
@@ -85,7 +73,7 @@ export default function InvestorKrowdTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách quản lý người đầu tư"
+      headingTitle="Danh sách quản lý doanh nghiệp"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

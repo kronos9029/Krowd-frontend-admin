@@ -1,5 +1,5 @@
 import AxiosMockAdapter from 'axios-mock-adapter';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 
 // ----------------------------------------------------------------------
 

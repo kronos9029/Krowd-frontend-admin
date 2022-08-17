@@ -1,7 +1,7 @@
 import { random, sample } from 'lodash';
 // utils
 import mock from './mock';
-import mockData from '../utils/mock-data';
+import mockData from '../../utils/mock-data';
 
 // ----------------------------------------------------------------------
 

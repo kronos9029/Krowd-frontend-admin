@@ -20,7 +20,6 @@ type ResetPasswordFormProps = {
 };
 
 export default function ResetPasswordForm({ onSent, onGetEmail }: ResetPasswordFormProps) {
-  const { resetPassword } = useAuth();
   const isMountedRef = useIsMountedRef();
 
   const ResetPasswordSchema = Yup.object().shape({
@@ -34,7 +33,6 @@ export default function ResetPasswordForm({ onSent, onGetEmail }: ResetPasswordF
     validationSchema: ResetPasswordSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
-        resetPassword?.(values.email);
         if (isMountedRef.current) {
           onSent();
           onGetEmail(formik.values.email);

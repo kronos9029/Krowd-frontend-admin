@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { addDays } from 'date-fns';
 // utils
-import mockData from '../utils/mock-data';
+import mockData from '../../utils/mock-data';
 //
 import mock from './mock';
 

@@ -4,9 +4,9 @@ import { paramCase } from 'change-case';
 // utils
 import mock from './mock';
 // utils
-import mockData from '../utils/mock-data';
+import mockData from '../../utils/mock-data';
 // @types
-import { Post } from '../@types/blog';
+import { Post } from '../../@types/blog';
 
 // ----------------------------------------------------------------------
 

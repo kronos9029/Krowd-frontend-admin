@@ -13,8 +13,9 @@ import LoadingScreen from '../components/LoadingScreen';
 import UsersKrowd from 'pages/dashboard/krowdManages/usersManagement/UserKrowdTable';
 import KrowdDetailView from 'components/table/krowd-table/KrowdDetailView';
 import InvestorKrowdTable from 'components/table/manage-user/InvestorKrowdTable';
-import BusinessManagerKrowdTable from 'pages/dashboard/krowdManages/usersManagement/BusinessManagerKrowdTable';
 import ProjectOwnerKrowdTable from 'components/table/manage-user/ProjectOwnerKrowdTable';
+import BusinessTable from 'components/table/BusinessTable';
+import BusinessManagerKrowdTable from 'components/table/manage-user/BusinessManagerKrowdTable';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: React.ElementType) => (props: any) => {

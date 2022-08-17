@@ -25,7 +25,7 @@ export default function DraftProjectTable() {
   const { listOfProject: list } = projectLists;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   useEffect(() => {
-    dispatch(getAllProject('ADMIN'));
+    dispatch(getAllProject());
   }, [dispatch]);
 
   const handleDeleteProjectById = (businessId: string) => {

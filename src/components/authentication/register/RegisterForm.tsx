@@ -26,7 +26,6 @@ type InitialValues = {
 };
 
 export default function RegisterForm() {
-  const { register } = useAuth();
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
@@ -54,22 +53,12 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
-        await register(values.email, values.password, values.firstName, values.lastName);
-        enqueueSnackbar('Đăng ký thành công', {
-          variant: 'success',
-          action: (key) => (
-            <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-              <Icon icon={closeFill} />
-            </MIconButton>
-          )
-        });
         if (isMountedRef.current) {
           setSubmitting(false);
         }
       } catch (error) {
         console.error(error);
         if (isMountedRef.current) {
-          setErrors({ afterSubmit: error.message });
           setSubmitting(false);
         }
       }

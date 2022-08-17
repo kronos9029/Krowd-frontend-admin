@@ -1,6 +1,25 @@
-import { TempBusiness } from '../@types/krowd/business';
+// import firebase from 'firebase/app';
+// import { firebaseConfig, firebaseConfigSecondary } from '../config';
+
+// if (!firebase.apps.length) {
+//   firebase.initializeApp(firebaseConfig);
+//   firebase.firestore();
+// }
+
+// class FirebaseService {
+//   static loginWithGoogle = () => {
+//     const provider = new firebase.auth.GoogleAuthProvider();
+//     return firebase.auth().signInWithPopup(provider);
+//   };
+// }
+
+// export default FirebaseService;
+
 import firebase from 'firebase/app';
-import { firebaseConfigSecondary } from '../config';
+import 'firebase/auth';
+import 'firebase/firestore';
+import { firebaseConfig } from '../config';
+import { TempBusiness } from '../@types/krowd/business';
 
 const FIREBASE_DATASTORAGE_CONFIG = {
   colection: {
@@ -8,7 +27,45 @@ const FIREBASE_DATASTORAGE_CONFIG = {
   }
 };
 
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+  firebase.firestore();
+}
+
 class FirebaseService {
+  static loginWithGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    return firebase.auth().signInWithPopup(provider);
+  };
+
+  static async createTempBusinessFirebase(email: string, password: string, name: string) {
+    const _firebase = firebase.app('Secondary');
+    _firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(async (res) => {
+        _firebase
+          .firestore()
+          .collection('business')
+          .add({
+            uid: res.user?.uid,
+            email: email,
+            name: name,
+            password: password,
+            address: '',
+            description: '',
+            image: '',
+            phoneNum: '',
+            status: 'notSubmited',
+            taxIdentificationNumber: '',
+            fieldList: [{ id: '', name: '' }],
+            denied_message: ''
+          })
+          .then(() => _firebase.auth().currentUser?.sendEmailVerification())
+          .then(() => _firebase.auth().signOut());
+      });
+  }
+
   static async getAllTempBusiness() {
     const _firebase = firebase.app('Secondary');
     const businessRef = _firebase
@@ -62,34 +119,6 @@ class FirebaseService {
       }) ||
       null;
     return businessID;
-  }
-
-  static async createTempBusinessFirebase(email: string, password: string, name: string) {
-    const _firebase = firebase.app('Secondary');
-    _firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(async (res) => {
-        _firebase
-          .firestore()
-          .collection('business')
-          .add({
-            uid: res.user?.uid,
-            email: email,
-            name: name,
-            password: password,
-            address: '',
-            description: '',
-            image: '',
-            phoneNum: '',
-            status: 'notSubmited',
-            taxIdentificationNumber: '',
-            fieldList: [{ id: '', name: '' }],
-            denied_message: ''
-          })
-          .then(() => _firebase.auth().currentUser?.sendEmailVerification())
-          .then(() => _firebase.auth().signOut());
-      });
   }
 }
 

@@ -1,9 +1,9 @@
 import { sample } from 'lodash';
 // utils
 import mock from './mock';
-import mockData from '../utils/mock-data';
+import mockData from '../../utils/mock-data';
 // @types
-import { Mail, MailLabel } from '../@types/mail';
+import { Mail, MailLabel } from '../../@types/mail';
 
 // ----------------------------------------------------------------------
 
