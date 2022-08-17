@@ -6,8 +6,10 @@ import { Card, Stack, Container, Typography } from '@mui/material';
 import Page from '../../components/Page';
 import { MHidden } from '../../components/@material-extend';
 import { LoginForm } from '../../components/authentication/login';
+import { motion } from 'framer-motion';
 
 const RootStyle = styled(Page)(({ theme }) => ({
+  backgroundImage: 'url(/static/overlay.svg), url(/static/logo-image-login.jpg)',
   [theme.breakpoints.up('md')]: {
     display: 'flex'
   }
@@ -21,7 +23,25 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   justifyContent: 'center',
   margin: theme.spacing(2, 0, 2, 2)
 }));
-
+const HeroImgStyle = styled(motion.iframe)(({ theme }) => ({
+  top: 0,
+  right: 10,
+  bottom: 0,
+  zIndex: 9,
+  width: '100%',
+  height: '100%',
+  margin: 'auto',
+  position: 'absolute',
+  objectFit: 'cover',
+  opacity: 0.8,
+  [theme.breakpoints.up('md')]: {
+    width: 'auto',
+    height: '48vh'
+  },
+  [theme.breakpoints.down('md')]: {
+    display: 'none'
+  }
+}));
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',
@@ -37,22 +57,28 @@ export default function Login() {
     <RootStyle title="Login | Krowd">
       <MHidden width="mdDown">
         <SectionStyle>
-          <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Chào mừng admin trở lại
+          <Typography variant="h3" sx={{ p: 5, mt: 10, mb: 5 }}>
+            HỆ THỐNG KROWD CHO ADMIN
           </Typography>
-          <img src="/static/illustrations/illustration_admin_login.png" alt="login" />
+          <Typography variant="h3" sx={{ p: 25 }}>
+            <HeroImgStyle src="https://embed.lottiefiles.com/animation/38435" />
+          </Typography>
         </SectionStyle>
       </MHidden>
 
       <Container maxWidth="sm">
         <ContentStyle>
-          <Stack direction="column" justifyContent="space-between" sx={{ mb: 3 }}>
-            <Typography
-              variant="h4"
-              sx={{ px: 5, mt: 5, mb: 5, color: '#14b7cc', textAlign: 'center' }}
-            >
-              Đăng nhập vào KROWD
-            </Typography>
+          <Stack
+            direction="column"
+            justifyContent="space-between"
+            spacing={3}
+            sx={{
+              height: 250,
+              backgroundColor: 'rgb(114 114 114 / 3%)',
+              mb: 3,
+              borderRadius: '17%'
+            }}
+          >
             <LoginForm />
           </Stack>
         </ContentStyle>
