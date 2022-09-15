@@ -9,6 +9,7 @@ import closeFill from '@iconify/icons-eva/close-fill';
 import { REACT_APP_API_URL } from 'config';
 import FirebaseService from 'api/firebase';
 import { Project } from '../../../@types/krowd/project';
+import { BusinessAPI } from '_apis_/krowd_apis/business';
 
 // ----------------------------------------------------------------------
 
@@ -160,14 +161,12 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getBusinessList(temp_field_role: 'ADMIN') {
+export function getBusinessList() {
   return async () => {
     dispatch(slice.actions.startBusinessLoading());
     try {
-      const response = await axios.get(REACT_APP_API_URL + 'businesses', {
-        params: { temp_field_role }
-      });
-      dispatch(slice.actions.getBusinessListSuccess(response.data));
+      const res = await BusinessAPI.gets();
+      dispatch(slice.actions.getBusinessListSuccess(res.data));
     } catch (error) {
       dispatch(slice.actions.hasBusinessError(error));
     }
@@ -220,18 +219,6 @@ export function getProjectByBusinessID(businessId: string, temp_field_role: 'ADM
       dispatch(slice.actions.getProjectsOfBusiness(response.data));
     } catch (error) {
       dispatch(slice.actions.hasProjectsOfBusinessError(error));
-    }
-  };
-}
-
-export function deleteBusinessById(bussinessId: string) {
-  return async () => {
-    dispatch(slice.actions.startBusinessLoading());
-    try {
-      const response = await axios.delete(REACT_APP_API_URL + `businesses/${bussinessId}`);
-      dispatch(getBusinessList('ADMIN'));
-    } catch (error) {
-      dispatch(slice.actions.hasBusinessError(error));
     }
   };
 }

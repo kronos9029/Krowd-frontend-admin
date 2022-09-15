@@ -39,7 +39,7 @@ async function post({
 
   await axios({
     method: 'post',
-    url: REACT_APP_API_URL + `/businesses`,
+    url: REACT_APP_API_URL + `businesses`,
     params: { fieldIdList: fieldId },
     data: formData,
     headers: header
@@ -47,12 +47,20 @@ async function post({
 }
 async function get({ id }: { id: string }) {
   const headers = getHeader();
-  const response = await axios.get(REACT_APP_API_URL + `/businesses/${id ?? 'null'}`, {
+  const response = await axios.get(REACT_APP_API_URL + `businesses/${id ?? 'null'}`, {
+    headers: headers
+  });
+  return response;
+}
+async function gets() {
+  const headers = getHeader();
+  const response = await axios.get(REACT_APP_API_URL + `businesses`, {
     headers: headers
   });
   return response;
 }
 export const BusinessAPI = {
   post: post,
-  get: get
+  get: get,
+  gets: gets
 };

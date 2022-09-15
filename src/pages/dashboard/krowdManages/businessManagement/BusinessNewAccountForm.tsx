@@ -27,56 +27,56 @@ import { Business, TempBusiness } from '../../../../@types/krowd/business';
 import { PATH_DASHBOARD } from 'routes/paths';
 import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
+import axios from 'axios';
 // ----------------------------------------------------------------------
 
-type BusinessNewFormProps = {
-  currentUser: TempBusiness | null;
-  isLoading?: boolean;
-};
-
-export default function BusinessNewAccountForm({ currentUser, isLoading }: BusinessNewFormProps) {
+export default function BusinessNewAccountForm() {
   const { pathname } = useLocation();
   const isCreate = pathname.includes('new');
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const [password, setPassword] = useState(Math.random().toString(36).slice(2));
-  const NewBusinessSchema = Yup.object().shape({
-    name: Yup.string().required('Yêu cầu nhập tên doanh nghiệp'),
-    password: Yup.string().required('Yêu cầu nhập mật khẩu'),
-    email: Yup.string().required('Yêu cầu nhập email').email()
-  });
-  const generatePassword = () => {
-    // Create a random password
-    const randomPassword = Math.random().toString(36).slice(2);
+  const NewBusinessSchema = Yup.object().shape({});
+  // const generatePassword = () => {
+  //   // Create a random password
+  //   const randomPassword = Math.random().toString(36).slice(2);
 
-    // Set the generated password as state
-    setPassword(randomPassword);
-    setFieldValue('password', password);
-  };
+  //   // Set the generated password as state
+  //   setPassword(randomPassword);
+  //   setFieldValue('password', password);
+  // };
+  function getToken() {
+    return window.localStorage.getItem('accessToken');
+  }
+
+  function getHeaderFormData() {
+    const token = getToken();
+    return { Authorization: `Bearer ${token}` };
+  }
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: currentUser?.displayName || '',
-      password: password,
-      email: currentUser?.email || ''
+      firstName: '',
+      lastName: '',
+      email: ''
     },
     validationSchema: NewBusinessSchema,
 
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        FirebaseService.createTempBusinessFirebase(
-          formik.getFieldProps('email').value,
-          formik.getFieldProps('password').value,
-          formik.getFieldProps('name').value
+        const headers = getHeaderFormData();
+        await axios.post(
+          `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users`,
+          values,
+          { headers: headers }
         );
         resetForm();
         setSubmitting(true);
         enqueueSnackbar('Tạo mới thành công', {
           variant: 'success'
         });
-        navigate(PATH_DASHBOARD.business.list);
       } catch (error) {
+        console.error(error);
         setSubmitting(false);
       }
     }
@@ -88,108 +88,50 @@ export default function BusinessNewAccountForm({ currentUser, isLoading }: Busin
     <Page title="Doanh nghiệp: Tạo mới | Krowd">
       <Container maxWidth={false}>
         <HeaderBreadcrumbs
-          heading={isCreate ? 'Tạo mới tài khoản doanh nghiệp' : 'Cập nhật người dùng'}
+          heading={'Tạo mới tài khoản doanh nghiệp'}
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Tạo mới' }]}
         />
-        {(isLoading && (
-          <Box>
-            <CircularProgress
-              size={100}
-              sx={{ margin: '0px auto', padding: '1rem', display: 'flex' }}
-            />
-            <Typography variant="h5" sx={{ textAlign: 'center', padding: '1rem' }}>
-              Đang tải dữ liệu, vui lòng đợi giây lát...
-            </Typography>
-          </Box>
-        )) || (
-          <FormikProvider value={formik}>
-            <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={8}>
-                  <Card sx={{ p: 3 }}>
-                    <Stack spacing={3}>
-                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                        <TextField
-                          fullWidth
-                          label="Tên đầy đủ"
-                          {...getFieldProps('name')}
-                          error={Boolean(touched.name && errors.name)}
-                          helperText={touched.name && errors.name}
-                        />
-                        <TextField
-                          fullWidth
-                          label="Địa chỉ email"
-                          {...getFieldProps('email')}
-                          error={Boolean(touched.email && errors.email)}
-                          helperText={touched.email && errors.email}
-                        />
-                      </Stack>
-
-                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                        <TextField
-                          disabled
-                          label="Mật khẩu"
-                          value={currentUser?.password ?? password}
-                          error={Boolean(touched.password && errors.password)}
-                          helperText={touched.password && errors.password}
-                        />
-                        {isCreate && <Button onClick={generatePassword}>Khởi tạo mật khẩu</Button>}
-                      </Stack>
-                      {!isCreate && (
-                        <>
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                            <TextField
-                              value={currentUser?.description ?? 'Doanh nghiệp chưa cập nhật'}
-                              disabled
-                              fullWidth
-                              label="Mô tả"
-                            />
-                          </Stack>
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                            <TextField
-                              value={currentUser?.phoneNum ?? 'Doanh nghiệp chưa cập nhật'}
-                              disabled
-                              fullWidth
-                              label="Số điện thoại"
-                            />
-                          </Stack>
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                            <TextField
-                              value={currentUser?.address ?? 'Doanh nghiệp chưa cập nhật'}
-                              disabled
-                              fullWidth
-                              label="Địa chỉ"
-                            />
-                          </Stack>
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                            <TextField
-                              fullWidth
-                              value={
-                                currentUser?.taxIdentificationNumber ?? 'Doanh nghiệp chưa cập nhật'
-                              }
-                              disabled
-                              label="Mã doanh nghiệp"
-                            />
-                          </Stack>
-                          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                            {currentUser?.fieldList.map((e) => (
-                              <Chip key={e.id} label={e.name} />
-                            ))}
-                          </Stack>
-                        </>
-                      )}
-                      <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                        <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                          {isCreate ? 'Tạo doanh nghiệp' : 'Lưu thay đổi'}
-                        </LoadingButton>
-                      </Box>
+        <FormikProvider value={formik}>
+          <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <Grid container spacing={3}>
+              <Grid item xs={6} md={4}></Grid>
+              <Grid item xs={6} md={4}>
+                <Card sx={{ p: 3 }}>
+                  <Stack spacing={3}>
+                    <Stack direction={{ xs: 'column', sm: 'column' }} spacing={{ xs: 3, sm: 2 }}>
+                      <TextField
+                        fullWidth
+                        label="Họ"
+                        {...getFieldProps('firstName')}
+                        error={Boolean(touched.firstName && errors.firstName)}
+                        helperText={touched.firstName && errors.firstName}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Tên"
+                        {...getFieldProps('lastName')}
+                        error={Boolean(touched.lastName && errors.lastName)}
+                        helperText={touched.lastName && errors.lastName}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Địa chỉ email"
+                        {...getFieldProps('email')}
+                        error={Boolean(touched.email && errors.email)}
+                        helperText={touched.email && errors.email}
+                      />
                     </Stack>
-                  </Card>
-                </Grid>
+                    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+                      <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                        Tạo doanh nghiệp
+                      </LoadingButton>
+                    </Box>
+                  </Stack>
+                </Card>
               </Grid>
-            </Form>
-          </FormikProvider>
-        )}
+            </Grid>
+          </Form>
+        </FormikProvider>
       </Container>
     </Page>
   );

@@ -17,7 +17,15 @@ async function getUserKrowd() {
   });
   return response;
 }
-
+//post user
+async function post() {
+  const headers = getHeader();
+  const response = await axios.post(REACT_APP_API_URL + 'users', {
+    headers: headers
+  });
+  return response;
+}
 export const UserKrowdAPI = {
-  getUserKrowd: getUserKrowd
+  getUserKrowd: getUserKrowd,
+  post: post
 };

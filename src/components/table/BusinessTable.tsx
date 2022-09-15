@@ -1,6 +1,6 @@
 import { BUSINESS_STATUS_ENUM } from '../../@types/krowd/business';
 import { useEffect } from 'react';
-import { deleteBusinessById, getBusinessList } from 'redux/slices/krowd_slices/business';
+import { getBusinessList } from 'redux/slices/krowd_slices/business';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { DATA_TYPE, KrowdTable, RowData } from './krowd-table/KrowdTable';
@@ -26,7 +26,7 @@ export default function BusinessTable() {
   const { listOfBusiness: list } = businessLists;
 
   useEffect(() => {
-    dispatch(getBusinessList('ADMIN'));
+    dispatch(getBusinessList());
   }, [dispatch]);
 
   const getData = (): RowData[] => {

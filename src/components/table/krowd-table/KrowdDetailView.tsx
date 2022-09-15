@@ -86,12 +86,12 @@ export default function KrowdDetailView() {
         return item && <FieldNewForm currentField={item} />;
       }
       case VIEW_DETAIL_DATA_TYPE.CREATE_TEMP_BUSINESS: {
-        return <BusinessNewAccountForm currentUser={null} />;
+        return <BusinessNewAccountForm />;
       }
       case VIEW_DETAIL_DATA_TYPE.EDIT_TEMP_BUSINESS: {
         const { tempBusinessState } = props as BusinessState;
         const { tempBusiness: item, isLoading } = tempBusinessState;
-        return <BusinessNewAccountForm currentUser={item} isLoading={isLoading} />;
+        return <BusinessNewAccountForm />;
       }
       case VIEW_DETAIL_DATA_TYPE.BUSINESS: {
         const { businessDetailState } = props as BusinessState;

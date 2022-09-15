@@ -8,7 +8,7 @@ import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
-const STATUS = 'DRAFT';
+const STATUS = 'WAITING_FOR_APPROVAL';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'left' },
@@ -20,7 +20,7 @@ const TABLE_HEAD = [
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 
-export default function DraftProjectTable() {
+export default function WaitingProjectTable() {
   const { projectLists, isLoading } = useSelector((state: RootState) => state.project);
   const { listOfProject: list } = projectLists;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -86,7 +86,7 @@ export default function DraftProjectTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách dự án phác thảo"
+      headingTitle="Danh sách dự án đang chờ duyệt"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

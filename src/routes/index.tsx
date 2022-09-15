@@ -124,7 +124,7 @@ export default function Router() {
           children: [
             { element: <Navigate to="/dashboard/project" replace /> },
             { path: 'projectKrowd', element: <ProjectList /> },
-            { path: 'draftProject', element: <DraftProjectList /> },
+            { path: 'draftProject', element: <WaitingProjectList /> },
             { path: 'callingProject', element: <CallingProjectList /> },
             { path: 'overdateProject', element: <OverDateProjectList /> },
             { path: 'closeProject', element: <CloseProjectList /> },
@@ -317,8 +317,8 @@ const BusinessList = Loadable(
 const ProjectList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectList'))
 );
-const DraftProjectList = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/DraftProjectList'))
+const WaitingProjectList = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/WaitingProjectList'))
 );
 const CallingProjectList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/CallingProjectList'))
@@ -336,7 +336,7 @@ const OverDeathProjectList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/OverDateProjectList'))
 );
 const ProjectDetails = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectDetails'))
+  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectKrowdAdminDetails'))
 );
 const SystemWalletList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/walletManagement/SystemWallet'))

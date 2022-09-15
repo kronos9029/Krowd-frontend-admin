@@ -58,12 +58,12 @@ const sidebarConfig = [
         icon: ICONS.customer
       },
       {
-        title: 'Người đầu tư',
+        title: 'Nhà đầu tư',
         path: PATH_DASHBOARD.admin.listInvestor,
         icon: ICONS.customer
       },
       {
-        title: 'Người quản lý dự án',
+        title: 'Chủ dự án',
         path: PATH_DASHBOARD.admin.listProjectOwner,
         icon: ICONS.customer
       }
@@ -79,7 +79,7 @@ const sidebarConfig = [
         icon: ICONS.project,
         children: [
           {
-            title: 'Dự án phác thảo',
+            title: 'Dự án đang chờ duyệt',
             path: PATH_DASHBOARD.projects.draftProject
           },
           {

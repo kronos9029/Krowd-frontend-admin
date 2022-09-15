@@ -30,9 +30,9 @@ export default function UserList() {
         <Box mb={5}>
           <BusinessTable />
         </Box>
-        <Box mb={5}>
+        {/* <Box mb={5}>
           <TempBusinessTable />
-        </Box>
+        </Box> */}
       </Container>
     </Page>
   );

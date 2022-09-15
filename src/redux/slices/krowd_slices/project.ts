@@ -135,9 +135,20 @@ export function getProjectId(projectId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/projects/${projectId}`
-      );
+      const response = await ProjectAPI.get({ id: projectId });
+      dispatch(slice.actions.getProjectListIDSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function approveProject(projectId: string) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await ProjectAPI.approveProject({
+        id: projectId
+      });
       dispatch(slice.actions.getProjectListIDSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

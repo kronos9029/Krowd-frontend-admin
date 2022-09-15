@@ -17,7 +17,7 @@ const TABLE_HEAD = [
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 
-export default function BusinessTable() {
+export default function TempBusinessTable() {
   const { tempBusinessState } = useSelector((state: RootState) => state.business);
   const { tempBusinessList: list, isLoading } = tempBusinessState;
 

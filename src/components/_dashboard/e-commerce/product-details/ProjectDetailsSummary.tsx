@@ -144,80 +144,10 @@ export default function ProjecrDetailsSummary({ product }: ProductDetailsSumaryp
 
         <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
           <Typography variant="body2" sx={{ color: '#212B36' }}>
-            Người tạo : 'type'
+            Dat dam check
           </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            mb: 3,
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-            Thuộc doanh nghiệp
-          </Typography>
-          KFC
-        </Box>
-        <Box
-          sx={{
-            my: 3,
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-            Thuộc Khu vực:
-          </Typography>
-          Thành phố HCM
-        </Box>
-
-        <Box
-          sx={{
-            mb: 3,
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
-            Địa chỉ:
-          </Typography>
-          Quận 12
-        </Box>
-        <Box sx={{ mt: 3, textAlign: 'center' }}>
-          {SOCIALS.map((social) => (
-            <Tooltip key={social.name} title={social.name}>
-              <MIconButton>{social.icon}</MIconButton>
-            </Tooltip>
-          ))}
         </Box>
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Box sx={{ mt: 5 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Button
-                fullWidth
-                size="large"
-                type="button"
-                // color="warning"
-                variant="contained"
-                // startIcon={<Icon icon={roundAddShoppingCart} />}
-                // onClick={handleAddCart}
-                sx={{ whiteSpace: 'nowrap' }}
-              >
-                Duyệt dự án
-              </Button>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <Button fullWidth size="large" color="error" variant="contained">
-                TỪ chối
-              </Button>
-            </Grid>
-          </Grid>
-        </Box>
       </Form>
     </RootStyle>
   );

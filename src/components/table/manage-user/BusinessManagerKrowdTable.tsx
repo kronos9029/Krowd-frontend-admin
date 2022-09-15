@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
+import { PATH_DASHBOARD } from 'routes/paths';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
@@ -73,7 +74,11 @@ export default function BusinessManagerKrowdTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách quản lý doanh nghiệp"
+      headingTitle="Danh sách ngưởi quản lý doanh nghiệp"
+      createNewRecordButton={{
+        pathTo: PATH_DASHBOARD.business.createBusiness,
+        label: 'Tạo mới ngưởi quản lý doanh nghiệp'
+      }}
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
