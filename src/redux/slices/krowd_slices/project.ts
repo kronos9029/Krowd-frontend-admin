@@ -149,7 +149,7 @@ export function approveProject(projectId: string) {
       const response = await ProjectAPI.approveProject({
         id: projectId
       });
-      dispatch(slice.actions.getProjectListIDSuccess(response.data));
+      dispatch(getProjectId(projectId));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

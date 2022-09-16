@@ -11,16 +11,13 @@ import {
   styled,
   Typography
 } from '@mui/material';
-import { Project } from '../../../../@types/krowd/project';
 import { fCurrency } from 'utils/formatNumber';
-import { Link } from 'react-scroll';
 // import { ProjectDetailAlbumCarousel } from 'components/_external-pages/project-detail/index';
-import { PATH_DASHBOARD, PATH_PAGE } from 'routes/paths';
+import { PATH_DASHBOARD } from 'routes/paths';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
-import editTwotone from '@iconify/icons-ant-design/edit-twotone';
 import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { approveProject, getProjectId } from 'redux/slices/krowd_slices/project';
 import Page from 'components/Page';
@@ -47,7 +44,6 @@ export default function ProjectKrowdAdminDetails() {
     dispatch(getProjectId(id));
   }, [dispatch]);
   const [open, setOpen] = useState(false);
-  const [openImageProject, setOpenImageProject] = useState(false);
   const [openSubmit, setOpenSubmit] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 

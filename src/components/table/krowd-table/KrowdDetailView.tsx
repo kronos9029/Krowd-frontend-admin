@@ -93,24 +93,18 @@ export default function KrowdDetailView() {
         const { tempBusiness: item, isLoading } = tempBusinessState;
         return <BusinessNewAccountForm />;
       }
-      case VIEW_DETAIL_DATA_TYPE.BUSINESS: {
-        const { businessDetailState } = props as BusinessState;
-        const { businessDetail: item, isLoading } = businessDetailState;
-        return item && <BusinessDetails currentBusiness={item} />;
-      }
+      // case VIEW_DETAIL_DATA_TYPE.BUSINESS: {
+      //   const { businessDetailState } = props as BusinessState;
+      //   const { businessDetail: item, isLoading } = businessDetailState;
+      //   return item && <BusinessDetails currentBusiness={item} />;
+      // }
       case VIEW_DETAIL_DATA_TYPE.USER_KROWD: {
         const { userKrowdDetailState } = props as UserKrowdState;
         const { userKrowdDetail: user, isLoading } = userKrowdDetailState;
         if (user) {
           switch (user.role.name) {
             case ROLE_USER_TYPE.BUSINESS_MANAGER:
-              return (
-                <UserKrowdDetailView
-                  currentKrowd={user}
-                  isLoading={isLoading}
-                  role={user.role.name}
-                />
-              );
+              return <UserKrowdDetailView currentKrowd={user} isLoading={isLoading} />;
           }
         }
       }

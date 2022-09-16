@@ -40,7 +40,6 @@ import axios from 'axios';
 // ----------------------------------------------------------------------
 type UserKrowdDetailsProps = {
   currentKrowd: UserKrowd;
-  role: ROLE_USER_TYPE;
   isLoading: boolean;
 };
 type BusinessManagerDetailProps = {
@@ -49,15 +48,9 @@ type BusinessManagerDetailProps = {
 };
 export default function UserKrowdDetailView({
   currentKrowd: user,
-  role,
   isLoading
 }: UserKrowdDetailsProps) {
-  switch (role) {
-    case ROLE_USER_TYPE.BUSINESS_MANAGER:
-      return <BusinessManagerDetail businessManager={user} isLoading={isLoading} />;
-    default:
-      return <EmptyContent title={'Có lỗi bất ngờ, mời thử lại !!!'} />;
-  }
+  return <BusinessManagerDetail businessManager={user} isLoading={isLoading} />;
 }
 function BusinessManagerDetail({ businessManager: bm, isLoading }: BusinessManagerDetailProps) {
   const [open, setOpen] = useState(false);
@@ -69,7 +62,7 @@ function BusinessManagerDetail({ businessManager: bm, isLoading }: BusinessManag
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: bm.email
+      email: bm?.email
     },
     validationSchema: EditBusinessManagerSchema,
 

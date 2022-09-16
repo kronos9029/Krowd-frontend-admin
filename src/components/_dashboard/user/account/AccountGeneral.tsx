@@ -1,195 +1,196 @@
-import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Form, FormikProvider, useFormik } from 'formik';
 // material
-import {
-  Box,
-  Grid,
-  Card,
-  Stack,
-  Switch,
-  TextField,
-  FormControlLabel,
-  Typography,
-  FormHelperText
-} from '@mui/material';
+import { Box, Grid, Card, Stack, TextField, Button, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
-import useAuth from '../../../../hooks/useAuth';
-import useIsMountedRef from '../../../../hooks/useIsMountedRef';
 import { UploadAvatar } from '../../../upload';
 // utils
-import { fData } from '../../../../utils/formatNumber';
 // @types
 import { User } from '../../../../@types/account';
 //
-import countries from '../countries';
+import { dispatch } from 'redux/store';
+import { UserKrowd } from '../../../../@types/krowd/users';
+import { getMainUserProfile } from 'redux/slices/krowd_slices/users';
+import { UploadAPI } from '_apis_/krowd_apis/upload';
 
 // ----------------------------------------------------------------------
 
 interface InitialState extends Omit<User, 'password' | 'id' | 'role'> {
   afterSubmit?: string;
 }
-
-export default function AccountGeneral() {
-  const isMountedRef = useIsMountedRef();
+type AccountGeneralProps = {
+  user: UserKrowd;
+};
+export default function AccountGeneral({ user }: AccountGeneralProps) {
+  const [fileUpload, setFileUpload] = useState<File | null>(null);
   const { enqueueSnackbar } = useSnackbar();
-  const { user, updateProfile } = useAuth();
-
-  const UpdateUserSchema = Yup.object().shape({
-    displayName: Yup.string().required('Yêu cầu nhập tên')
-  });
-
-  const formik = useFormik<InitialState>({
+  const {
+    firstName,
+    lastName,
+    phoneNum,
+    email,
+    gender,
+    dateOfBirth,
+    role,
+    status,
+    address,
+    bankName,
+    bankAccount,
+    taxIdentificationNumber,
+    city,
+    district,
+    idCard
+  } = user;
+  const formikImage = useFormik({
     enableReinitialize: true,
     initialValues: {
-      displayName: user?.displayName || '',
-      email: user?.email,
-      photoURL: user?.photoURL,
-      phoneNumber: user?.phoneNumber,
-      country: user?.country,
-      address: user?.address,
-      state: user?.state,
-      city: user?.city,
-      zipCode: user?.zipCode,
-      about: user?.about,
-      isPublic: user?.isPublic
+      photoURL: user.image
     },
-
-    validationSchema: UpdateUserSchema,
-    onSubmit: async (values, { setErrors, setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        updateProfile?.();
-        enqueueSnackbar('Cập nhật thành công', { variant: 'success' });
-        if (isMountedRef.current) {
-          setSubmitting(false);
-        }
+        setSubmitting(true);
+        await UploadAPI.postUserAvatar({ id: user.id, file: fileUpload })
+          .then(() => {
+            enqueueSnackbar('Cập nhật ảnh thành công', {
+              variant: 'success'
+            });
+            dispatch(getMainUserProfile(user.id));
+          })
+          .catch(() => {
+            enqueueSnackbar('Cập nhật ảnh thất bại', {
+              variant: 'error'
+            });
+            setFileUpload(null);
+            setFieldValueImage('photoURL', null);
+          });
       } catch (error) {
-        if (isMountedRef.current) {
-          setErrors({ afterSubmit: error.code });
-          setSubmitting(false);
-        }
+        console.error(error);
+        setSubmitting(false);
       }
     }
   });
 
-  const { values, errors, touched, isSubmitting, handleSubmit, getFieldProps, setFieldValue } =
-    formik;
-
+  const {
+    errors: errorsImage,
+    values: valuesImage,
+    touched: touchedImage,
+    handleSubmit: handleSubmitImage,
+    isSubmitting: isSubmittingImage,
+    setFieldValue: setFieldValueImage,
+    getFieldProps: getFieldPropsImage
+  } = formikImage;
   const handleDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file) {
-        setFieldValue('photoURL', {
+        setFieldValueImage('photoURL', {
           ...file,
           preview: URL.createObjectURL(file)
         });
+        setFileUpload(file);
       }
     },
-    [setFieldValue]
+    [setFieldValueImage]
   );
-
   return (
-    <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
-            <Card sx={{ py: 10, px: 3, textAlign: 'center' }}>
-              <UploadAvatar
-                accept="image/*"
-                file={values.photoURL}
-                maxSize={3145728}
-                onDrop={handleDrop}
-                error={Boolean(touched.photoURL && errors.photoURL)}
-                caption={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 2,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary'
-                    }}
-                  >
-                    Cho phép *.jpeg, *.jpg, *.png, *.gif
-                    <br /> tối đa là {fData(3145728)}
-                  </Typography>
-                }
-              />
-
-              <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
-                {touched.photoURL && errors.photoURL}
-              </FormHelperText>
-
-              <FormControlLabel
-                control={<Switch {...getFieldProps('isPublic')} color="primary" />}
-                labelPlacement="start"
-                label="Ai cũng thể xem"
-                sx={{ mt: 5 }}
-              />
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={8}>
-            <Card sx={{ p: 3 }}>
-              <Stack spacing={{ xs: 2, md: 3 }}>
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="Tên" {...getFieldProps('displayName')} />
-                  <TextField fullWidth disabled label="Địa chỉ email" {...getFieldProps('email')} />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="Di động" {...getFieldProps('phoneNumber')} />
-                  <TextField fullWidth label="Địa chỉ" {...getFieldProps('address')} />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField
-                    select
-                    fullWidth
-                    label="Thành phố"
-                    placeholder="Country"
-                    {...getFieldProps('country')}
-                    SelectProps={{ native: true }}
-                    error={Boolean(touched.country && errors.country)}
-                    helperText={touched.country && errors.country}
-                  >
-                    <option value="" />
-                    {countries.map((option) => (
-                      <option key={option.code} value={option.label}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </TextField>
-                  <TextField fullWidth label="Vùng miền" {...getFieldProps('state')} />
-                </Stack>
-
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="Thành phố" {...getFieldProps('city')} />
-                  <TextField fullWidth label="Mã vùng" {...getFieldProps('zipCode')} />
-                </Stack>
-
-                <TextField
-                  {...getFieldProps('about')}
-                  fullWidth
-                  multiline
-                  minRows={4}
-                  maxRows={4}
-                  label="Về tôi"
-                />
-              </Stack>
-
-              <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                  Lưu thay đổi
+    <Grid container spacing={3}>
+      <Grid
+        item
+        xs={12}
+        md={4}
+        sx={{ p: 3, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <FormikProvider value={formikImage}>
+          <Form noValidate autoComplete="off" onSubmit={handleSubmitImage}>
+            <UploadAvatar
+              accept="image/*"
+              file={valuesImage.photoURL}
+              maxSize={3145728}
+              onDrop={handleDrop}
+              error={Boolean(touchedImage.photoURL && errorsImage.photoURL)}
+            />
+            {fileUpload && (
+              <Box display="flex" my={3} justifyContent="space-evenly">
+                <LoadingButton
+                  color="warning"
+                  type="submit"
+                  variant="contained"
+                  loading={isSubmittingImage}
+                >
+                  Lưu
                 </LoadingButton>
+                <Button
+                  color="error"
+                  variant="contained"
+                  onClick={() => {
+                    setFileUpload(null);
+                    setFieldValueImage('photoURL', user.image);
+                  }}
+                >
+                  Hủy
+                </Button>
               </Box>
-            </Card>
-          </Grid>
-        </Grid>
-      </Form>
-    </FormikProvider>
+            )}
+          </Form>
+        </FormikProvider>
+      </Grid>
+      <Grid item xs={12} md={8}>
+        <Card sx={{ p: 3 }}>
+          <Stack spacing={{ xs: 2, md: 3 }}>
+            <Typography sx={{ fontWeight: '700' }}>Thông tin cá nhân</Typography>
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+              <TextField fullWidth disabled label="Họ và tên" value={`${firstName} ${lastName}`} />
+              <TextField fullWidth disabled label="Email" value={email} />
+            </Stack>
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+              <TextField
+                fullWidth
+                disabled
+                label="Ngày sinh"
+                value={dateOfBirth ?? '<Chưa cập nhật>'}
+              />
+              <TextField fullWidth disabled label="Giới tính" value={gender ?? '<Chưa cập nhật>'} />
+              <TextField fullWidth disabled label="SĐT" value={phoneNum ?? '<Chưa cập nhật>'} />
+              <TextField fullWidth disabled label="CMND/CCCD" value={idCard ?? '<Chưa cập nhật>'} />
+            </Stack>
+            <Typography sx={{ fontWeight: '700' }}>Địa chỉ</Typography>
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+              <TextField
+                fullWidth
+                disabled
+                label="Số nhà, tên đường"
+                value={address ?? '<Chưa cập nhật>'}
+              />
+              <TextField fullWidth disabled label="Thành phố" value={city ?? '<Chưa cập nhật>'} />
+              <TextField fullWidth disabled label="Quận" value={district ?? '<Chưa cập nhật>'} />
+            </Stack>
+            <Typography sx={{ fontWeight: '700' }}>Ngân hàng</Typography>
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+              <TextField
+                fullWidth
+                disabled
+                label="Tên ngân hàng"
+                value={bankName ?? '<Chưa cập nhật>'}
+              />
+              <TextField
+                fullWidth
+                disabled
+                label="Số tài khoản"
+                value={bankAccount ?? '<Chưa cập nhật>'}
+              />
+              <TextField
+                fullWidth
+                disabled
+                label="MST"
+                value={taxIdentificationNumber ?? '<Chưa cập nhật>'}
+              />
+            </Stack>
+            {/* <TextField fullWidth disabled label="Vai trò" value={role.name} /> */}
+          </Stack>
+        </Card>
+      </Grid>
+    </Grid>
   );
 }

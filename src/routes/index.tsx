@@ -166,7 +166,7 @@ export default function Router() {
             { path: 'tempBusiness/details/:id', element: <KrowdDetailView /> },
             { path: ':name/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> },
-            { path: 'details/:id', element: <KrowdDetailView /> }
+            { path: 'details/:id', element: <BusinessDetails /> }
           ]
         },
         {

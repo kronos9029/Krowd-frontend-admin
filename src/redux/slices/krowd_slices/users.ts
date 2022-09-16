@@ -17,7 +17,11 @@ export type UserKrowdState = {
     listOfUser: UserKrowd[];
   };
   error: boolean;
-
+  mainUserState: {
+    isLoading: boolean;
+    user: UserKrowd | null;
+    error: boolean;
+  };
   userKrowdDetailState: {
     isLoading: boolean;
     userKrowdDetail: UserKrowd | null;
@@ -26,6 +30,12 @@ export type UserKrowdState = {
 };
 
 const initialState: UserKrowdState = {
+  //AUTH_USER
+  mainUserState: {
+    isLoading: false,
+    user: null,
+    error: false
+  },
   isLoading: false,
   userKrowdDetail: null,
   userLists: {
@@ -48,6 +58,20 @@ const slice = createSlice({
     // START LOADING
     startLoading(state) {
       state.isLoading = true;
+    },
+    //---------------MAIN USER-----------------
+    startMainUserLoading(state) {
+      state.mainUserState.isLoading = true;
+    },
+    // GET MANAGE INVESTOR
+    getMainUserSuccess(state, action) {
+      state.mainUserState.isLoading = false;
+      state.mainUserState.user = action.payload;
+    },
+    // HAS ERROR
+    hasMainUserError(state, action) {
+      state.mainUserState.isLoading = false;
+      state.mainUserState.error = action.payload;
     },
     // GET MANAGE INVESTOR
     getUserKrowdListSuccess(state, action) {
@@ -98,7 +122,17 @@ export default slice.reducer;
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
-
+export function getMainUserProfile(id: string) {
+  return async () => {
+    dispatch(slice.actions.startMainUserLoading());
+    try {
+      const response = await UserKrowdAPI.getUserID({ id });
+      dispatch(slice.actions.getMainUserSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasMainUserError(error));
+    }
+  };
+}
 export function getUserKrowdList() {
   return async () => {
     dispatch(slice.actions.startLoading());

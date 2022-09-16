@@ -99,8 +99,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
             district: district,
             address: address,
             bankName: bankName,
-            firstName: firstName,
-            lastName: lastName,
+            fullName: `${firstName} ${lastName}`,
             email: email,
             image: image
           };
@@ -168,8 +167,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       district: district,
       address: address,
       bankName: bankName,
-      firstName: firstName,
-      lastName: lastName,
+      fullName: `${firstName} ${lastName}`,
       email: email,
       image: image
     };

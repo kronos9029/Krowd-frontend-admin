@@ -37,7 +37,6 @@ const MENU_OPTIONS = [
     linkTo: PATH_DASHBOARD.business.account
   }
 ];
-
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
@@ -101,7 +100,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {user?.firstName} {user?.lastName}
+            {user?.fullName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {user?.email}

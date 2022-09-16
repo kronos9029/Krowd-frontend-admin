@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { Typography, Button, Card, CardContent, CardProps, Box } from '@mui/material';
 import { SeoIllustration } from '../../../assets';
 import useAuth from 'hooks/useAuth';
+import { UserKrowd } from '../../../@types/krowd/users';
 
 // ----------------------------------------------------------------------
 
@@ -23,11 +24,10 @@ const RootStyle = styled(Card)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 interface AppWelcomeProps extends CardProps {
-  displayName?: string;
+  admin?: UserKrowd | null;
+  user?: any;
 }
-
-export default function AppWelcome({ displayName }: AppWelcomeProps) {
-  const { user } = useAuth();
+export default function AppWelcome({ user, admin }: AppWelcomeProps) {
   return (
     <RootStyle>
       <CardContent
@@ -39,7 +39,7 @@ export default function AppWelcome({ displayName }: AppWelcomeProps) {
       >
         <Typography gutterBottom variant="h4">
           Chào mừng trở lại,
-          <br /> {user?.firstName} {user?.lastName}
+          {user?.fullName}
         </Typography>
 
         {/* <Typography variant="body2" sx={{ pb: { xs: 3, xl: 5 }, maxWidth: 480, mx: 'auto' }}>

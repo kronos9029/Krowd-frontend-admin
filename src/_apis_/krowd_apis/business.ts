@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { REACT_APP_API_URL } from '../../config';
-
+const API_SUBMIT = 'businesses/status';
 type BusinessFormPost = {
   name: string;
   address: string;
@@ -9,6 +9,7 @@ type BusinessFormPost = {
   taxIdentificationNumber: string;
   fieldId: string;
 };
+
 function getToken() {
   return window.localStorage.getItem('accessToken');
 }
@@ -45,7 +46,7 @@ async function post({
     headers: header
   });
 }
-async function get({ id }: { id: string }) {
+async function getBuMID({ id }: { id: string }) {
   const headers = getHeader();
   const response = await axios.get(REACT_APP_API_URL + `businesses/${id ?? 'null'}`, {
     headers: headers
@@ -59,8 +60,29 @@ async function gets() {
   });
   return response;
 }
+
+async function approveBusiness({ id }: { id: string }) {
+  const headers = getHeader();
+  const response = await axios({
+    method: 'put',
+    url: REACT_APP_API_URL + `${API_SUBMIT}/${id},ACTIVE`,
+    headers: headers
+  });
+  return response;
+}
+async function deniedBusiness({ id }: { id: string }) {
+  const headers = getHeader();
+  const response = await axios({
+    method: 'put',
+    url: REACT_APP_API_URL + `${API_SUBMIT}/${id},INACTIVE`,
+    headers: headers
+  });
+  return response;
+}
 export const BusinessAPI = {
   post: post,
-  get: get,
-  gets: gets
+  getBuMID: getBuMID,
+  gets: gets,
+  approveBusiness: approveBusiness,
+  deniedBusiness: deniedBusiness
 };

@@ -13,8 +13,8 @@ import { fData } from '../../utils/formatNumber';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled('div')(({ theme }) => ({
-  width: 144,
-  height: 144,
+  width: 350,
+  height: 350,
   margin: 'auto',
   borderRadius: '50%',
   padding: theme.spacing(1),
@@ -62,13 +62,10 @@ interface CustomFile extends File {
   path?: string;
   preview?: string;
 }
-interface CustomFile2 extends File {
-  path?: string;
-}
 
 interface UploadAvatarProps extends DropzoneOptions {
   error?: boolean;
-  file: CustomFile2 | string | null;
+  file: CustomFile | string | null;
   caption?: ReactNode;
   sx?: SxProps<Theme>;
 }
@@ -91,7 +88,7 @@ export default function UploadAvatar({ error, file, caption, sx, ...other }: Upl
       }}
     >
       {fileRejections.map(({ file, errors }) => {
-        const { path, size }: CustomFile2 = file;
+        const { path, size }: CustomFile = file;
         return (
           <Box key={path} sx={{ my: 1 }}>
             <Typography variant="subtitle2" noWrap>
@@ -128,8 +125,7 @@ export default function UploadAvatar({ error, file, caption, sx, ...other }: Upl
             <Box
               component="img"
               alt="avatar"
-              // src={isString(file) ? file : file.preview}
-              src={isString(file) ? file : ''}
+              src={isString(file) ? file : file.preview}
               sx={{ zIndex: 8, objectFit: 'cover' }}
             />
           )}

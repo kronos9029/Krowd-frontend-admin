@@ -17,6 +17,9 @@ export function fTimestamp(date: Date | string | number) {
 export function fDateTimeSuffix(date: Date | string | number) {
   return format(new Date(date), 'dd/MM/yyyy hh:mm p');
 }
+export function fDateTimeSuffix2(date: Date | string | number) {
+  return format(new Date(date), 'dd/MM/yyyy');
+}
 
 export function fToNow(date: Date | string | number) {
   return formatDistanceToNow(new Date(date), {

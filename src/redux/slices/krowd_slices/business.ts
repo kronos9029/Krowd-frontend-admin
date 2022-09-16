@@ -199,11 +199,37 @@ export function getBusinessById(bussinessId: string) {
   return async () => {
     dispatch(slice.actions.startBusinessDetailLoading());
     try {
-      const response = await axios.get(REACT_APP_API_URL + `businesses/${bussinessId}`);
+      const response = await BusinessAPI.getBuMID({ id: bussinessId });
       dispatch(slice.actions.getBusinessDetailSuccess(response.data));
     } catch (error) {
       console.log('...');
       dispatch(slice.actions.hasBusinessDetailError(error));
+    }
+  };
+}
+export function approveBusiness(bussinessId: string) {
+  return async () => {
+    dispatch(slice.actions.startBusinessLoading());
+    try {
+      const response = await BusinessAPI.approveBusiness({
+        id: bussinessId
+      });
+      dispatch(getBusinessById(bussinessId));
+    } catch (error) {
+      dispatch(slice.actions.hasBusinessError(error));
+    }
+  };
+}
+export function deniedBusiness(bussinessId: string) {
+  return async () => {
+    dispatch(slice.actions.startBusinessLoading());
+    try {
+      const response = await BusinessAPI.deniedBusiness({
+        id: bussinessId
+      });
+      dispatch(getBusinessById(bussinessId));
+    } catch (error) {
+      dispatch(slice.actions.hasBusinessError(error));
     }
   };
 }
