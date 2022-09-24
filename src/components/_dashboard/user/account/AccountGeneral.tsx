@@ -164,7 +164,12 @@ export default function AccountGeneral({ user }: AccountGeneralProps) {
                 value={address ?? '<Chưa cập nhật>'}
               />
               <TextField fullWidth disabled label="Thành phố" value={city ?? '<Chưa cập nhật>'} />
-              <TextField fullWidth disabled label="Quận" value={district ?? '<Chưa cập nhật>'} />
+              <TextField
+                sx={{ width: '500px' }}
+                disabled
+                label="Quận"
+                value={district ?? '<Chưa cập nhật>'}
+              />
             </Stack>
             <Typography sx={{ fontWeight: '700' }}>Ngân hàng</Typography>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>

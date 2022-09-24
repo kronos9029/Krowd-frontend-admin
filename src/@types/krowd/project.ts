@@ -10,17 +10,74 @@ export const ProjectStatus = [
 ];
 export type FormikPropsShopView = FormikProps<ProjectFilter>;
 
+export enum PROJECT_STATUS {
+  ACTIVE = 'ACTIVE',
+  WAITING_FOR_APPROVAL = 'WAITING_FOR_APPROVAL',
+  CALLING_FOR_INVESTMENT = 'CALLING_FOR_INVESTMENT',
+  DENIED = 'DENIED',
+  DRAFT = 'DRAFT',
+  OVERDATE = 'OVERDATE'
+}
 export type Project = {
   id: string;
+  image: string;
+  business: {
+    id: string;
+    manager: {
+      id: string;
+      description: string;
+      phoneNum: string;
+      idCard: string;
+      email: string;
+      gender: string;
+      dateOfBirth: string;
+      taxIdentificationNumber: string;
+      city: string;
+      district: string;
+      address: string;
+      bankName: string;
+      bankAccount: string;
+      image: string;
+      status: number;
+      createDate: string;
+      createBy: any;
+      updateDate: string;
+      updateBy: any;
+      isDeleted: boolean;
+      lastName: string;
+      firstName: string;
+    };
+    fieldList: {
+      id: string;
+      name: string;
+      description: string;
+      createDate: string;
+      createBy: string;
+      updateDate: string;
+      updateBy: string;
+      isDeleted: boolean;
+    }[];
+    image: string;
+    numOfProject: number;
+    numOfSuccessfulProject: number;
+    successfulRate: number;
+    status: number;
+    createDate: string;
+    createBy: string;
+    updateDate: string;
+    updateBy: string;
+    isDeleted: boolean;
+    name: string;
+    phoneNum: string;
+    email: string;
+    description: string;
+    taxIdentificationNumber: string;
+    address: string;
+  };
   manager: {
     id: string;
-    businessId: string;
-    roleId: string;
     description: string;
-    lastName: string;
-    firstName: string;
     phoneNum: string;
-    image: string;
     idCard: string;
     email: string;
     gender: string;
@@ -31,45 +88,58 @@ export type Project = {
     address: string;
     bankName: string;
     bankAccount: string;
+    image: string;
     status: number;
+    createDate: string;
+    createBy: any;
+    updateDate: string;
+    updateBy: any;
+    isDeleted: boolean;
+    lastName: string;
+    firstName: string;
+  };
+  field: {
+    id: string;
+    name: string;
+    description: string;
     createDate: string;
     createBy: string;
     updateDate: string;
     updateBy: string;
     isDeleted: boolean;
   };
-  business: {
+  area: {
     id: string;
-    name: string;
-    phoneNum: string;
-    image: string;
-    email: string;
-    description: string;
-    taxIdentificationNumber: string;
-    address: string;
-    numOfProject: number;
-    numOfSuccessfulProject: number;
-    successfulRate: number;
-    createDate: Date | string | number;
-    createBy: string;
-    updateDate: Date | string | number;
-    updateBy: string;
-    status?: 'Bị khóa' | 'Đang hoạt động' | 'Dừng hoạt động';
-  };
-  field: {
-    id: string;
-    name: string;
-    description: string;
-    createDate: Date;
-    createBy: string;
-    updateDate: Date;
-    updateBy: string;
+    city: string;
+    district: string;
+    createDate: string;
+    createBy: any;
+    updateDate: string;
+    updateBy: any;
     isDeleted: boolean;
   };
-  fieldName: string;
-  areaId: string;
+  projectEntity: {
+    type: string;
+    typeItemList: {
+      id: string;
+      title: string;
+      link: string;
+      content: string;
+      description: string;
+      priority: number;
+    }[];
+  }[];
+  memberList: any[];
+  remainAmount: number;
+  approvedDate: string;
+  approvedBy: string;
+  status: PROJECT_STATUS;
+  createDate: string;
+  createBy: string;
+  updateDate: string;
+  updateBy: string;
+  isDeleted: boolean;
   name: string;
-  image: string;
   description: string;
   address: string;
   investmentTargetCapital: number;
@@ -78,20 +148,11 @@ export type Project = {
   multiplier: number;
   duration: number;
   numOfStage: number;
-  remainAmount: number;
   startDate: string;
   endDate: string;
   businessLicense: string;
-  approvedDate: string;
-  approvedBy: string;
-  status: string;
-  createDate: string;
-  createBy: string;
-  updateDate: string;
-  updateBy: string;
-  isDeleted: boolean;
+  areaId: string;
 };
-
 export type ProjectState = {
   isLoading: boolean;
   error: boolean;
@@ -111,4 +172,19 @@ export type ProjectFilter = {
   // businessId: string;
   areaId: string;
   // fieldId: string[];
+};
+export type Package = {
+  id: string;
+  remainingQuantity: number;
+  status: string;
+  createDate: string;
+  createBy: string;
+  updateDate: string;
+  updateBy: string;
+  name: string;
+  projectId: string;
+  price: number;
+  image: File | any;
+  quantity: number;
+  descriptionList: string[];
 };

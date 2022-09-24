@@ -10,7 +10,7 @@ import { Field } from '../../../@types/krowd/fields';
 export type FieldState = {
   isLoading: boolean;
   error: boolean;
-  fieldList: Field[];
+  fieldList: { listOfField: Field[]; numOfField: number };
   activeFieldId: Field | null;
 };
 
@@ -18,7 +18,7 @@ const initialState: FieldState = {
   isLoading: false,
   error: false,
   activeFieldId: null,
-  fieldList: []
+  fieldList: { listOfField: [], numOfField: 0 }
 };
 
 const slice = createSlice({
@@ -64,7 +64,6 @@ export function getFieldList() {
         'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields'
       );
       dispatch(slice.actions.getFieldListSuccess(response.data));
-      console.log('Field', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

@@ -13,8 +13,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'TÊN', align: 'left' },
   { id: 'description', label: 'MÔ TẢ', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'updateDate', label: 'NGÀY CẬP NHẬT', align: 'left' },
-  { id: '', label: 'THAO TÁC', align: 'center' }
+  { id: 'updateDate', label: 'NGÀY CẬP NHẬT', align: 'left' }
 ];
 export default function RoleTable() {
   const { rolesList: list, isLoading } = useSelector((state: RootState) => state.roleKrowd);
@@ -22,17 +21,6 @@ export default function RoleTable() {
   useEffect(() => {
     dispatch(getRolesList());
   }, [dispatch]);
-  // const handleDeleteRiskTypeById = (activeRiskTypeId: string) => {
-  //     dispatch(delRiskTypeById(activeRiskTypeId));
-  //     enqueueSnackbar('Cập nhật trạng thái thành công', {
-  //       variant: 'success',
-  //       action: (key) => (
-  //         <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-  //           <Icon icon={closeFill} />
-  //         </MIconButton>
-  //       )
-  //     });
-  //   };
 
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -76,7 +64,6 @@ export default function RoleTable() {
       headingTitle="Danh sách các vai trò trong hệ thống"
       header={TABLE_HEAD}
       getData={getData}
-      deleteRecord={() => {}}
       isLoading={isLoading}
     />
   );

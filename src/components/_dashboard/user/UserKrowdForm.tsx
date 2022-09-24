@@ -78,7 +78,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
       bankName: user?.bankName ?? '',
       bankAccount: user?.bankAccount ?? '',
       taxIdentificationNumber: user?.taxIdentificationNumber ?? '',
-      dateOfBirth: value ?? ''
+      dateOfBirth: user?.dateOfBirth ?? ''
     },
     validationSchema: NewAddressSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
@@ -97,13 +97,10 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
         formData.append('address', values.address);
         formData.append('idCard', values.idCard);
         formData.append('bankName', values.bankName);
-        formData.append('bankName', values.bankName);
-        // formData.append('roleId', 'ad5f37da-ca48-4dc5-9f4b-963d94b535e6');
         formData.append('dateOfBirth', `${values.dateOfBirth}`);
         formData.append('taxIdentificationNumber', values.taxIdentificationNumber);
         formData.append('bankAccount', values.bankAccount);
         formData.append('gender', values.gender);
-        // formData.append('description', '123');
         await axios({
           method: 'put',
           url: REACT_APP_API_URL + `users/${user.id}`,
@@ -184,14 +181,14 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   <DatePicker
                     label="Ngày sinh"
                     inputFormat="dd/MM/yyyy"
-                    value={value ?? ''}
+                    value={value}
                     minDate={valueMinDate!}
                     maxDate={valueMaxDate!}
                     onChange={handleChange}
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        // error={Boolean(touched.startDate && errors.startDate)}
+                        error={Boolean(touched.dateOfBirth && errors.dateOfBirth)}
                       />
                     )}
                   />
@@ -222,6 +219,8 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   error={Boolean(touched.address && errors.address)}
                   helperText={touched.address && errors.address}
                 />
+              </Stack>
+              <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                 <TextField
                   label="Thành phố"
                   fullWidth
@@ -269,7 +268,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button>Đóng</Button>
+            <Button onClick={onClose}>Đóng</Button>
             <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
               Lưu
             </LoadingButton>

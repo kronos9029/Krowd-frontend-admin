@@ -14,8 +14,7 @@ const TABLE_HEAD = [
   { id: 'city', label: 'THÀNH PHỐ', align: 'left' },
   { id: 'district', label: 'QUẬN', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'updateDate', label: 'NGÀY CẬP NHẬT', align: 'left' },
-  { id: '', label: 'THAO TÁC', align: 'left' }
+  { id: 'updateDate', label: 'NGÀY CẬP NHẬT', align: 'left' }
 ];
 
 export default function AreaTable() {
@@ -67,10 +66,9 @@ export default function AreaTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách khu vực"
+      headingTitle="Danh sách khu vực thành phố HCM"
       header={TABLE_HEAD}
       getData={getData}
-      deleteRecord={() => {}}
       isLoading={isLoading}
     />
   );

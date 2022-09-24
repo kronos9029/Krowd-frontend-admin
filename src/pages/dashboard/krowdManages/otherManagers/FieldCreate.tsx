@@ -29,7 +29,7 @@ export default function FieldCreate() {
   const { id = '' } = useParams();
   const { fieldList } = useSelector((state: RootState) => state.fieldKrowd);
   const isEdit = pathname.includes(PATH.EDIT);
-  const currentField = fieldList.find((field) => paramCase(field.id) === id);
+  const currentField = fieldList.listOfField.find((field) => paramCase(field.id) === id);
 
   useEffect(() => {
     dispatch(getFieldById(id));

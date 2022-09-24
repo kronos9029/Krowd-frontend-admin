@@ -5,7 +5,7 @@ import { dispatch, store } from '../../store';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
-import { Project, ProjectStatus } from '../../../@types/krowd/project';
+import { Package, Project, ProjectStatus } from '../../../@types/krowd/project';
 import { REACT_APP_API_URL } from '../../../config';
 import { ProjectAPI } from '_apis_/krowd_apis/project';
 // ----------------------------------------------------------------------
@@ -25,6 +25,10 @@ type ProjectState = {
     areaId: string;
     status: string[];
   };
+  packageLists: {
+    numOfPackage: number;
+    listOfPackage: Package[];
+  };
 };
 
 const initialState: ProjectState = {
@@ -38,6 +42,10 @@ const initialState: ProjectState = {
   filters: {
     areaId: 'HCM',
     status: []
+  },
+  packageLists: {
+    numOfPackage: 0,
+    listOfPackage: []
   }
 };
 
@@ -78,6 +86,10 @@ const slice = createSlice({
     filterProducts(state, action) {
       state.filters.areaId = action.payload.areaId;
       state.filters.status = action.payload.status;
+    },
+    getProjectPackageSuccess(state, action) {
+      state.isLoading = false;
+      state.packageLists = action.payload;
     }
   }
 });
@@ -118,13 +130,22 @@ export function getProjectList() {
     }
   };
 }
+export function getProjectPackage(projectId: string) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await ProjectAPI.getProjectPackage({ id: projectId });
+      dispatch(slice.actions.getProjectPackageSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
 export function getProjectListById(projectId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses/${projectId}`
-      );
+      const response = await ProjectAPI.getProjectByID({ id: projectId });
       dispatch(slice.actions.getProjectListIDSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

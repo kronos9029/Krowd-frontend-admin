@@ -336,7 +336,10 @@ const OverDeathProjectList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/OverDateProjectList'))
 );
 const ProjectDetails = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ProjectKrowdAdminDetails'))
+  lazy(
+    () =>
+      import('../pages/dashboard/krowdManages/projectManagerment/details/ProjectKrowdAdminDetails')
+  )
 );
 const SystemWalletList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/walletManagement/SystemWallet'))
