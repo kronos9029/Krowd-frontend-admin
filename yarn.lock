@@ -1933,6 +1933,13 @@
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz"
   "version" "1.2.0"
 
+"@iconify/icons-akar-icons@^1.2.9":
+  "integrity" "sha512-57QfZjfdWoxW6SJ1wYzd6Id8TbBkS9zuHX9ii0Zhsv6IOJ9vbDgfbZz8gaNz7nabV5St5o7oLFLA9Izxb5dpyw=="
+  "resolved" "https://registry.npmjs.org/@iconify/icons-akar-icons/-/icons-akar-icons-1.2.9.tgz"
+  "version" "1.2.9"
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/icons-ant-design@^1.1.0":
   "integrity" "sha512-sE4NKXMfN9arTFmfvt4zARoS+hjhd8P0z5osjWYxVkQPCri1RYpF+NRa9MsDh3ScqAcSU9wfUeQ3X4Gf8GrcNQ=="
   "resolved" "https://registry.npmjs.org/@iconify/icons-ant-design/-/icons-ant-design-1.1.0.tgz"
@@ -1948,10 +1955,17 @@
   "resolved" "https://registry.npmjs.org/@iconify/icons-ic/-/icons-ic-1.1.10.tgz"
   "version" "1.1.10"
 
-"@iconify/react@^3.0.1":
-  "integrity" "sha512-yUskSSR80JzRSWcqNsBAG9AN802XzZgHsex8mTOkMLYcPQC3fk1XwK17ulnY5vf692OafhGCAMccR8TWKFaGdw=="
-  "resolved" "https://registry.npmjs.org/@iconify/react/-/react-3.0.1.tgz"
-  "version" "3.0.1"
+"@iconify/react@^4.0.0":
+  "integrity" "sha512-YE+z5PCegYyuJtLR6KBbJNlssmuVgRyFyRxcgxSPVkN3Gsm7npSzrUh+gWlBxrNb5g4Q6Nnb1gczPBNcwtUpng=="
+  "resolved" "https://registry.npmjs.org/@iconify/react/-/react-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "@iconify/types" "^2.0.0"
+
+"@iconify/types@*", "@iconify/types@^2.0.0":
+  "integrity" "sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg=="
+  "resolved" "https://registry.npmjs.org/@iconify/types/-/types-2.0.0.tgz"
+  "version" "2.0.0"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   "integrity" "sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ=="

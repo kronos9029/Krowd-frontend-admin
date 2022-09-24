@@ -52,7 +52,6 @@
     "@iconify/icons-ant-design": "^1.1.0",
     "@iconify/icons-eva": "^1.1.0",
     "@iconify/icons-ic": "^1.1.10",
-    "@iconify/react": "^3.0.1",
     "@mui/icons-material": "^5.0.0",
     "@mui/lab": "^5.0.0-alpha.47",
     "@mui/material": "^5.9.3",
@@ -144,6 +143,8 @@
   "devDependencies": {
     "@babel/core": "^7.15.5",
     "@babel/eslint-parser": "^7.15.4",
+    "@iconify/icons-akar-icons": "^1.2.9",
+    "@iconify/react": "^4.0.0",
     "@types/autosuggest-highlight": "^3.1.1",
     "@types/d3-array": "^3.0.1",
     "@types/d3-scale": "^4.0.1",

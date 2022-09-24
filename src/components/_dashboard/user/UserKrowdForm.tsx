@@ -131,7 +131,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
     formik;
 
   return (
-    <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
+    <Dialog fullWidth maxWidth="sm" open={open}>
       <FormikProvider value={formik}>
         <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
           <DialogTitle>Cập nhật thông tin</DialogTitle>

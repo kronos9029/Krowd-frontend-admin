@@ -173,6 +173,8 @@ export type ProjectFilter = {
   areaId: string;
   // fieldId: string[];
 };
+
+//PACKAGE
 export type Package = {
   id: string;
   remainingQuantity: number;
@@ -187,4 +189,15 @@ export type Package = {
   image: File | any;
   quantity: number;
   descriptionList: string[];
+};
+
+//CHART
+export type Chart = {
+  chartName: string;
+  lineList: LineList[];
+};
+
+export type LineList = {
+  lineName: string;
+  data: number[];
 };

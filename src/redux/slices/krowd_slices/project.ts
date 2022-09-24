@@ -5,7 +5,7 @@ import { dispatch, store } from '../../store';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
-import { Package, Project, ProjectStatus } from '../../../@types/krowd/project';
+import { Chart, Package, Project, ProjectStatus } from '../../../@types/krowd/project';
 import { REACT_APP_API_URL } from '../../../config';
 import { ProjectAPI } from '_apis_/krowd_apis/project';
 // ----------------------------------------------------------------------
@@ -29,6 +29,7 @@ type ProjectState = {
     numOfPackage: number;
     listOfPackage: Package[];
   };
+  listOfChartStage: Chart[];
 };
 
 const initialState: ProjectState = {
@@ -46,7 +47,8 @@ const initialState: ProjectState = {
   packageLists: {
     numOfPackage: 0,
     listOfPackage: []
-  }
+  },
+  listOfChartStage: []
 };
 
 const slice = createSlice({
@@ -90,6 +92,11 @@ const slice = createSlice({
     getProjectPackageSuccess(state, action) {
       state.isLoading = false;
       state.packageLists = action.payload;
+    },
+    // GET Chart LIST
+    getProjectStageListSuccess(state, action) {
+      state.isLoading = false;
+      state.listOfChartStage = action.payload;
     }
   }
 });
@@ -171,6 +178,31 @@ export function approveProject(projectId: string) {
         id: projectId
       });
       dispatch(getProjectId(projectId));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function refjectProject(projectId: string) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await ProjectAPI.rejectProject({
+        id: projectId
+      });
+      dispatch(getProjectId(projectId));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+export function getProjectStageList(projectId: string) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await ProjectAPI.getChartList({ id: projectId });
+      dispatch(slice.actions.getProjectStageListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
