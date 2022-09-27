@@ -1,6 +1,7 @@
 import { Field } from './fields';
 export enum BUSINESS_STATUS_ENUM {
-  ACTIVE = 'ACTIVE'
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
 }
 export type Business = {
   id: string;

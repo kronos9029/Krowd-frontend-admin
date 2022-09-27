@@ -19,7 +19,10 @@ const TABLE_HEAD = [
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 
-const BUSINESS_STATUS = [{ status: BUSINESS_STATUS_ENUM.ACTIVE, color: 'rgb(102, 187, 106)' }];
+const BUSINESS_STATUS = [
+  { status: BUSINESS_STATUS_ENUM.ACTIVE, color: 'rgb(102, 187, 106)', name: 'Đang hoạt động' },
+  { status: BUSINESS_STATUS_ENUM.INACTIVE, color: 'black', name: 'Chưa hoạt động' }
+];
 export default function BusinessTable() {
   const { businessState } = useSelector((state: RootState) => state.business);
   const { businessLists, isLoading } = businessState;
@@ -83,7 +86,7 @@ export default function BusinessTable() {
           },
           {
             name: 'status',
-            value: _item.status,
+            value: `${_item.status}` === 'ACTIVE' ? 'Đã hoạt động' : 'Chưa hoạt động',
             type: DATA_TYPE.CHIP_TEXT,
             textMapColor: BUSINESS_STATUS
           }

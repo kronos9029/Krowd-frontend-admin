@@ -28,6 +28,9 @@ import { PATH_DASHBOARD } from 'routes/paths';
 import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import axios from 'axios';
+import { dispatch } from 'redux/store';
+import { getBusinessList } from 'redux/slices/krowd_slices/business';
+import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 // ----------------------------------------------------------------------
 
 export default function BusinessNewAccountForm() {
@@ -75,6 +78,7 @@ export default function BusinessNewAccountForm() {
         enqueueSnackbar('Tạo mới thành công', {
           variant: 'success'
         });
+        navigate(PATH_DASHBOARD.admin.listBusiness);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
