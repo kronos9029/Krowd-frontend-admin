@@ -13,7 +13,6 @@ import {
   getBusinessById,
   getTempBusinessById
 } from 'redux/slices/krowd_slices/business';
-import BusinessDetails from 'pages/dashboard/krowdManages/businessManagement/BusinessDetails';
 import BusinessNewAccountForm from 'pages/dashboard/krowdManages/businessManagement/BusinessNewAccountForm';
 import UserKrowdDetailView from '../manage-user/UserKrowdDetailView';
 import { getUserKrowdDetail, UserKrowdState } from 'redux/slices/krowd_slices/users';
@@ -22,6 +21,7 @@ import { ROLE_USER_TYPE } from '../../../@types/krowd/users';
 export enum VIEW_DETAIL_DATA_TYPE {
   FIELD = '/field',
   BUSINESS = '/business/details',
+  INVESTOR_DETAIL = '/investor/details',
   CREATE_TEMP_BUSINESS = '/tempBusiness/new',
   EDIT_TEMP_BUSINESS = '/tempBusiness/details',
   USER_KROWD = '/userKrowd'
@@ -39,7 +39,9 @@ export default function KrowdDetailView() {
       VIEW_DETAIL_DATA_TYPE.CREATE_TEMP_BUSINESS) ||
     (pathname.includes(VIEW_DETAIL_DATA_TYPE.USER_KROWD) && VIEW_DETAIL_DATA_TYPE.USER_KROWD) ||
     (pathname.includes(VIEW_DETAIL_DATA_TYPE.EDIT_TEMP_BUSINESS) &&
-      VIEW_DETAIL_DATA_TYPE.EDIT_TEMP_BUSINESS);
+      VIEW_DETAIL_DATA_TYPE.EDIT_TEMP_BUSINESS) ||
+    (pathname.includes(VIEW_DETAIL_DATA_TYPE.INVESTOR_DETAIL) &&
+      VIEW_DETAIL_DATA_TYPE.INVESTOR_DETAIL);
 
   const props = useSelector((state: RootState) => {
     switch (getViewOf) {
@@ -49,6 +51,9 @@ export default function KrowdDetailView() {
         return state.business;
       case VIEW_DETAIL_DATA_TYPE.EDIT_TEMP_BUSINESS: {
         return state.business;
+      }
+      case VIEW_DETAIL_DATA_TYPE.INVESTOR_DETAIL: {
+        return state.userKrowd;
       }
       case VIEW_DETAIL_DATA_TYPE.USER_KROWD: {
         return state.userKrowd;
@@ -64,6 +69,10 @@ export default function KrowdDetailView() {
       }
       case VIEW_DETAIL_DATA_TYPE.BUSINESS: {
         dispatch(getBusinessById(id));
+        return;
+      }
+      case VIEW_DETAIL_DATA_TYPE.INVESTOR_DETAIL: {
+        dispatch(getUserKrowdDetail(id));
         return;
       }
       case VIEW_DETAIL_DATA_TYPE.EDIT_TEMP_BUSINESS: {

@@ -177,6 +177,7 @@ export default function Router() {
             { path: 'cards', element: <UserCards /> },
             { path: 'list_business', element: <BusinessManagerKrowdTable /> },
             { path: 'list_investor', element: <InvestorKrowdTable /> },
+            { path: 'investor/details/:id', element: <InvestorDetails /> },
             { path: 'list_project_owner', element: <ProjectOwnerKrowdTable /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':name/edit', element: <UserCreate /> },
@@ -305,6 +306,9 @@ const EcommerceCheckout = Loadable(
 );
 const BusinessDetails = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessDetails'))
+);
+const InvestorDetails = Loadable(
+  lazy(() => import('../pages/dashboard/krowdManages/usersManagement/InvestorDetails'))
 );
 const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPosts')));
 const BlogPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPost')));

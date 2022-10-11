@@ -66,7 +66,7 @@ export default function AreaTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách khu vực thành phố HCM"
+      headingTitle="khu vực thành phố Hồ Chí Minh"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

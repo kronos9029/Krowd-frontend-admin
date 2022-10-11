@@ -68,6 +68,7 @@ export const PATH_DASHBOARD = {
     cards: path(ROOTS_DASHBOARD, '/admin/cards'),
     listBusiness: path(ROOTS_DASHBOARD, '/admin/list_business'),
     listInvestor: path(ROOTS_DASHBOARD, '/admin/list_investor'),
+    investorDetails: path(ROOTS_DASHBOARD, '/admin/investor/details'),
     listProjectOwner: path(ROOTS_DASHBOARD, '/admin/list_project_owner'),
     newUser: path(ROOTS_DASHBOARD, '/admin/new'),
     userKrowd: path(ROOTS_DASHBOARD, `/admin/userKrowd`),

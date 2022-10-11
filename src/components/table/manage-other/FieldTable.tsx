@@ -75,7 +75,7 @@ export default function FieldTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách các loại lĩnh vực"
+      headingTitle="các loại lĩnh vực"
       createNewRecordButton={{
         pathTo: PATH_DASHBOARD.other.field + '/new',
         label: 'Tạo mới lĩnh vực'

@@ -61,7 +61,7 @@ export default function RoleTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách các vai trò trong hệ thống"
+      headingTitle="các vai trò trong hệ thống"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

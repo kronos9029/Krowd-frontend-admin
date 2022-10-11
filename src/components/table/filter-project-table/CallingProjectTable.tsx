@@ -13,7 +13,6 @@ const STATUS = 'CALLING_FOR_INVESTMENT';
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
   { id: 'name', label: 'TÊN DỰ ÁN', align: 'left' },
-  { id: 'manager', label: 'QUẢN LÝ', align: 'left' },
   { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ (VNĐ)', align: 'left' },
   { id: 'investmentTargetCapital', label: 'MỤC TIÊU (VNĐ)', align: 'left' },
   { id: 'startDate', label: 'NGÀY BẮT ĐÀU', align: 'left' },
@@ -59,11 +58,11 @@ export default function CallingProjectTable() {
               value: _item.name,
               type: DATA_TYPE.TEXT
             },
-            {
-              name: 'manager',
-              value: `${_item.manager.firstName} ${_item.manager.lastName}`,
-              type: DATA_TYPE.TEXT
-            },
+            // {
+            //   name: 'manager',
+            //   value: `${_item.manager.firstName} ${_item.manager.lastName}`,
+            //   type: DATA_TYPE.TEXT
+            // },
             {
               name: 'investedCapital',
               value: _item.investedCapital,
@@ -93,7 +92,7 @@ export default function CallingProjectTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách dự án đang mở đầu tư"
+      headingTitle="dự án đang mở đầu tư"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

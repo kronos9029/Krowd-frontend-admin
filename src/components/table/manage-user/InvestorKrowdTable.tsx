@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
+import Page500 from 'pages/dashboard/errorsManagers/Page500';
+import { PATH_DASHBOARD, PATH_PAGE } from 'routes/paths';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
@@ -20,7 +22,7 @@ export default function InvestorKrowdTable() {
   const { listOfUser: list } = userLists;
 
   useEffect(() => {
-    dispatch(getUserKrowdList());
+    dispatch(getUserKrowdList(ROLE_USER_TYPE.INVESTOR));
   }, [dispatch]);
 
   // const handleDeleteBusinessById = (businessId: string) => {
@@ -37,59 +39,62 @@ export default function InvestorKrowdTable() {
 
   const getData = (): RowData[] => {
     if (!list) return [];
-    return list
-      .filter((_item) => _item.role.name === ROLE_USER_TYPE.INVESTOR)
-      .map<RowData>((_item, _idx) => {
-        return {
-          id: _item.id,
-          items: [
-            {
-              name: 'idx',
-              value: _idx + 1,
-              type: DATA_TYPE.NUMBER
-            },
-            {
-              name: 'image',
-              value: _item.image,
-              type: DATA_TYPE.IMAGE
-            },
-            {
-              name: 'fullname',
-              value: `${_item.firstName} ${_item.lastName}`,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'phoneNum',
-              value: _item.phoneNum,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'email',
-              value: _item.email,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'createDate',
-              value: _item.createDate,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'status',
-              value: _item.status,
-              type: DATA_TYPE.TEXT
-            }
-          ]
-        };
-      });
+    return (
+      list
+        // .filter((_item) => _item.role.name === ROLE_USER_TYPE.INVESTOR)
+        .map<RowData>((_item, _idx) => {
+          return {
+            id: _item.id,
+            items: [
+              {
+                name: 'idx',
+                value: _idx + 1,
+                type: DATA_TYPE.NUMBER
+              },
+              {
+                name: 'image',
+                value: _item.image,
+                type: DATA_TYPE.IMAGE
+              },
+              {
+                name: 'fullname',
+                value: `${_item.firstName} ${_item.lastName}`,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'phoneNum',
+                value: _item.phoneNum,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'email',
+                value: _item.email,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'createDate',
+                value: _item.createDate,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'status',
+                value: `${_item.status}` === 'ACTIVE' ? 'Đã hoạt động' : 'Chưa hoạt động',
+                type: DATA_TYPE.TEXT,
+                textColor: `${_item.status}` === 'ACTIVE' ? 'green' : 'black'
+              }
+            ]
+          };
+        })
+    );
   };
 
   return (
     <KrowdTable
-      headingTitle="Danh sách quản lý người đầu tư"
+      headingTitle="quản lý người đầu tư"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      deleteRecord={() => {}}
+      viewPath={PATH_DASHBOARD.admin.investorDetails}
     />
   );
 }

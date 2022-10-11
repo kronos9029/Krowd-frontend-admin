@@ -20,7 +20,7 @@ export default function ProjectOwnerKrowdTable() {
   const { listOfUser: list } = userLists;
 
   useEffect(() => {
-    dispatch(getUserKrowdList());
+    dispatch(getUserKrowdList(ROLE_USER_TYPE.PROJECT_MANAGER));
   }, [dispatch]);
 
   // const handleDeleteBusinessById = (businessId: string) => {
@@ -37,55 +37,58 @@ export default function ProjectOwnerKrowdTable() {
 
   const getData = (): RowData[] => {
     if (!list) return [];
-    return list
-      .filter((_item) => _item.role.name === ROLE_USER_TYPE.PROJECT_MANAGER)
-      .map<RowData>((_item, _idx) => {
-        return {
-          id: _item.id,
-          items: [
-            {
-              name: 'idx',
-              value: _idx + 1,
-              type: DATA_TYPE.NUMBER
-            },
-            {
-              name: 'image',
-              value: _item.image,
-              type: DATA_TYPE.IMAGE
-            },
-            {
-              name: 'fullname',
-              value: `${_item.firstName} ${_item.lastName}`,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'phoneNum',
-              value: _item.phoneNum,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'email',
-              value: _item.email,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'createDate',
-              value: _item.createDate,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'status',
-              value: _item.status,
-              type: DATA_TYPE.TEXT
-            }
-          ]
-        };
-      });
+    return (
+      list
+        // .filter((_item) => _item.role.name === ROLE_USER_TYPE.PROJECT_MANAGER)
+        .map<RowData>((_item, _idx) => {
+          return {
+            id: _item.id,
+            items: [
+              {
+                name: 'idx',
+                value: _idx + 1,
+                type: DATA_TYPE.NUMBER
+              },
+              {
+                name: 'image',
+                value: _item.image,
+                type: DATA_TYPE.IMAGE
+              },
+              {
+                name: 'fullname',
+                value: `${_item.firstName} ${_item.lastName}`,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'phoneNum',
+                value: _item.phoneNum,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'email',
+                value: _item.email,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'createDate',
+                value: _item.createDate,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'status',
+                value: `${_item.status}` === 'ACTIVE' ? 'Đã hoạt động' : 'Chưa hoạt động',
+                type: DATA_TYPE.TEXT,
+                textColor: `${_item.status}` === 'ACTIVE' ? 'green' : 'black'
+              }
+            ]
+          };
+        })
+    );
   };
 
   return (
     <KrowdTable
-      headingTitle="Danh sách chủ sở hữu dự án"
+      headingTitle="chủ sở hữu dự án"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

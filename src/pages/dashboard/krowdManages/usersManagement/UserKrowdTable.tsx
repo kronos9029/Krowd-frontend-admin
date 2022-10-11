@@ -13,7 +13,7 @@ import InvestorKrowdTable from 'components/table/manage-user/InvestorKrowdTable'
 
 export default function UserKrowdTable() {
   return (
-    <Page title="Danh sách quản lý người đầu tư | Krowd">
+    <Page title="quản lý người đầu tư | Krowd">
       <Container maxWidth={false}>
         <InvestorKrowdTable />
       </Container>

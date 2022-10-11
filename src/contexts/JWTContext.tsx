@@ -155,8 +155,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       city,
       district,
       address,
-      firstName,
-      lastName,
+      fullName,
       bankName
     } = response.data;
     const user = {
@@ -167,7 +166,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       district: district,
       address: address,
       bankName: bankName,
-      fullName: `${firstName} ${lastName}`,
+      fullName: fullName,
       email: email,
       image: image
     };

@@ -14,7 +14,9 @@ import {
   DialogContentText,
   TextField,
   Dialog,
-  Snackbar
+  Snackbar,
+  Stack,
+  Autocomplete
 } from '@mui/material';
 // routes
 // hooks
@@ -37,6 +39,8 @@ import { dispatch, RootState, useSelector } from 'redux/store';
 import { deleteUser, updateEmailUser } from 'redux/slices/krowd_slices/users';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import plusFill from '@iconify/icons-eva/plus-fill';
+
 // ----------------------------------------------------------------------
 type UserKrowdDetailsProps = {
   currentKrowd: UserKrowd;
@@ -114,10 +118,10 @@ function BusinessManagerDetail({ businessManager: bm, isLoading }: BusinessManag
     });
   };
   return (
-    <Page title="Chi tiết quản lý doanh nghiệp | Krowd">
+    <Page title="Chi tiết doanh nghiệp | Krowd">
       <Container maxWidth={'md'}>
         <HeaderBreadcrumbs
-          heading={'Chi tiết quản lý doanh nghiệp'}
+          heading={'Chi tiết doanh nghiệp'}
           links={[
             { name: 'Bảng điều khiển', href: PATH_DASHBOARD.root },
             {
@@ -127,59 +131,61 @@ function BusinessManagerDetail({ businessManager: bm, isLoading }: BusinessManag
             { name: `${bm.firstName} ${bm.lastName}` }
           ]}
           action={
-            <Box display="flex" justifyContent="space-evenly" width={300}>
-              <Button
-                variant="contained"
-                onClick={handleClickOpen}
-                startIcon={<Icon icon={editTwotone} />}
-                color={'warning'}
-              >
-                Cập nhật email
-              </Button>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <FormikProvider value={formik}>
-                  <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                    <DialogTitle>Cập nhật email</DialogTitle>
-                    <DialogContent>
-                      <Box my={3}>
-                        <DialogContentText>
-                          Hành động này ảnh hưởng đến người quản lý doanh nghiệp, chỉ thay đổi khi
-                          có yêu cầu của họ.
-                        </DialogContentText>
-                      </Box>
-                      <TextField
-                        autoFocus
-                        label="Email"
-                        fullWidth
-                        variant="outlined"
-                        {...getFieldProps('email')}
-                        error={Boolean(touched.email && errors.email)}
-                        helperText={touched.email && errors.email}
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Đóng</Button>
-                      <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                        Lưu
-                      </LoadingButton>
-                    </DialogActions>
-                  </Form>
-                </FormikProvider>
-              </Dialog>
-              <Button
-                variant="contained"
-                onClick={() => handleDeleteUser(bm.id)}
-                startIcon={<Icon icon={trash2Outline} />}
-                color={'error'}
-              >
-                Xóa
-              </Button>
-            </Box>
+            <>
+              <Box display="flex" justifyContent="space-evenly" width={300}>
+                <Button
+                  variant="contained"
+                  onClick={handleClickOpen}
+                  startIcon={<Icon icon={editTwotone} />}
+                  color={'warning'}
+                >
+                  Cập nhật email
+                </Button>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <FormikProvider value={formik}>
+                    <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                      <DialogTitle>Cập nhật email</DialogTitle>
+                      <DialogContent>
+                        <Box my={3}>
+                          <DialogContentText>
+                            Hành động này ảnh hưởng đến người quản lý doanh nghiệp, chỉ thay đổi khi
+                            có yêu cầu của họ.
+                          </DialogContentText>
+                        </Box>
+                        <TextField
+                          autoFocus
+                          label="Email"
+                          fullWidth
+                          variant="outlined"
+                          {...getFieldProps('email')}
+                          error={Boolean(touched.email && errors.email)}
+                          helperText={touched.email && errors.email}
+                        />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>Đóng</Button>
+                        <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                          Lưu
+                        </LoadingButton>
+                      </DialogActions>
+                    </Form>
+                  </FormikProvider>
+                </Dialog>
+                <Button
+                  variant="contained"
+                  onClick={() => handleDeleteUser(bm.id)}
+                  startIcon={<Icon icon={trash2Outline} />}
+                  color={'error'}
+                >
+                  Xóa
+                </Button>
+              </Box>
+            </>
           }
         />
         {(isLoading && (

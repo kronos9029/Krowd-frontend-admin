@@ -14,7 +14,6 @@ const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'left' },
   { id: 'id', label: 'ID', align: 'left' },
   { id: 'name', label: 'TÊN DỰ ÁN', align: 'left' },
-  { id: 'manager', label: 'QUẢN LÝ', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
@@ -63,11 +62,11 @@ export default function ActiveProjectTable() {
               value: _item.name,
               type: DATA_TYPE.TEXT
             },
-            {
-              name: 'manager',
-              value: `${_item.manager.firstName} ${_item.manager.lastName}`,
-              type: DATA_TYPE.TEXT
-            },
+            // {
+            //   name: 'manager',
+            //   value: `${_item.manager.firstName} ${_item.manager.lastName}`,
+            //   type: DATA_TYPE.TEXT
+            // },
 
             {
               name: 'createDate',
@@ -86,7 +85,7 @@ export default function ActiveProjectTable() {
 
   return (
     <KrowdTable
-      headingTitle="Danh sách dự án đang mở đầu tư"
+      headingTitle="dự án đang mở đầu tư"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

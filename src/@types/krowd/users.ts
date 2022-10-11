@@ -114,3 +114,22 @@ export type Role = {
   updateBy: null;
   isDeleted: boolean;
 };
+export type WalletTransaction = {
+  id: string;
+  userId: string;
+  paymentId: string;
+  systemWalletId: string;
+  projectWalletId: string;
+  investorWalletId: string;
+  amount: number;
+  description: string;
+  type: string;
+  fromWalletId: string;
+  toWalletId: string;
+  fee: number;
+  createDate: Date | string;
+  createBy: string;
+  updateDate: Date | string;
+  updateBy: string;
+  isDeleted: boolean;
+};
