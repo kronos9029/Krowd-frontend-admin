@@ -77,7 +77,7 @@ export default function InvestorKrowdTable() {
 
   return (
     <KrowdTable
-      headingTitle="chủ sở hữu dự án"
+      headingTitle="Nhà đầu tư"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
