@@ -23,6 +23,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import {
+  activateProject,
   approveProject,
   getProjectListById,
   getProjectPackage,
@@ -59,19 +60,36 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   }
 }));
 const StyleStatus = [
-  { name: PROJECT_STATUS.DRAFT, bgcolor: 'primary.main', vn: 'BẢN NHÁP' },
-  { name: PROJECT_STATUS.DENIED, bgcolor: 'red', vn: 'DỰ ÁN ĐÃ BỊ TỪ CHỐI' },
+  { name: PROJECT_STATUS.DRAFT, bgcolor: '#000000', vn: 'BẢN NHÁP' },
+
+  { name: PROJECT_STATUS.DENIED, bgcolor: 'red', vn: 'BỊ TỪ CHỐI' },
+  { name: PROJECT_STATUS.CLOSED, bgcolor: 'red', vn: 'DỰ ÁN ĐÃ ĐÓNG' },
   {
     name: PROJECT_STATUS.WAITING_FOR_APPROVAL,
-    bgcolor: 'primary.main',
-    vn: 'Đang chờ duyệt'
+    bgcolor: '#eacb00',
+    vn: 'ĐANG CHỜ DUYỆT'
   },
   {
     name: PROJECT_STATUS.CALLING_FOR_INVESTMENT,
     bgcolor: 'primary.main',
-    vn: 'Đang kêu gọi đầu tư'
+    vn: 'ĐANG KÊU GỌI ĐẦU TƯ'
   },
-  { name: PROJECT_STATUS.ACTIVE, bgcolor: 'primary.success', vn: 'KÊU GỌI THÀNH CÔNG' }
+  {
+    name: PROJECT_STATUS.CALLING_TIME_IS_OVER,
+    bgcolor: 'red',
+    vn: 'DỰ ÁN ĐÃ QUÁ HẠN ĐẦU TƯ'
+  },
+  {
+    name: PROJECT_STATUS.WAITING_TO_ACTIVATE,
+    bgcolor: '#4dc0b5',
+    vn: 'DỰ ÁN ĐANG CHỜ KÍCH HOẠT'
+  },
+  {
+    name: PROJECT_STATUS.WAITING_TO_PUBLISH,
+    bgcolor: '#f66d9b',
+    vn: 'DỰ ÁN ĐANG CHỜ CÔNG KHAI'
+  },
+  { name: PROJECT_STATUS.ACTIVE, bgcolor: 'green', vn: 'KÊU GỌI THÀNH CÔNG' }
 ];
 
 export default function ProjectKrowdAdminDetails() {
@@ -89,6 +107,7 @@ export default function ProjectKrowdAdminDetails() {
   const [openStage, setOpenStage] = useState('chart');
 
   const [openSubmit, setOpenSubmit] = useState(false);
+  const [openActivateProject, setOpenActivateProject] = useState(false);
   const [openReject, setOpenReject] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -118,6 +137,19 @@ export default function ProjectKrowdAdminDetails() {
       variant: 'success'
     });
     setOpenSubmit(false);
+  };
+  const handleClickOpenActivateProject = () => {
+    setOpenActivateProject(true);
+  };
+  const handleCloseActivateProject = () => {
+    setOpenActivateProject(false);
+  };
+  const handleSubmitActivateProject = () => {
+    dispatch(activateProject(id));
+    enqueueSnackbar('Kích hoạt dụ án thành công', {
+      variant: 'success'
+    });
+    setOpenActivateProject(false);
   };
   const handleClickOpenStage = () => {
     setOpenStage('table');
@@ -194,97 +226,98 @@ export default function ProjectKrowdAdminDetails() {
             { name: `${project?.name}` }
           ]}
           action={
-            <Box>
-              {project?.status === 'WAITING_FOR_APPROVAL' && (
-                <>
-                  <Button variant="contained" onClick={handleClickOpenReject} color={'error'}>
-                    X Từ chối
-                  </Button>
-                  <Dialog
-                    open={openReject}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <DialogTitle>Bạn có muốn từ chối dự án này</DialogTitle>
-                    <DialogActions>
-                      <Button onClick={handleCloseReject}>Hủy</Button>
-                      <Button
-                        type="submit"
-                        color="error"
-                        variant="contained"
-                        onClick={handleRejectProject}
-                      >
-                        Từ chối
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                  <Button
-                    variant="contained"
-                    onClick={handleClickOpenSubmit}
-                    startIcon={<Icon icon={checkmarkFill} />}
-                    color={'primary'}
-                    sx={{ ml: 1 }}
-                  >
-                    Duyệt dự án{' '}
-                  </Button>
-                  <Dialog
-                    open={openSubmit}
-                    onClose={handleClickOpenSubmit}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                  >
-                    <DialogTitle>Bạn có muốn duyệt dự án?</DialogTitle>
-                    <Box sx={{ width: '400px', height: '560px', p: 2 }}>
-                      <Typography sx={{ paddingLeft: 2 }} variant="body1">
-                        Thông tin cơ bản của dự án {project.name}:
-                      </Typography>
+            <>
+              <Box>
+                {project?.status === 'WAITING_FOR_APPROVAL' && (
+                  <>
+                    <Button variant="contained" onClick={handleClickOpenReject} color={'error'}>
+                      X Từ chối
+                    </Button>
+                    <Dialog
+                      open={openReject}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <DialogTitle>Bạn có muốn từ chối dự án này</DialogTitle>
+                      <DialogActions>
+                        <Button onClick={handleCloseReject}>Hủy</Button>
+                        <Button
+                          type="submit"
+                          color="error"
+                          variant="contained"
+                          onClick={handleRejectProject}
+                        >
+                          Từ chối
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                    <Button
+                      variant="contained"
+                      onClick={handleClickOpenSubmit}
+                      startIcon={<Icon icon={checkmarkFill} />}
+                      color={'primary'}
+                      sx={{ ml: 1 }}
+                    >
+                      Duyệt dự án{' '}
+                    </Button>
+                    <Dialog
+                      open={openSubmit}
+                      onClose={handleClickOpenSubmit}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <DialogTitle>Bạn có muốn duyệt dự án?</DialogTitle>
+                      <Box sx={{ width: '400px', height: '560px', p: 2 }}>
+                        <Typography sx={{ paddingLeft: 2 }} variant="body1">
+                          Thông tin cơ bản của dự án {project.name}:
+                        </Typography>
 
-                      {highlights && highlights?.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Thông tin nổi bật cho dự án
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Thông tin nổi bật cho dự án
-                        </Button>
-                      )}
-                      {pitchs && pitchs?.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Thông tin tiêu diểm cho dự án
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Thông tin tiêu diểm cho dự án
-                        </Button>
-                      )}
-                      {extensions && extensions?.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Thông tin mở rộng của dự án
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Thông tin mở rộng của dự án
-                        </Button>
-                      )}
-                      {documents && documents?.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Thông tin tài liệu của dự án
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Thông tin tài liệu của dự án
-                        </Button>
-                      )}
-                      {packageLists.listOfPackage.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Thông tin các gói đầu tư của dự án
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Thông tin các gói đầu tư của dự án
-                        </Button>
-                      )}
-                      {/* {listOfChartStage &&
+                        {highlights && highlights?.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Thông tin nổi bật cho dự án
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Thông tin nổi bật cho dự án
+                          </Button>
+                        )}
+                        {pitchs && pitchs?.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Thông tin tiêu diểm cho dự án
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Thông tin tiêu diểm cho dự án
+                          </Button>
+                        )}
+                        {extensions && extensions?.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Thông tin mở rộng của dự án
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Thông tin mở rộng của dự án
+                          </Button>
+                        )}
+                        {documents && documents?.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Thông tin tài liệu của dự án
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Thông tin tài liệu của dự án
+                          </Button>
+                        )}
+                        {packageLists.listOfPackage.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Thông tin các gói đầu tư của dự án
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Thông tin các gói đầu tư của dự án
+                          </Button>
+                        )}
+                        {/* {listOfChartStage &&
                     listOfChartStage.find((c) =>
                       c.lineList.find((line) => line.data.find((d) => d.valueOf() !== 0))
                     ) ? (
@@ -297,58 +330,116 @@ export default function ProjectKrowdAdminDetails() {
                       </Button>
                     )} */}
 
-                      <Typography sx={{ paddingLeft: 2, pt: 2 }} variant="body1">
-                        Thông tin bổ sung:
-                      </Typography>
+                        <Typography sx={{ paddingLeft: 2, pt: 2 }} variant="body1">
+                          Thông tin bổ sung:
+                        </Typography>
 
-                      {abouts && abouts?.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Thông tin về doanh nghiệp của bạn
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Thông tin về doanh nghiệp của bạn
-                        </Button>
-                      )}
-                      {press && press?.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Đã thêm các bài viết liên quan tới dự án
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Đã thêm các bài viết liên quan tới dự án
-                        </Button>
-                      )}
-                      {faqs && faqs?.length > 0 ? (
-                        <Button startIcon={<Icon icon={checkmarkFill} />}>
-                          Đã thêm các câu hỏi thường gặp
-                        </Button>
-                      ) : (
-                        <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                          Đã thêm các câu hỏi thường gặp
-                        </Button>
-                      )}
+                        {abouts && abouts?.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Thông tin về doanh nghiệp của bạn
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Thông tin về doanh nghiệp của bạn
+                          </Button>
+                        )}
+                        {press && press?.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Đã thêm các bài viết liên quan tới dự án
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Đã thêm các bài viết liên quan tới dự án
+                          </Button>
+                        )}
+                        {faqs && faqs?.length > 0 ? (
+                          <Button startIcon={<Icon icon={checkmarkFill} />}>
+                            Đã thêm các câu hỏi thường gặp
+                          </Button>
+                        ) : (
+                          <Button color="error" startIcon={<Icon icon={circleXFill} />}>
+                            Đã thêm các câu hỏi thường gặp
+                          </Button>
+                        )}
 
-                      <Typography sx={{ paddingLeft: 2, pt: 2, color: 'red' }} variant="h6">
-                        Lưu ý:
-                      </Typography>
+                        <Typography sx={{ paddingLeft: 2, pt: 2, color: 'red' }} variant="h6">
+                          Lưu ý:
+                        </Typography>
 
-                      <Typography sx={{ paddingLeft: 0.4, pt: 2, color: 'red' }} variant="body2">
-                        (*) Admin vui lòng kiểm tra những thông tin của dự án: (Tên dự án , mô tả ,
-                        Các thông số của dự án , Tổng thanh khoản, Thời gian kêu gọi, Gói dự án đầu
-                        tư, thống kê giai đoạn) trước khi duyệt.
-                      </Typography>
-                    </Box>
-                    <DialogActions>
-                      <Button onClick={handleCloseSubmit}>Đóng</Button>
-                      <Button type="submit" variant="contained" onClick={handleSubmitProject}>
-                        Lưu
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </>
-              )}
-            </Box>
+                        <Typography sx={{ paddingLeft: 0.4, pt: 2, color: 'red' }} variant="body2">
+                          (*) Admin vui lòng kiểm tra những thông tin của dự án: (Tên dự án , mô tả
+                          , Các thông số của dự án , Tổng thanh khoản, Thời gian kêu gọi, Gói dự án
+                          đầu tư, thống kê giai đoạn) trước khi duyệt.
+                        </Typography>
+                      </Box>
+                      <DialogActions>
+                        <Button onClick={handleCloseSubmit}>Đóng</Button>
+                        <Button type="submit" variant="contained" onClick={handleSubmitProject}>
+                          Lưu
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </>
+                )}
+              </Box>
+              <Box>
+                {project?.status === 'WAITING_TO_ACTIVATE' && (
+                  <>
+                    <Button
+                      variant="contained"
+                      onClick={handleClickOpenActivateProject}
+                      startIcon={<Icon icon={checkmarkFill} />}
+                      color={'primary'}
+                      sx={{ ml: 1 }}
+                    >
+                      Kích hoạt dự án
+                    </Button>
+                    <Dialog
+                      open={openActivateProject}
+                      onClose={handleClickOpenActivateProject}
+                      aria-labelledby="modal-modal-title"
+                      aria-describedby="modal-modal-description"
+                    >
+                      <DialogTitle>Bạn có muốn kích hoạt dự án?</DialogTitle>
+                      <Box sx={{ width: '400px', height: '260px', p: 2 }}>
+                        <Typography sx={{ paddingLeft: 2 }} variant="body1">
+                          Tên dự án {project.name}
+                        </Typography>
+
+                        <Typography sx={{ paddingLeft: 2, pt: 2, color: 'orange' }} variant="h6">
+                          Lưu ý:
+                        </Typography>
+
+                        <Typography
+                          sx={{ paddingLeft: 0.4, pt: 2, color: 'orange' }}
+                          variant="body2"
+                        >
+                          (*) Admin vui lòng kiểm tra những thông tin của dự án: (Tên dự án , mô tả
+                          , Các thông số của dự án , Tổng thanh khoản, Thời gian kêu gọi, Gói dự án
+                          đầu tư, thống kê giai đoạn) trước khi kích hoạt.
+                        </Typography>
+                      </Box>
+                      <DialogActions>
+                        <Button
+                          color="error"
+                          variant="contained"
+                          onClick={handleCloseActivateProject}
+                        >
+                          Đóng
+                        </Button>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          onClick={handleSubmitActivateProject}
+                        >
+                          Kích hoạt
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </>
+                )}
+              </Box>
+            </>
           }
         />
         <Typography variant="h4" sx={{ mb: 3 }}>

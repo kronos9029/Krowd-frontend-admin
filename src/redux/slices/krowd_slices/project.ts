@@ -183,6 +183,19 @@ export function approveProject(projectId: string) {
     }
   };
 }
+export function activateProject(projectId: string) {
+  return async () => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await ProjectAPI.activateProject({
+        id: projectId
+      });
+      dispatch(getProjectId(projectId));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
 export function refjectProject(projectId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());

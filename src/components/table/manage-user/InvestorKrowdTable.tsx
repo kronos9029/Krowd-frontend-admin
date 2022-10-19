@@ -3,8 +3,6 @@ import { useEffect } from 'react';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
-import Page500 from 'pages/dashboard/errorsManagers/Page500';
-import { PATH_DASHBOARD, PATH_PAGE } from 'routes/paths';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
@@ -17,7 +15,7 @@ const TABLE_HEAD = [
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 
-export default function InvestorKrowdTable() {
+export default function ProjectOwnerKrowdTable() {
   const { userLists, isLoading } = useSelector((state: RootState) => state.userKrowd);
   const { listOfUser: list } = userLists;
 
@@ -25,23 +23,11 @@ export default function InvestorKrowdTable() {
     dispatch(getUserKrowdList(ROLE_USER_TYPE.INVESTOR));
   }, [dispatch]);
 
-  // const handleDeleteBusinessById = (businessId: string) => {
-  //   dispatch(deleteBusinessById(businessId));
-  //   enqueueSnackbar('Cập nhật trạng thái thành công', {
-  //     variant: 'success',
-  //     action: (key) => (
-  //       <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-  //         <Icon icon={closeFill} />
-  //       </MIconButton>
-  //     )
-  //   });
-  // };
-
   const getData = (): RowData[] => {
     if (!list) return [];
     return (
       list
-        // .filter((_item) => _item.role.name === ROLE_USER_TYPE.INVESTOR)
+        // .filter((_item) => _item.role.name === ROLE_USER_TYPE.PROJECT_MANAGER)
         .map<RowData>((_item, _idx) => {
           return {
             id: _item.id,
@@ -90,11 +76,11 @@ export default function InvestorKrowdTable() {
 
   return (
     <KrowdTable
-      headingTitle="quản lý người đầu tư"
+      headingTitle="chủ sở hữu dự án"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      viewPath={PATH_DASHBOARD.admin.investorDetails}
+      deleteRecord={() => {}}
     />
   );
 }

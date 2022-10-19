@@ -27,6 +27,15 @@ async function approveProject({ id }: { id: string }) {
   });
   return response;
 }
+async function activateProject({ id }: { id: string }) {
+  const headers = getHeader();
+  const response = await axios({
+    method: 'put',
+    url: REACT_APP_API_URL + `${API_SUBMIT}/${id},ACTIVE`,
+    headers: headers
+  });
+  return response;
+}
 async function rejectProject({ id }: { id: string }) {
   const headers = getHeader();
   const response = await axios({
@@ -70,6 +79,7 @@ export const ProjectAPI = {
   get: get,
   getAll: getAll,
   approveProject: approveProject,
+  activateProject: activateProject,
   getProjectByID: getProjectByID,
   getProjectPackage: getProjectPackage,
   rejectProject: rejectProject,

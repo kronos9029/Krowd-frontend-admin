@@ -9,14 +9,13 @@ import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { PATH_DASHBOARD } from 'routes/paths';
 import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
-const STATUS = 'DENIED';
+const STATUS = 'CLOSED';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'left' },
   { id: 'id', label: 'ID', align: 'left' },
   { id: 'name', label: 'TÊN DỰ ÁN', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 
@@ -36,7 +35,7 @@ export default function ClosingProjectTable() {
     });
   };
 
-  const { status = 'DENIED' } = useParams();
+  const { status = 'CLOSED' } = useParams();
   useEffect(() => {
     dispatch(getAllProject(status));
   }, [dispatch]);
@@ -74,11 +73,6 @@ export default function ClosingProjectTable() {
               name: 'createDate',
               value: _item.createDate,
               type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'status',
-              value: _item.status,
-              type: DATA_TYPE.TEXT
             }
           ]
         };
@@ -87,7 +81,7 @@ export default function ClosingProjectTable() {
 
   return (
     <KrowdTable
-      headingTitle="dự án đã kết thúc"
+      headingTitle="DỰ ÁN ĐÃ KẾT THÚC"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

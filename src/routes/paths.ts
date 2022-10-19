@@ -42,6 +42,7 @@ export const PATH_DASHBOARD = {
     projectKrowd: path(ROOTS_DASHBOARD, '/project/projectKrowd'),
     projectDetails: path(ROOTS_DASHBOARD, '/project/projectDetails'),
     draftProject: path(ROOTS_DASHBOARD, '/project/draftProject'),
+    waitingToActivateProject: path(ROOTS_DASHBOARD, '/project/waitingToActivate'),
     callingProject: path(ROOTS_DASHBOARD, '/project/callingProject'),
     overdateProject: path(ROOTS_DASHBOARD, '/project/overdateProject'),
     closeProject: path(ROOTS_DASHBOARD, '/project/closeProject'),

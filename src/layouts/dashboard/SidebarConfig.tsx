@@ -10,25 +10,16 @@ const getIcon = (name: string) => (
 );
 
 const ICONS = {
-  blog: getIcon('ic_blog'),
-  cart: getIcon('ic_cart'),
   other: getIcon('ic_other'),
-  customer: getIcon('ic_customer'),
   business: getIcon('ic_business'),
   project: getIcon('ic_project'),
   wallet: getIcon('ic_wallet'),
-  chat: getIcon('ic_chat'),
-  mail: getIcon('ic_mail'),
-  user: getIcon('ic_user'),
+  investor: getIcon('ic_investor'),
+  manager: getIcon('ic_manager'),
+  projectManager: getIcon('ic_projectManager'),
+  stage: getIcon('ic_stage'),
   dayOverview: getIcon('ic_dayOverview'),
-  kanban: getIcon('ic_kanban'),
-  banking: getIcon('ic_banking'),
-  calendar: getIcon('ic_calendar'),
-  ecommerce: getIcon('ic_ecommerce'),
-  analytics: getIcon('ic_analytics'),
   dashboard: getIcon('ic_dashboard'),
-  booking: getIcon('ic_booking'),
-  accountTransaction: getIcon('ic_accountTransaction'),
   bankTransaction: getIcon('ic_bankTransaction'),
   PeriodRevenueHistory: getIcon('ic_historyTransaction')
 };
@@ -55,17 +46,17 @@ const sidebarConfig = [
       {
         title: 'Quản lý doanh nghiệp',
         path: PATH_DASHBOARD.admin.listBusiness,
-        icon: ICONS.customer
+        icon: ICONS.manager
       },
       {
         title: 'Nhà đầu tư',
         path: PATH_DASHBOARD.admin.listInvestor,
-        icon: ICONS.customer
+        icon: ICONS.investor
       },
       {
         title: 'Chủ dự án',
         path: PATH_DASHBOARD.admin.listProjectOwner,
-        icon: ICONS.customer
+        icon: ICONS.projectManager
       }
     ]
   },
@@ -76,27 +67,31 @@ const sidebarConfig = [
       {
         title: 'Theo từng giai đoạn',
         path: PATH_DASHBOARD.general.app,
-        icon: ICONS.project,
+        icon: ICONS.stage,
         children: [
           {
-            title: 'Dự án đang chờ duyệt',
+            title: 'Đang chờ duyệt',
             path: PATH_DASHBOARD.projects.draftProject
           },
           {
-            title: 'Dự án mở đầu tư',
+            title: 'Đang chờ kích hoạt',
+            path: PATH_DASHBOARD.projects.waitingToActivateProject
+          },
+          {
+            title: 'Mở đầu tư',
             path: PATH_DASHBOARD.projects.callingProject
           },
 
           {
-            title: 'Dự án quá hạn đầu tư',
+            title: 'Quá hạn đầu tư',
             path: PATH_DASHBOARD.projects.overdateProject
           },
           {
-            title: 'Dự án đang hoạt động',
+            title: 'Đang hoạt động',
             path: PATH_DASHBOARD.projects.activeProject
           },
           {
-            title: 'Dự án đã kết thúc',
+            title: 'Đã kết thúc',
             path: PATH_DASHBOARD.projects.closeProject
           }
         ]

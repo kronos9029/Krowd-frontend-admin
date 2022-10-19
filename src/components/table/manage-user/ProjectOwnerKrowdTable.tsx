@@ -23,18 +23,6 @@ export default function ProjectOwnerKrowdTable() {
     dispatch(getUserKrowdList(ROLE_USER_TYPE.PROJECT_MANAGER));
   }, [dispatch]);
 
-  // const handleDeleteBusinessById = (businessId: string) => {
-  //   dispatch(deleteBusinessById(businessId));
-  //   enqueueSnackbar('Cập nhật trạng thái thành công', {
-  //     variant: 'success',
-  //     action: (key) => (
-  //       <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-  //         <Icon icon={closeFill} />
-  //       </MIconButton>
-  //     )
-  //   });
-  // };
-
   const getData = (): RowData[] => {
     if (!list) return [];
     return (

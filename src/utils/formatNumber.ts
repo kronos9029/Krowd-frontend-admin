@@ -4,7 +4,7 @@ import numeral from 'numeral';
 // ----------------------------------------------------------------------
 
 export function fCurrency(number: string | number) {
-  return numeral(number).format('0,0[.]00');
+  return numeral(number).format('0,0[.]00').concat(' đ');
 }
 
 export function fPercent(number: number) {

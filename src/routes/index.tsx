@@ -129,6 +129,7 @@ export default function Router() {
             { path: 'overdateProject', element: <OverDateProjectList /> },
             { path: 'closeProject', element: <CloseProjectList /> },
             { path: 'activeProject', element: <ActiveProjectList /> },
+            { path: 'waitingToActivate', element: <WaitingToActivateProjectList /> },
             { path: 'projectDetails/:id', element: <ProjectDetails /> }
           ]
         },
@@ -326,6 +327,11 @@ const OverDateProjectList = Loadable(
 );
 const ActiveProjectList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/ActiveProjectList'))
+);
+const WaitingToActivateProjectList = Loadable(
+  lazy(
+    () => import('../pages/dashboard/krowdManages/projectManagerment/WaitingToActivateProjectList')
+  )
 );
 const CloseProjectList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/CloseProjectList'))

@@ -12,14 +12,14 @@ import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
 const STATUS = 'ACTIVE';
 
 const TABLE_HEAD = [
-  { id: 'idx', label: 'STT', align: 'left' },
-  { id: 'id', label: 'ID', align: 'left' },
+  { id: 'idx', label: 'STT', align: 'center' },
   { id: 'name', label: 'TÊN DỰ ÁN', align: 'left' },
-  { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
+  { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ (VNĐ)', align: 'left' },
+  { id: 'investmentTargetCapital', label: 'MỤC TIÊU (VNĐ)', align: 'left' },
+  { id: 'startDate', label: 'NGÀY BẮT ĐẦU', align: 'left' },
+  { id: 'endDate', label: 'NGÀY KẾT THÚC', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
-
 export default function ActiveProjectTable() {
   const { projectLists, isLoading } = useSelector((state: RootState) => state.project);
   const { listOfProject: list } = projectLists;
@@ -55,30 +55,31 @@ export default function ActiveProjectTable() {
               type: DATA_TYPE.NUMBER
             },
             {
-              name: 'id',
-              value: _item.id,
-              type: DATA_TYPE.TEXT
-            },
-            {
               name: 'name',
               value: _item.name,
               type: DATA_TYPE.TEXT
             },
-            // {
-            //   name: 'manager',
-            //   value: `${_item.manager.firstName} ${_item.manager.lastName}`,
-            //   type: DATA_TYPE.TEXT
-            // },
-
             {
-              name: 'createDate',
-              value: _item.createDate,
-              type: DATA_TYPE.TEXT
+              name: 'investedCapital',
+              value: _item.investedCapital,
+              type: DATA_TYPE.NUMBER_FORMAT,
+              textColor: 'primary.main'
             },
             {
-              name: 'status',
-              value: _item.status,
-              type: DATA_TYPE.TEXT
+              name: 'investmentTargetCapital',
+              value: _item.investmentTargetCapital,
+              type: DATA_TYPE.NUMBER_FORMAT,
+              textColor: 'rgb(255, 127, 80)'
+            },
+            {
+              name: 'startDate',
+              value: _item.startDate,
+              type: DATA_TYPE.DATE
+            },
+            {
+              name: 'endDate',
+              value: _item.endDate,
+              type: DATA_TYPE.DATE
             }
           ]
         };
@@ -87,7 +88,7 @@ export default function ActiveProjectTable() {
 
   return (
     <KrowdTable
-      headingTitle="dự án đang mở đầu tư"
+      headingTitle="DỰ ÁN ĐÃ HOẠT ĐỘNG"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

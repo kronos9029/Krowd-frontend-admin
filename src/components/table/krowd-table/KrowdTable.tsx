@@ -37,7 +37,8 @@ export enum DATA_TYPE {
   NUMBER = 'number',
   WRAP_TEXT = 'wrap_text',
   DATE = 'date',
-  CURRENCY = 'currency'
+  CURRENCY = 'currency',
+  NUMBER_FORMAT = 'number_format'
 }
 export type RowData = {
   id: string;
@@ -238,6 +239,32 @@ export function KrowdTable({
                                 <Stack direction="row" alignItems="center" spacing={2}>
                                   <Typography variant="subtitle2" noWrap>
                                     {[..._item.value].map((_o) => _o)}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.NUMBER_FORMAT:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack
+                                  display={'block'}
+                                  direction="row"
+                                  alignItems="right"
+                                  spacing={2}
+                                >
+                                  <Typography
+                                    sx={{ textAlign: 'right' }}
+                                    variant="subtitle2"
+                                    noWrap
+                                    mx="auto"
+                                    color={_item.textColor ?? 'text.primary'}
+                                  >
+                                    {fCurrency(_item.value)}
                                   </Typography>
                                 </Stack>
                               </TableCell>
