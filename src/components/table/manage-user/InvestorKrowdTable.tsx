@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
+import { PATH_DASHBOARD } from 'routes/paths';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
@@ -15,7 +16,7 @@ const TABLE_HEAD = [
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 
-export default function ProjectOwnerKrowdTable() {
+export default function InvestorKrowdTable() {
   const { userLists, isLoading } = useSelector((state: RootState) => state.userKrowd);
   const { listOfUser: list } = userLists;
 
@@ -80,7 +81,7 @@ export default function ProjectOwnerKrowdTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      deleteRecord={() => {}}
+      viewPath={PATH_DASHBOARD.admin.investorDetails}
     />
   );
 }
