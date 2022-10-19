@@ -110,13 +110,13 @@ export const { sortByProducts, filterProducts } = slice.actions;
 
 // ----------------------------------------------------------------------
 
-export function getAllProject() {
+export function getAllProject(status: string) {
   return async () => {
     const { dispatch } = store;
 
     dispatch(slice.actions.startLoading());
     try {
-      const response: { data: { products: Project[] } } = await ProjectAPI.getAll();
+      const response: { data: { products: Project[] } } = await ProjectAPI.getAll(status);
       dispatch(slice.actions.getProjectListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

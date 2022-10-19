@@ -40,25 +40,17 @@ export default function GeneralApp() {
             <AppFeatured />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={12}>
             <AppTotalActiveUsers />
           </Grid>
 
-          <Grid item xs={12} md={4}>
-            <AppTotalInstalled />
-          </Grid>
-
-          <Grid item xs={12} md={4}>
-            <AppTotalDownloads />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item xs={12} md={12} lg={12}>
             <AppCurrentDownload />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
+          {/* <Grid item xs={12} md={6} lg={8}>
             <AppAreaInstalled />
-          </Grid>
+          </Grid> */}
 
           {/* <Grid item xs={12} lg={8}>
             <AppNewInvoice />

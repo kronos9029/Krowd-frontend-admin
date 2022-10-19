@@ -6,3 +6,4 @@ import './template_apis/account';
 import './template_apis/products';
 import './template_apis/kanban';
 import './krowd_apis/UserKrowd';
+import './krowd_apis/other';

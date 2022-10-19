@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react';
 import { MIconButton } from 'components/@material-extend';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
+import { useParams } from 'react-router';
 import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/project';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { PATH_DASHBOARD } from 'routes/paths';
@@ -34,9 +35,9 @@ export default function OverDateProjectTable() {
       )
     });
   };
-
+  const { status = 'OVERDATE' } = useParams();
   useEffect(() => {
-    dispatch(getAllProject());
+    dispatch(getAllProject(status));
   }, [dispatch]);
 
   const getData = (): RowData[] => {

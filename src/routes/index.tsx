@@ -104,7 +104,7 @@ export default function Router() {
             { path: 'fields', element: <FieldManagerment /> },
             { path: 'field/new', element: <FieldCreate /> },
             {
-              path: 'field/:id',
+              path: 'field/Details/:id',
               element: <KrowdDetailView />
             },
             {
@@ -158,8 +158,6 @@ export default function Router() {
           path: 'business',
           children: [
             { element: <Navigate to="/dashboard/business/profile" replace /> },
-            { path: 'profile', element: <UserProfile /> },
-            { path: 'cards', element: <UserCards /> },
             { path: 'list', element: <BusinessList /> },
             { path: 'new', element: <UserCreate /> },
             { path: 'tempBusiness/new', element: <KrowdDetailView /> },
@@ -173,8 +171,6 @@ export default function Router() {
           path: 'admin',
           children: [
             { element: <Navigate to="/dashboard/admin/profile" replace /> },
-            { path: 'profile', element: <UserProfile /> },
-            { path: 'cards', element: <UserCards /> },
             { path: 'list_business', element: <BusinessManagerKrowdTable /> },
             { path: 'list_investor', element: <InvestorKrowdTable /> },
             { path: 'investor/details/:id', element: <InvestorDetails /> },
@@ -313,8 +309,6 @@ const InvestorDetails = Loadable(
 const BlogPosts = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPosts')));
 const BlogPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogPost')));
 const BlogNewPost = Loadable(lazy(() => import('../pages/dashboard/templateManagers/BlogNewPost')));
-const UserProfile = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserProfile')));
-const UserCards = Loadable(lazy(() => import('../pages/dashboard/templateManagers/UserCards')));
 const BusinessList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/businessManagement/BusinessList'))
 );

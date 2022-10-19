@@ -22,7 +22,7 @@ async function approveProject({ id }: { id: string }) {
   const headers = getHeader();
   const response = await axios({
     method: 'put',
-    url: REACT_APP_API_URL + `${API_SUBMIT}/${id},CALLING_FOR_INVESTMENT`,
+    url: REACT_APP_API_URL + `${API_SUBMIT}/${id},WAITING_TO_PUBLISH`,
     headers: headers
   });
   return response;
@@ -37,10 +37,11 @@ async function rejectProject({ id }: { id: string }) {
   return response;
 }
 
-async function getAll() {
+async function getAll(status: string) {
   const headers = getHeader();
   const response = await axios.get(REACT_APP_API_URL + `projects`, {
-    headers: headers
+    headers: headers,
+    params: { status }
   });
   return response;
 }

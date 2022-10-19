@@ -78,7 +78,7 @@ export default function InvestorKrowdTable() {
               },
               {
                 name: 'status',
-                value: `${_item.status}` === 'ACTIVE' ? 'Đã hoạt động' : 'Chưa hoạt động',
+                value: `${_item.status}` === 'ACTIVE' ? 'Đang hoạt động' : 'Chưa hoạt động',
                 type: DATA_TYPE.TEXT,
                 textColor: `${_item.status}` === 'ACTIVE' ? 'green' : 'black'
               }

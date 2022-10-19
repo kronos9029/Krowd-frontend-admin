@@ -4,6 +4,7 @@ import { dispatch } from '../../store';
 // utils
 import axios from 'axios';
 import { Field } from '../../../@types/krowd/fields';
+import { OtherKrowdAPI } from '_apis_/krowd_apis/other';
 
 // ----------------------------------------------------------------------
 
@@ -88,9 +89,7 @@ export function delFieldListById(fieldId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.delete(
-        `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/fields/${fieldId}`
-      );
+      const response = await OtherKrowdAPI.delFieldID({ id: fieldId });
       dispatch(getFieldList());
     } catch (error) {
       dispatch(slice.actions.hasError(error));

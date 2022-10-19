@@ -26,13 +26,13 @@ const MENU_OPTIONS = [
     icon: homeFill,
     linkTo: '/dashboard/app'
   },
+  // {
+  //   label: 'Thông tin cá nhân',
+  //   icon: personFill,
+  //   linkTo: PATH_DASHBOARD.business.profile
+  // },
   {
-    label: 'Thông tin cá nhân',
-    icon: personFill,
-    linkTo: PATH_DASHBOARD.business.profile
-  },
-  {
-    label: 'Cài đặt',
+    label: 'Cài đặt thông tin',
     icon: settings2Fill,
     linkTo: PATH_DASHBOARD.business.account
   }

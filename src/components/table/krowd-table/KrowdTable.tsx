@@ -267,32 +267,35 @@ export function KrowdTable({
                             );
                         }
                       })}
-                      {viewPath && (
-                        <TableCell align="center">
-                          <Link to={viewPath + `/${data.id}`}>
-                            <Icon
-                              icon={eyeFill}
-                              width={24}
-                              height={24}
-                              style={{ margin: '0px auto' }}
-                              color={'rgb(255, 127, 80)'}
-                            />
-                          </Link>
-                        </TableCell>
-                      )}
-                      {deleteRecord && (
-                        <TableCell align="center">
-                          <Button onClick={() => deleteRecord(data.id)}>
-                            <Icon
-                              icon={trash2Outline}
-                              width={24}
-                              height={24}
-                              style={{ margin: '0px auto' }}
-                              color={'rgb(255, 127, 80)'}
-                            />
-                          </Button>
-                        </TableCell>
-                      )}
+                      <TableCell>
+                        {viewPath && (
+                          <TableCell align="center">
+                            <Link to={viewPath + `/${data.id}`}>
+                              <Icon
+                                icon={eyeFill}
+                                width={24}
+                                height={24}
+                                style={{ margin: '0px auto' }}
+                                color={'rgb(255, 127, 80)'}
+                              />
+                            </Link>
+                          </TableCell>
+                        )}
+                        {deleteRecord && (
+                          <TableCell align="center">
+                            <Button onClick={() => deleteRecord(data.id)}>
+                              <Icon
+                                icon={trash2Outline}
+                                width={24}
+                                height={24}
+                                style={{ margin: '0px auto' }}
+                                color={'rgb(235, 7, 64)'}
+                              />
+                            </Button>
+                          </TableCell>
+                        )}
+                      </TableCell>
+
                       <TableCell
                         key={'__borderRowRight'}
                         component="th"

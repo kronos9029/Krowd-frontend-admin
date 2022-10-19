@@ -143,6 +143,7 @@ export default function ProjectKrowdAdminDetails() {
   };
   return (
     <Page title="Chi tiết: Dự án | Krowd">
+      {/* {isLoading && ( */}
       <Container maxWidth={false}>
         <Box my={2} sx={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           <Typography>

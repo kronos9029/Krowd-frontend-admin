@@ -93,6 +93,7 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/other'),
     list: path(ROOTS_DASHBOARD, '/other/list'),
     fields: path(ROOTS_DASHBOARD, '/other/fields'),
+    fieldDetails: path(ROOTS_DASHBOARD, '/other/fields/details'),
     newRiskType: path(ROOTS_DASHBOARD, '/other/risk_type-new'),
     field: path(ROOTS_DASHBOARD, '/other/field'),
     area: path(ROOTS_DASHBOARD, '/other/area'),

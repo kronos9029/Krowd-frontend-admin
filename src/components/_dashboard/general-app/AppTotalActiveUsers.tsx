@@ -6,9 +6,13 @@ import trendingUpFill from '@iconify/icons-eva/trending-up-fill';
 import trendingDownFill from '@iconify/icons-eva/trending-down-fill';
 // material
 import { alpha, useTheme, styled } from '@mui/material/styles';
-import { Box, Card, Typography, Stack } from '@mui/material';
+import { Box, Card, Typography, Stack, Grid } from '@mui/material';
 // utils
 import { fNumber, fPercent } from '../../../utils/formatNumber';
+import { dispatch, RootState, useSelector } from 'redux/store';
+import { useEffect } from 'react';
+import { getBusinessList } from 'redux/slices/krowd_slices/business';
+import BusinessTable from 'components/table/BusinessTable';
 
 // ----------------------------------------------------------------------
 
@@ -25,61 +29,31 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-const PERCENT = 2.6;
-const TOTAL_USER = 18765;
-const CHART_DATA = [{ data: [20, 41, 63, 33, 28, 35, 50, 46, 11, 26] }];
-
 export default function AppTotalActiveUsers() {
   const theme = useTheme();
-
-  const chartOptions: ApexOptions = {
-    colors: [theme.palette.primary.main],
-    chart: { sparkline: { enabled: true } },
-    plotOptions: { bar: { columnWidth: '68%', borderRadius: 2 } },
-    labels: ['1', '2', '3', '4', '5', '6', '7', '8'],
-    tooltip: {
-      x: { show: false },
-      y: {
-        formatter: (seriesName: number | string) => fNumber(seriesName),
-        title: {
-          formatter: (seriesName: number | string) => ''
-        }
-      },
-      marker: { show: false }
-    }
-  };
-
+  const { businessState } = useSelector((state: RootState) => state.business);
+  const { businessLists, isLoading } = businessState;
+  const { listOfBusiness } = businessLists;
+  useEffect(() => {
+    dispatch(getBusinessList());
+  }, [dispatch]);
   return (
-    <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
-      <Box sx={{ flexGrow: 1 }}>
-        <Typography variant="subtitle2">Tổng số doanh nghiệp</Typography>
-        <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 2, mb: 1 }}>
-          <IconWrapperStyle
-            sx={{
-              ...(PERCENT < 0 && {
-                color: 'error.main',
-                bgcolor: alpha(theme.palette.error.main, 0.16)
-              })
-            }}
-          >
-            <Icon width={16} height={16} icon={PERCENT >= 0 ? trendingUpFill : trendingDownFill} />
-          </IconWrapperStyle>
-          <Typography component="span" variant="subtitle2">
-            {PERCENT > 0 && '+'}
-            {fPercent(PERCENT)}
-          </Typography>
-        </Stack>
+    <>
+      <Typography sx={{ my: 5, p: 2 }} variant="h4">
+        Các doanh nghiệp đang hợp tác cùng KROWD
+      </Typography>
 
-        <Typography variant="h3">{fNumber(TOTAL_USER)}</Typography>
-      </Box>
-
-      <ReactApexChart
-        type="bar"
-        series={CHART_DATA}
-        options={chartOptions}
-        width={60}
-        height={36}
-      />
-    </Card>
+      <Grid container>
+        {listOfBusiness &&
+          listOfBusiness.length > 0 &&
+          listOfBusiness.map((e, index) => (
+            <Grid sx={{ p: 2 }} item key={index} xs={2} sm={2} md={2} lg={2}>
+              <Typography>
+                {e.image && <img style={{ width: 150, height: 150 }} src={e.image} />}
+              </Typography>
+            </Grid>
+          ))}
+      </Grid>
+    </>
   );
 }

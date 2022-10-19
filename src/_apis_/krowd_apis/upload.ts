@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { REACT_APP_API_URL } from 'config';
-const API_FIELD = 'upload-files';
+const API_FIELD = 'upload-files/firebase';
 function getToken() {
   return window.localStorage.getItem('accessToken');
 }

@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react';
 import { MIconButton } from 'components/@material-extend';
 import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
+import { useParams } from 'react-router';
 import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/project';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { PATH_DASHBOARD } from 'routes/paths';
@@ -22,9 +23,10 @@ const TABLE_HEAD = [
 export default function WaitingProjectTable() {
   const { projectLists, isLoading } = useSelector((state: RootState) => state.project);
   const { listOfProject: list } = projectLists;
+  const { status = 'WAITING_FOR_APPROVAL' } = useParams();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   useEffect(() => {
-    dispatch(getAllProject());
+    dispatch(getAllProject(status));
   }, [dispatch]);
 
   const handleDeleteProjectById = (businessId: string) => {
