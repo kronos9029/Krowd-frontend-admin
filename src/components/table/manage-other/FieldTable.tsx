@@ -169,10 +169,6 @@ export default function FieldTable() {
   return (
     <KrowdTable
       headingTitle="các loại lĩnh vực"
-      // createNewRecordButton={{
-      //   pathTo: PATH_DASHBOARD.other.field + '/new',
-      //   label: 'Tạo mới lĩnh vực'
-      // }}
       action={
         <Box>
           <Button
@@ -234,7 +230,7 @@ export default function FieldTable() {
       getData={getData}
       isLoading={isLoading}
       deleteRecord={handleDeleteFieldById}
-      viewPath={PATH_DASHBOARD.other.fieldDetails}
+      // viewPath={PATH_DASHBOARD.other.fieldDetails}
     />
   );
 }

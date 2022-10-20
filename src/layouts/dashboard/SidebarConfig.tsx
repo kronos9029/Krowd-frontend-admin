@@ -44,7 +44,7 @@ const sidebarConfig = [
     subheader: 'Quản lý người dùng',
     items: [
       {
-        title: 'Quản lý doanh nghiệp',
+        title: 'Quản lý thương hiệu',
         path: PATH_DASHBOARD.admin.listBusiness,
         icon: ICONS.manager
       },

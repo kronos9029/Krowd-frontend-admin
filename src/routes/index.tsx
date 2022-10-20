@@ -245,7 +245,9 @@ const ResetPassword = Loadable(lazy(() => import('../pages/authentication/ResetP
 const VerifyCode = Loadable(lazy(() => import('../pages/authentication/VerifyCode')));
 
 // Thống kê toàn bộ hệ thống
-const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/generalManagers/GeneralApp')));
+const GeneralApp = Loadable(
+  lazy(() => import('../pages/dashboard/generalManagers/KrowdAdminDashboard'))
+);
 const GeneralEcommerce = Loadable(
   lazy(() => import('../pages/dashboard/generalManagers/GeneralEcommerce'))
 );

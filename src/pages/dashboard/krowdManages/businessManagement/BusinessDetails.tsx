@@ -441,14 +441,16 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                 </Dialog>
               </Box>
               <Box>
-                <Button
-                  startIcon={<Icon icon={plusFill} width={16} height={16} />}
-                  onClick={handleClickOpenBusinessManager}
-                  size="medium"
-                  variant="contained"
-                >
-                  Thêm người quản lý doanh nghiệp
-                </Button>
+                {business.status !== STATUS_BUSINESS && (
+                  <Button
+                    startIcon={<Icon icon={plusFill} width={16} height={16} />}
+                    onClick={handleClickOpenBusinessManager}
+                    size="medium"
+                    variant="contained"
+                  >
+                    Thêm người quản lý doanh nghiệp
+                  </Button>
+                )}
                 <Dialog
                   open={openBusinessManager}
                   aria-labelledby="modal-modal-title"

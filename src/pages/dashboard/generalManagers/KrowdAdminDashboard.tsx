@@ -9,21 +9,21 @@ import {
   AppWelcome,
   AppWidgets1,
   AppWidgets2,
-  AppFeatured,
+  KrowdArticle,
   AppNewInvoice,
   AppTopAuthors,
   AppTopRelated,
   AppAreaInstalled,
   AppTotalDownloads,
   AppTotalInstalled,
-  AppCurrentDownload,
-  AppTotalActiveUsers,
+  TotalProjectPublished,
+  TotalBrandOfKrowd,
   AppTopInstalledCountries
 } from '../../../components/_dashboard/general-app';
 import { RootState, useSelector } from 'redux/store';
 // ----------------------------------------------------------------------
 
-export default function GeneralApp() {
+export default function KrowdAdminDashboard() {
   const { themeStretch } = useSettings();
   const { user } = useAuth();
   const { userKrowdDetailState } = useSelector((state: RootState) => state.userKrowd);
@@ -37,15 +37,15 @@ export default function GeneralApp() {
           </Grid>
 
           <Grid item xs={12} md={4}>
-            <AppFeatured />
+            <KrowdArticle />
           </Grid>
 
           <Grid item xs={12} md={12}>
-            <AppTotalActiveUsers />
+            <TotalBrandOfKrowd />
           </Grid>
 
           <Grid item xs={12} md={12} lg={12}>
-            <AppCurrentDownload />
+            <TotalProjectPublished />
           </Grid>
 
           {/* <Grid item xs={12} md={6} lg={8}>

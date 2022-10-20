@@ -150,7 +150,7 @@ export default function BusinessManagerKrowdTable() {
 
   return (
     <KrowdTable
-      headingTitle="người quản lý doanh nghiệp"
+      headingTitle="NGƯỜI QUẢN LÝ THƯƠNG HIỆU"
       // action={
       //   <Box>
       //     <Button
@@ -243,7 +243,7 @@ export default function BusinessManagerKrowdTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      deleteRecord={() => {}}
+      blockRecord={() => {}}
     />
   );
 }

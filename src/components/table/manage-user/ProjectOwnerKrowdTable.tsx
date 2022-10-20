@@ -80,7 +80,7 @@ export default function ProjectOwnerKrowdTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      deleteRecord={() => {}}
+      blockRecord={() => {}}
     />
   );
 }

@@ -14,9 +14,9 @@ import { CarouselControlsPaging1, CarouselControlsArrowsBasic1 } from '../../car
 // ----------------------------------------------------------------------
 
 const TITLES = [
-  'Harry Potter and the Deathly Hallows - Part 2',
-  'Disney Zombies 2',
-  'Lightroom mobile - Koloro'
+  'Nhượng quyền thương mại với KROWD',
+  'Cầu nối gắn kết giữa doanh nghiệp và các nhà đầu tư',
+  'Nền tảng nhượng quyền thương mại cho doanh nghiệp'
 ];
 
 const MOCK_APPS = [...Array(3)].map((_, index) => ({
@@ -81,19 +81,19 @@ function CarouselItem({ item, isActive }: CarouselItemProps) {
                   display: 'block'
                 }}
               >
-                Featured App
+                Bài viết của Krowd
               </Typography>
             </motion.div>
             <motion.div variants={varFadeInRight}>
-              <Typography variant="h5" gutterBottom noWrap>
+              <Typography variant="h5" gutterBottom>
                 {title}
               </Typography>
             </motion.div>
-            <motion.div variants={varFadeInRight}>
+            {/* <motion.div variants={varFadeInRight}>
               <Typography variant="body2" noWrap>
                 {description}
               </Typography>
-            </motion.div>
+            </motion.div> */}
           </MotionContainer>
         </CardContent>
       </Box>
@@ -101,7 +101,7 @@ function CarouselItem({ item, isActive }: CarouselItemProps) {
   );
 }
 
-export default function AppFeatured() {
+export default function KrowdArticle() {
   const theme = useTheme();
   const carouselRef = useRef<Slider>(null);
   const [currentIndex, setCurrentIndex] = useState(

@@ -29,6 +29,7 @@ import { fDate, fDateTimeSuffix } from 'utils/formatTime';
 import { fCurrency } from 'utils/formatNumber';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
+import blocked from '@iconify/icons-ant-design/lock-fill';
 export enum DATA_TYPE {
   TEXT = 'text',
   CHIP_TEXT = 'chip_text',
@@ -58,6 +59,7 @@ export type KrowdTableProps = {
   viewPath?: string;
   action?: React.ReactNode;
   deleteRecord?: (id: string) => void;
+  blockRecord?: (id: string) => void;
   isLoading: boolean;
 };
 
@@ -69,7 +71,8 @@ export function KrowdTable({
   action,
   isLoading,
   viewPath,
-  deleteRecord
+  deleteRecord,
+  blockRecord
 }: KrowdTableProps) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -88,18 +91,6 @@ export function KrowdTable({
       <HeaderBreadcrumbs
         heading={`${headingTitle.toUpperCase()} (${data.length})`}
         links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Danh sách' }]}
-        // action={
-        //   createNewRecordButton && (
-        //     <Button
-        //       variant="contained"
-        //       component={RouterLink}
-        //       to={createNewRecordButton.pathTo}
-        //       startIcon={<Icon icon={plusFill} />}
-        //     >
-        //       {createNewRecordButton.label}
-        //     </Button>
-        //   )
-        // }
         action={action}
       />
       <Scrollbar>
@@ -313,6 +304,19 @@ export function KrowdTable({
                             <Button onClick={() => deleteRecord(data.id)}>
                               <Icon
                                 icon={trash2Outline}
+                                width={24}
+                                height={24}
+                                style={{ margin: '0px auto' }}
+                                color={'rgb(235, 7, 64)'}
+                              />
+                            </Button>
+                          </TableCell>
+                        )}
+                        {blockRecord && (
+                          <TableCell align="center">
+                            <Button onClick={() => blockRecord(data.id)}>
+                              <Icon
+                                icon={blocked}
                                 width={24}
                                 height={24}
                                 style={{ margin: '0px auto' }}

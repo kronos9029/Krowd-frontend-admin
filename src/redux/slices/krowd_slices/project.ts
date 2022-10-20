@@ -5,7 +5,13 @@ import { dispatch, store } from '../../store';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import closeFill from '@iconify/icons-eva/close-fill';
-import { Chart, Package, Project, ProjectStatus } from '../../../@types/krowd/project';
+import {
+  All_Project_Admin,
+  Chart,
+  Package,
+  Project,
+  ProjectStatus
+} from '../../../@types/krowd/project';
 import { REACT_APP_API_URL } from '../../../config';
 import { ProjectAPI } from '_apis_/krowd_apis/project';
 // ----------------------------------------------------------------------
@@ -17,7 +23,12 @@ type ProjectState = {
     numOfProject: number;
     listOfProject: Project[];
   };
-  projectDetail: Project | null;
+  listCallingProject: {
+    isLoading: boolean;
+    numOfProject: number;
+    listOfProject: All_Project_Admin[];
+  };
+  projectDetail: { isLoadingDetailsProject: boolean; DetailsProject: Project | null };
   projects: Project[];
   project: Project | null;
   sortBy: Project | null;
@@ -35,8 +46,9 @@ type ProjectState = {
 const initialState: ProjectState = {
   isLoading: false,
   error: false,
-  projectDetail: null,
+  projectDetail: { isLoadingDetailsProject: false, DetailsProject: null },
   projectLists: { numOfProject: 0, listOfProject: [] },
+  listCallingProject: { isLoading: false, numOfProject: 0, listOfProject: [] },
   projects: [],
   project: null,
   sortBy: null,
@@ -66,16 +78,28 @@ const slice = createSlice({
       state.error = action.payload;
     },
 
-    // GET MANAGE USERS
+    // GET MANAGE PROJECT
     getProjectListSuccess(state, action) {
       state.isLoading = false;
       state.projectLists = action.payload;
     },
-
-    getProjectListIDSuccess(state, action) {
-      state.isLoading = false;
-      state.projectDetail = action.payload;
+    // GET PROJECT IS CALLING IN DASHBOARD
+    startLoadingProjectIsCalling(state) {
+      state.listCallingProject.isLoading = true;
     },
+    getProjectListCallingProjectSuccess(state, action) {
+      state.listCallingProject.isLoading = false;
+      state.listCallingProject = action.payload;
+    },
+    //GET DETAIL OF PROJECT BY ID
+    startLoadingGetProjectDetail(state) {
+      state.projectDetail.isLoadingDetailsProject = true;
+    },
+    getProjectListIDSuccess(state, action) {
+      state.projectDetail.isLoadingDetailsProject = false;
+      state.projectDetail.DetailsProject = action.payload;
+    },
+
     deleteProjectListIDSuccess(state, action) {
       state.projectLists = action.payload;
     },
@@ -123,6 +147,17 @@ export function getAllProject(status: string) {
     }
   };
 }
+export function getAllCallingProject(status: string) {
+  return async () => {
+    dispatch(slice.actions.startLoadingProjectIsCalling());
+    try {
+      const response = await ProjectAPI.getAll(status);
+      dispatch(slice.actions.getProjectListCallingProjectSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
 export function getProjectList() {
   return async () => {
     dispatch(slice.actions.startLoading());
@@ -150,7 +185,7 @@ export function getProjectPackage(projectId: string) {
 }
 export function getProjectListById(projectId: string) {
   return async () => {
-    dispatch(slice.actions.startLoading());
+    dispatch(slice.actions.startLoadingGetProjectDetail());
     try {
       const response = await ProjectAPI.getProjectByID({ id: projectId });
       dispatch(slice.actions.getProjectListIDSuccess(response.data));

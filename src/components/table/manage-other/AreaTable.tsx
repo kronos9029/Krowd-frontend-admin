@@ -14,12 +14,12 @@ const TABLE_HEAD = [
   { id: 'city', label: 'THÀNH PHỐ', align: 'left' },
   { id: 'district', label: 'QUẬN', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'updateDate', label: 'NGÀY CẬP NHẬT', align: 'left' }
+  { id: 'updateDate', label: 'NGÀY CẬP NHẬT', align: 'left' },
+  { id: '', label: '', align: 'left' }
 ];
 
 export default function AreaTable() {
   const { areaList: list, isLoading } = useSelector((state: RootState) => state.areaKrowd);
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     dispatch(getAreasList());

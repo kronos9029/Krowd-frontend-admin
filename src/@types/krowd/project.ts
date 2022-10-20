@@ -156,6 +156,41 @@ export type Project = {
   businessLicense: string;
   areaId: string;
 };
+export type All_Project_Admin = {
+  id: string;
+  businessId: string;
+  businessName: string;
+  businessImage: string;
+  managerId: string;
+  fieldId: string;
+  fieldName: string;
+  fieldDescription: string;
+  areaId: string;
+  image: string;
+  investedCapital: number;
+  numOfStage: number;
+  remainingPayableAmount: number;
+  remainingMaximumPayableAmount: number;
+  approvedDate: null;
+  approvedBy: null;
+  status: string;
+  tagList: string[];
+  createDate: string;
+  createBy: string;
+  updateDate: string;
+  updateBy: string;
+  isDeleted: boolean;
+  name: string;
+  description: string;
+  address: string;
+  investmentTargetCapital: number;
+  sharedRevenue: number;
+  multiplier: number;
+  duration: number;
+  startDate: string;
+  endDate: string;
+};
+
 export type ProjectState = {
   isLoading: boolean;
   error: boolean;
