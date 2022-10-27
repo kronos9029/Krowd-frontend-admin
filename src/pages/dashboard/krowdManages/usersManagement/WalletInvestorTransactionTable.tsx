@@ -72,7 +72,10 @@ export default function WalletInvestorTransactionTable() {
                 'Nhận tiền từ VÍ TẠM THỜI sang VÍ ĐẦU TƯ CHUNG') ||
               (_item.description === 'Transfer money from I1 wallet to I2 wallet' &&
                 'Chuyển tiền từ VÍ TẠM THỜI sang VÍ ĐẦU TƯ CHUNG') ||
-              (_item.description === 'Deposit money into I1 wallet' && 'Nạp tiền vào VÍ TẠM THỜI'),
+              (_item.description === 'Deposit money into I1 wallet' &&
+                'Nạp tiền vào VÍ TẠM THỜI') ||
+              (_item.description === 'Transfer money from I3 to P3 to prepare for activation' &&
+                'Chuyển tiền từ VÍ TẠM ỨNG của bạn sang VÍ ĐẦU TƯ DỰ ÁN của chủ dự án'),
             type: DATA_TYPE.TEXT
           },
           {

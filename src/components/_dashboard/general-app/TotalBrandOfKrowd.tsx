@@ -15,7 +15,7 @@ export default function TotalBrandOfKrowd() {
   return (
     <Card>
       <Typography sx={{ my: 5, p: 2 }} variant="h4">
-        Các doanh nghiệp đang hợp tác cùng KROWD
+        Các thương hiệu tham gia KrowdEco
       </Typography>
 
       {isLoading ? (

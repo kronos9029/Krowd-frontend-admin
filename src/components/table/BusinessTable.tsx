@@ -37,7 +37,7 @@ import { LoadingButton } from '@mui/lab';
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
   { id: 'image', label: 'ẢNH', align: '' },
-  { id: 'name', label: 'TÊN DOANH NGHIỆP', align: 'left' },
+  { id: 'name', label: 'THƯƠNG HIỆU', align: 'left' },
   { id: 'fieldList.name', label: 'LĨNH VỰC', align: 'left' },
   { id: 'numOfProject', label: 'SỐ DỰ ÁN', align: 'center' },
   { id: 'numOfSuccessfulProject', label: 'DỰ ÁN HOÀN THÀNH', align: 'center' },
@@ -186,7 +186,7 @@ export default function BusinessTable() {
             name: 'managerName',
             value:
               `${_item.status}` === 'INACTIVE'
-                ? 'Chưa có chủ sở hữu'
+                ? 'Chưa có quản lý thương hiệu'
                 : `${_item.manager.firstName} ${_item.manager.lastName}`,
             type: DATA_TYPE.TEXT
           },
@@ -203,7 +203,7 @@ export default function BusinessTable() {
 
   return (
     <KrowdTable
-      headingTitle="Doanh nghiệp"
+      headingTitle="Thương hiệu"
       action={
         <Box>
           <Button
@@ -233,7 +233,7 @@ export default function BusinessTable() {
                     <TextField
                       required
                       fullWidth
-                      label="Tên doanh nghiệp"
+                      label="Tên thương hiệu"
                       {...getFieldProps('name')}
                       error={Boolean(touched.name && errors.name)}
                       helperText={touched.name && errors.name}

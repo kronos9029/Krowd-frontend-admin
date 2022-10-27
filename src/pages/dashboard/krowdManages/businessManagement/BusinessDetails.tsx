@@ -327,10 +327,10 @@ function BusinessDetail({ business }: BusinessManagerProps) {
     getFieldProps
   } = formik;
   return (
-    <Page title="Chi tiết doanh nghiệp | Admin">
+    <Page title="Chi tiết thương hiệu | Admin">
       <Container maxWidth={'lg'}>
         <HeaderBreadcrumbs
-          heading={'Chi tiết quản lý doanh nghiệp'}
+          heading={'Chi tiết thương hiệu'}
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: business.name }]}
           action={
             <Grid container display={'flex'} gap={1}>
@@ -448,7 +448,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                     size="medium"
                     variant="contained"
                   >
-                    Thêm người quản lý doanh nghiệp
+                    Thêm người quản lý thương hiệu
                   </Button>
                 )}
                 <Dialog
@@ -458,11 +458,11 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                 >
                   <FormikProvider value={formik}>
                     <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                      <DialogTitle>Thêm người quản lý doanh nghiệp</DialogTitle>
+                      <DialogTitle>Thêm người quản lý thương hiệu</DialogTitle>
                       <DialogContent>
                         <Box my={3}>
                           <DialogContentText>
-                            Điền thông tin người quản doanh nghiệp.
+                            Điền thông tin người quản thương hiệu.
                           </DialogContentText>
                           <Typography variant="caption" color="#B78103">
                             * Những thông tin trống vui lòng điền "N/A".
@@ -520,11 +520,11 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                   <Box>
                     {business.status === STATUS_BUSINESS ? (
                       <Label color="success" sx={{ textTransform: 'uppercase', mb: 1 }}>
-                        Doanh nghiệp này đã hoạt động
+                        Thương hiệu này đã hoạt động
                       </Label>
                     ) : (
                       <Label color="warning" sx={{ textTransform: 'uppercase', mb: 1 }}>
-                        Doanh nghiệp này chưa có người quản lý
+                        Thương hiệu này chưa có người quản lý
                       </Label>
                     )}
                   </Box>
@@ -664,11 +664,11 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                           <Box>
                             {business?.status === STATUS_BUSINESS ? (
                               <Label color="success" sx={{ textTransform: 'uppercase', mb: 1 }}>
-                                Thông tin cá nhân người quản lý doanh nghiệp
+                                Thông tin cá nhân người quản lý thương hiệu
                               </Label>
                             ) : (
                               <Label color="warning" sx={{ textTransform: 'uppercase', mb: 1 }}>
-                                Doanh nghiệp này chưa có người quản lý
+                                Thương hiệu này chưa có người quản lý
                               </Label>
                             )}
                           </Box>

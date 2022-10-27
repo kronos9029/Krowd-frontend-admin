@@ -36,8 +36,8 @@ const sidebarConfig = [
     ]
   },
   {
-    subheader: 'Quản lý chung',
-    items: [{ title: 'Doanh nghiệp', path: PATH_DASHBOARD.business.list, icon: ICONS.business }]
+    subheader: 'Quản lý thương hiệu',
+    items: [{ title: 'Thương hiệu', path: PATH_DASHBOARD.business.list, icon: ICONS.business }]
   },
   // MANAGEMENT
   {
@@ -74,21 +74,20 @@ const sidebarConfig = [
             path: PATH_DASHBOARD.projects.draftProject
           },
           {
+            title: 'Mở đầu tư',
+            path: PATH_DASHBOARD.projects.callingProject
+          },
+          {
             title: 'Đang chờ kích hoạt',
             path: PATH_DASHBOARD.projects.waitingToActivateProject
           },
           {
-            title: 'Mở đầu tư',
-            path: PATH_DASHBOARD.projects.callingProject
+            title: 'Đang hoạt động',
+            path: PATH_DASHBOARD.projects.activeProject
           },
-
           {
             title: 'Quá hạn đầu tư',
             path: PATH_DASHBOARD.projects.overdateProject
-          },
-          {
-            title: 'Đang hoạt động',
-            path: PATH_DASHBOARD.projects.activeProject
           },
           {
             title: 'Đã kết thúc',

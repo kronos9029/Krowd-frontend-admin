@@ -88,7 +88,7 @@ export default function ActiveProjectTable() {
 
   return (
     <KrowdTable
-      headingTitle="DỰ ÁN ĐÃ HOẠT ĐỘNG"
+      headingTitle="DỰ ÁN ĐANG HOẠT ĐỘNG"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}

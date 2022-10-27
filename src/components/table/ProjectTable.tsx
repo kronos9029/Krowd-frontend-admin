@@ -81,7 +81,7 @@ export default function ProjectTable() {
             name: 'status',
             value:
               (_item.status === 'CLOSED' && 'Đã đóng') ||
-              (_item.status === 'ACTIVE' && 'Đã hoàn tất kêu gọi') ||
+              (_item.status === 'ACTIVE' && 'Đang hoạt động') ||
               (_item.status === 'WAITING_TO_ACTIVATE' && 'Đang chờ hoạt động') ||
               (_item.status === 'CALLING_TIME_IS_OVER' && 'Đã quá hạn đầu tư') ||
               (_item.status === 'CALLING_FOR_INVESTMENT' && 'Đang kêu gọi đầu tư') ||

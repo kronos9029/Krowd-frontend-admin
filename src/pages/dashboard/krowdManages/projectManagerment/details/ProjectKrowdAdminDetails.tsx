@@ -415,6 +415,15 @@ export default function ProjectKrowdAdminDetails() {
                           <Typography sx={{ paddingLeft: 2, pt: 2, color: 'orange' }} variant="h6">
                             Lưu ý:
                           </Typography>
+                          <Typography
+                            sx={{ paddingLeft: 0.4, pt: 2, color: 'orange' }}
+                            variant="body2"
+                          >
+                            (*) Khi bạn nhấn nút kích hoạt đồng thời cũng sẽ chuyển toàn bộ tiền
+                            trong các ví tạm ứng của nhà đầu tư vào ví đầu tư dự án của chủ dự án.
+                            Thao tác này sẽ không thể hoàn tác, vui lòng xác nhận kĩ trước khi kích
+                            hoạt.
+                          </Typography>
 
                           <Typography
                             sx={{ paddingLeft: 0.4, pt: 2, color: 'orange' }}
