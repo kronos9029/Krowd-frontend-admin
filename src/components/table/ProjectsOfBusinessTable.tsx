@@ -31,21 +31,6 @@ export default function ProjectsOfBusinessTable({
     dispatch(getProjectByBusinessID(id, 'ADMIN'));
   }, [dispatch]);
 
-  // const handleGetProjectById = (activeProjectId: string) => {
-  //   dispatch(getProjectId(activeProjectId));
-  // };
-  // const handleDeleteProjectById = (activeProjectId: string) => {
-  //   dispatch(delProjectListById(activeProjectId));
-  //   enqueueSnackbar('Cập nhật trạng thái thành công', {
-  //     variant: 'success',
-  //     action: (key) => (
-  //       <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-  //         <Icon icon={closeFill} />
-  //       </MIconButton>
-  //     )
-  //   });
-  // };
-
   const getData = (): RowData[] => {
     if (!list) return [];
     return list.map<RowData>((_item, _idx) => {

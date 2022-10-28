@@ -17,6 +17,7 @@ import WalletReducer from './slices/krowd_slices/wallet';
 import projectReducer from './slices/krowd_slices/project';
 import RolesReducer from './slices/krowd_slices/roles';
 import TransactionReducer from './slices/krowd_slices/transaction';
+import WithdrawRequestReducer from './slices/krowd_slices/withdrawRequest';
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +50,8 @@ const rootReducer = combineReducers({
   wallet: WalletReducer,
   project: projectReducer,
   transaction: TransactionReducer,
-  product: persistReducer(productPersistConfig, productReducer)
+  product: persistReducer(productPersistConfig, productReducer),
+  withdrawRequest: WithdrawRequestReducer
 });
 
 export { rootPersistConfig, rootReducer };

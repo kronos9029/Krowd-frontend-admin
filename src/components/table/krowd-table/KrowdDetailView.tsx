@@ -102,11 +102,6 @@ export default function KrowdDetailView() {
         const { tempBusiness: item, isLoading } = tempBusinessState;
         return <BusinessNewAccountForm />;
       }
-      // case VIEW_DETAIL_DATA_TYPE.BUSINESS: {
-      //   const { businessDetailState } = props as BusinessState;
-      //   const { businessDetail: item, isLoading } = businessDetailState;
-      //   return item && <BusinessDetails currentBusiness={item} />;
-      // }
       case VIEW_DETAIL_DATA_TYPE.USER_KROWD: {
         const { userKrowdDetailState } = props as UserKrowdState;
         const { userKrowdDetail: user, isLoading } = userKrowdDetailState;

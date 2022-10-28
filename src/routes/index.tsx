@@ -94,7 +94,8 @@ export default function Router() {
             { element: <Navigate to="/dashboard/account-transaction" replace /> },
             { path: 'wallet-transaction', element: <FieldManagerment /> },
             { path: 'account-transaction', element: <AccountTransactionDetails /> },
-            { path: 'history-investment', element: <FieldCreate /> }
+            { path: 'history-investment', element: <FieldCreate /> },
+            { path: 'withdraw-request', element: <WithdrawRequestDetails /> }
           ]
         },
         {
@@ -264,6 +265,12 @@ const GeneralBooking = Loadable(
 const AccountTransactionDetails = Loadable(
   lazy(
     () => import('../pages/dashboard/krowdManages/transactionManagement/AccountTransactionDetails')
+  )
+);
+const WithdrawRequestDetails = Loadable(
+  lazy(
+    () =>
+      import('../pages/dashboard/krowdManages/withdrawRequestMananagement/withdrawRequestDetails')
   )
 );
 

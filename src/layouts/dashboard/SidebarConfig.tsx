@@ -110,12 +110,17 @@ const sidebarConfig = [
         title: 'Giao dịch ngân hàng',
         path: PATH_DASHBOARD.transaction.accountTransaction,
         icon: ICONS.bankTransaction
-      }
+      },
       // {
       //   title: 'Lịch sử doanh thu',
       //   path: PATH_DASHBOARD.transaction.PeriodRevenueHistory,
       //   icon: ICONS.PeriodRevenueHistory
       // }
+      {
+        title: 'Lệnh rút tiền',
+        path: PATH_DASHBOARD.transaction.withdrawRequest,
+        icon: ICONS.bankTransaction
+      }
     ]
   },
   {
