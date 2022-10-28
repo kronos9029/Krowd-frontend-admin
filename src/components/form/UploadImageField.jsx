@@ -33,8 +33,7 @@ const RemoveBtn = styled(IconButton)({
   backgroundColor: 'rgba(22, 28, 36, 0.72)'
 });
 
-// eslint-disable-next-line arrow-body-style
-const UploadImageField = ({ name, label, defaultValue = '' }) => {
+const UploadImageField = ({ name, defaultValue = '' }) => {
   const { control, setValue } = useFormContext();
   const { enqueueSnackbar } = useSnackbar();
   const [isUploading, setIsUploading] = React.useState(false);
@@ -42,24 +41,6 @@ const UploadImageField = ({ name, label, defaultValue = '' }) => {
     control,
     name
   });
-
-  // const onUpload = async (e, onFormChange) => {
-  //   // upload to server
-  //   const file = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append('file', file);
-  //   setIsUploading(true);
-  //   try {
-  //     const res = await uploadfile(formData);
-  //     onFormChange(res.data);
-  //   } catch (err) {
-  //     enqueueSnackbar(err.message ?? 'Có lỗi', {
-  //       variant: 'error'
-  //     });
-  //     console.log(`err`, err);
-  //   }
-  //   setIsUploading(false);
-  // };
 
   return (
     <Controller

@@ -80,7 +80,8 @@ export const PATH_DASHBOARD = {
     root: path(ROOTS_DASHBOARD, '/transaction/account-transaction'),
     walletTransaction: path(ROOTS_DASHBOARD, '/transaction/wallet'),
     accountTransaction: path(ROOTS_DASHBOARD, '/transaction/account-transaction'),
-    PeriodRevenueHistory: path(ROOTS_DASHBOARD, '/transaction/account')
+    PeriodRevenueHistory: path(ROOTS_DASHBOARD, '/transaction/account'),
+    withdrawRequest: path(ROOTS_DASHBOARD, '/transaction/withdraw-request')
   },
   //Ví
   wallet: {

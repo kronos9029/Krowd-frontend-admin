@@ -20,7 +20,6 @@ const DropZoneStyle = styled('div')(({ theme }) => ({
   alignItems: 'center',
   flexDirection: 'column',
   justifyContent: 'center',
-  padding: theme.spacing(5, 0),
   borderRadius: theme.shape.borderRadius,
   transition: theme.transitions.create('padding'),
   backgroundColor: theme.palette.background.neutral,
@@ -34,7 +33,7 @@ const DropZoneStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-interface CustomFile extends File {
+export interface CustomFile extends File {
   path?: string;
   preview?: string;
 }
@@ -84,7 +83,6 @@ export default function UploadSingleFile({
       })}
     </Paper>
   );
-
   return (
     <Box sx={{ width: '100%', ...sx }}>
       <DropZoneStyle
@@ -96,30 +94,32 @@ export default function UploadSingleFile({
             borderColor: 'error.light',
             bgcolor: 'error.lighter'
           }),
-          ...(file && { padding: '12% 0' })
+          ...(!file && { padding: '10% 2%' })
         }}
       >
         <input {...getInputProps()} />
+        {!file && (
+          <>
+            <UploadIllustration sx={{ width: 220 }} />
+            <Box sx={{ p: 3, ml: { md: 2 } }}>
+              <Typography gutterBottom variant="h5">
+                Drop or Select file
+              </Typography>
 
-        <UploadIllustration sx={{ width: 220 }} />
-
-        <Box sx={{ p: 3, ml: { md: 2 } }}>
-          <Typography gutterBottom variant="h5">
-            Drop or Select file
-          </Typography>
-
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            Drop files here or click&nbsp;
-            <Typography
-              variant="body2"
-              component="span"
-              sx={{ color: 'primary.main', textDecoration: 'underline' }}
-            >
-              browse
-            </Typography>
-            &nbsp;thorough your machine
-          </Typography>
-        </Box>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                Drop files here or click&nbsp;
+                <Typography
+                  variant="body2"
+                  component="span"
+                  sx={{ color: 'primary.main', textDecoration: 'underline' }}
+                >
+                  browse
+                </Typography>
+                &nbsp;thorough your machine
+              </Typography>
+            </Box>
+          </>
+        )}
 
         {file && (
           <Box
@@ -127,12 +127,10 @@ export default function UploadSingleFile({
             alt="file preview"
             src={isString(file) ? file : file.preview}
             sx={{
-              top: 8,
               borderRadius: 1,
               objectFit: 'cover',
-              position: 'absolute',
-              width: 'calc(100% - 16px)',
-              height: 'calc(100% - 16px)'
+              width: '100%',
+              height: '100%'
             }}
           />
         )}

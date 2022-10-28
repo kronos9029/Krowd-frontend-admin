@@ -60,6 +60,7 @@ export type KrowdTableProps = {
   action?: React.ReactNode;
   deleteRecord?: (id: string) => void;
   blockRecord?: (id: string) => void;
+  actionRecord?: (id: string) => void;
   isLoading: boolean;
 };
 
@@ -72,7 +73,8 @@ export function KrowdTable({
   isLoading,
   viewPath,
   deleteRecord,
-  blockRecord
+  blockRecord,
+  actionRecord
 }: KrowdTableProps) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -321,6 +323,19 @@ export function KrowdTable({
                                 height={24}
                                 style={{ margin: '0px auto' }}
                                 color={'rgb(235, 7, 64)'}
+                              />
+                            </Button>
+                          </TableCell>
+                        )}
+                        {actionRecord && (
+                          <TableCell align="center">
+                            <Button onClick={() => actionRecord(data.id)}>
+                              <Icon
+                                icon={eyeFill}
+                                width={24}
+                                height={24}
+                                style={{ margin: '0px auto' }}
+                                color={'rgb(255, 127, 80)'}
                               />
                             </Button>
                           </TableCell>

@@ -320,19 +320,6 @@ export default function ProjectKrowdAdminDetails() {
                               Thông tin các gói đầu tư của dự án
                             </Button>
                           )}
-                          {/* {listOfChartStage &&
-                    listOfChartStage.find((c) =>
-                      c.lineList.find((line) => line.data.find((d) => d.valueOf() !== 0))
-                    ) ? (
-                      <Button startIcon={<Icon icon={checkmarkFill} />}>
-                        Cập nhật giai đoạn của dự án
-                      </Button>
-                    ) : (
-                      <Button color="error" startIcon={<Icon icon={circleXFill} />}>
-                        Cập nhật giai đoạn của dự án
-                      </Button>
-                    )} */}
-
                           <Typography sx={{ paddingLeft: 2, pt: 2 }} variant="body1">
                             Thông tin bổ sung:
                           </Typography>
