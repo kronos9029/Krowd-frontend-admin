@@ -184,10 +184,9 @@ export default function BusinessTable() {
           },
           {
             name: 'managerName',
-            value:
-              `${_item.status}` === 'INACTIVE'
-                ? 'Chưa có quản lý thương hiệu'
-                : `${_item.manager.firstName} ${_item.manager.lastName}`,
+            value: !!!_item.manager
+              ? 'Chưa có quản lý thương hiệu'
+              : `${_item.manager.firstName} ${_item.manager.lastName}`,
             type: DATA_TYPE.TEXT
           },
           {
