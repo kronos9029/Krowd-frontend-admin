@@ -17,7 +17,7 @@ export default function TotalProjectPublished() {
     dispatch(getAllCallingProject(status));
   }, [dispatch]);
   return (
-    <Card>
+    <>
       <Typography sx={{ my: 5, p: 2 }} variant="h4">
         Dự án được đăng lên trang chủ gần đây
       </Typography>
@@ -35,6 +35,6 @@ export default function TotalProjectPublished() {
           ))}
         </Grid>
       )}
-    </Card>
+    </>
   );
 }

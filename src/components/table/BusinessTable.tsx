@@ -107,8 +107,6 @@ export default function BusinessTable() {
             // await dispatch(getMainUserProfile(user?.id));
             // dispatch(getBusinessById(businessDetail?.id));
             dispatch(getBusinessList());
-
-            window.location.reload();
           })
           .catch(() => {
             enqueueSnackbar('Tạo mới thất bại', {
@@ -211,7 +209,7 @@ export default function BusinessTable() {
             size="medium"
             variant="contained"
           >
-            Tạo mới doanh nghiệp
+            Tạo mới thương hiệu
           </Button>
           <Dialog
             open={open}
@@ -220,7 +218,7 @@ export default function BusinessTable() {
           >
             <FormikProvider value={formik}>
               <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-                <DialogTitle>Tạo mới doanh nghiệp</DialogTitle>
+                <DialogTitle>Tạo mới thương hiệu</DialogTitle>
                 <DialogContent>
                   <Box my={3}>
                     <DialogContentText>Điền thông tin doanh nghiệp của bạn.</DialogContentText>

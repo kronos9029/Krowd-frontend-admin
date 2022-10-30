@@ -13,11 +13,10 @@ export default function TotalBrandOfKrowd() {
     dispatch(getBusinessList());
   }, [dispatch]);
   return (
-    <Card>
-      <Typography sx={{ my: 5, p: 2 }} variant="h4">
+    <>
+      <Typography sx={{ my: 5 }} variant="h4">
         Các thương hiệu tham gia KrowdEco
       </Typography>
-
       {isLoading ? (
         <Box sx={{ pt: 7 }}>
           <LoadingScreen />
@@ -38,6 +37,6 @@ export default function TotalBrandOfKrowd() {
             ))}
         </Grid>
       )}
-    </Card>
+    </>
   );
 }
