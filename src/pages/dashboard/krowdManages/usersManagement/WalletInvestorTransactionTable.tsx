@@ -24,7 +24,11 @@ const TABLE_HEAD = [
 
 export default function WalletInvestorTransactionTable() {
   const { walletTransactionState } = useSelector((state: RootState) => state.userKrowd);
-  const { isLoading, walletTransactionList: list } = walletTransactionState;
+  const {
+    isLoading,
+    listOfWalletTransaction: list,
+    numOfWalletTransaction
+  } = walletTransactionState;
   const { id = '' } = useParams();
   useEffect(() => {
     dispatch(getWalletTransactionList(id));
@@ -64,17 +68,21 @@ export default function WalletInvestorTransactionTable() {
           {
             name: 'description',
             value:
-              (_item.description === 'Transfer money from I2 to I3 to invest' &&
-                'Chuyển tiền từ VÍ ĐẦU TƯ CHUNG sang VÍ TẠM ỨNG') ||
-              (_item.description === 'Receive money from I2 to I3 to invest' &&
-                'Nhận tiền từ VÍ ĐẦU TƯ CHUNG sang VÍ TẠM ỨNG') ||
               (_item.description === 'Receive money from I1 wallet to I2 wallet' &&
                 'Nhận tiền từ VÍ TẠM THỜI sang VÍ ĐẦU TƯ CHUNG') ||
               (_item.description === 'Transfer money from I1 wallet to I2 wallet' &&
                 'Chuyển tiền từ VÍ TẠM THỜI sang VÍ ĐẦU TƯ CHUNG') ||
               (_item.description === 'Deposit money into I1 wallet' &&
                 'Nạp tiền vào VÍ TẠM THỜI') ||
-              (_item.description === 'Transfer money from I3 to P3 to prepare for activation' &&
+              (_item.description === 'Receive money from I2 wallet to I3 wallet to invest' &&
+                'Nhận tiền đầu tư từ VÍ ĐẦU TƯ CHUNG sang VÍ TẠM ỨNG') ||
+              (_item.description === 'Transfer money from I2 wallet to I3 wallet to invest' &&
+                'Chuyển tiền đầu tư từ VÍ ĐẦU TƯ CHUNG sang VÍ TẠM ỨNG') ||
+              (_item.description ===
+                'Receive money from I3 wallet to P3 wallet to prepare for activation' &&
+                'Nhận tiền từ VÍ TẠM ỨNG của bạn sang VÍ ĐẦU TƯ DỰ ÁN của chủ dự án') ||
+              (_item.description ===
+                'Transfer money from I3 wallet to P3 wallet to prepare for activation' &&
                 'Chuyển tiền từ VÍ TẠM ỨNG của bạn sang VÍ ĐẦU TƯ DỰ ÁN của chủ dự án'),
             type: DATA_TYPE.TEXT
           },

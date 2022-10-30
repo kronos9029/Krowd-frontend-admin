@@ -29,8 +29,8 @@ export type UserKrowdState = {
   };
   walletTransactionState: {
     isLoading: boolean;
-    walletTransactionList: WalletTransaction[];
-
+    listOfWalletTransaction: WalletTransaction[];
+    numOfWalletTransaction: number;
     error: boolean;
   };
 };
@@ -44,7 +44,8 @@ const initialState: UserKrowdState = {
   },
   walletTransactionState: {
     isLoading: false,
-    walletTransactionList: [],
+    listOfWalletTransaction: [],
+    numOfWalletTransaction: 0,
     error: false
   },
   isLoading: false,
@@ -115,7 +116,7 @@ const slice = createSlice({
     },
     getWalletTransactionListSuccess(state, action) {
       state.walletTransactionState.isLoading = false;
-      state.walletTransactionState.walletTransactionList = action.payload;
+      state.walletTransactionState = action.payload;
     },
     // GET MANAGE userKrowd DETAIL
     getUserKrowdDetailSuccess(state, action) {
