@@ -39,7 +39,7 @@ export const PATH_DASHBOARD = {
   //Quản lý dự án
   projects: {
     root: path(ROOTS_DASHBOARD, '/project'),
-    projectKrowd: path(ROOTS_DASHBOARD, '/project/projectKrowd'),
+    projectKrowd: path(ROOTS_DASHBOARD, '/project/project-Krowd'),
     projectDetails: path(ROOTS_DASHBOARD, '/project/projectDetails'),
     draftProject: path(ROOTS_DASHBOARD, '/project/draftProject'),
     waitingToActivateProject: path(ROOTS_DASHBOARD, '/project/waitingToActivate'),

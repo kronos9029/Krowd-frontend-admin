@@ -1,7 +1,7 @@
 import { Box, Card, Grid, Typography } from '@mui/material';
 import LoadingScreen from 'components/LoadingScreen';
 import ProjectCardAdmin from 'components/table/krowd-table/ProjectCardAdmin';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { getAllCallingProject } from 'redux/slices/krowd_slices/project';
 import { dispatch, RootState, useSelector } from 'redux/store';
@@ -12,9 +12,10 @@ export default function TotalProjectPublished() {
   const { listCallingProject, isLoading } = useSelector((state: RootState) => state.project);
   const { listOfProject: list } = listCallingProject;
   const { status = 'CALLING_FOR_INVESTMENT' } = useParams();
-
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   useEffect(() => {
-    dispatch(getAllCallingProject(status));
+    dispatch(getAllCallingProject(status, pageIndex, 3, ''));
   }, [dispatch]);
   return (
     <>

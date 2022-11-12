@@ -30,16 +30,25 @@ import { fCurrency } from 'utils/formatNumber';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import blocked from '@iconify/icons-ant-design/lock-fill';
+import Label from 'components/Label';
+import LoadingScreen from 'components/LoadingScreen';
 export enum DATA_TYPE {
   TEXT = 'text',
+  TEXT_FORMAT = 'text_format',
   CHIP_TEXT = 'chip_text',
   IMAGE = 'image',
+  ICONS = 'icons',
   LIST_TEXT = 'list_text',
+  NUMBER_FORMAT = 'number_format',
   NUMBER = 'number',
   WRAP_TEXT = 'wrap_text',
   DATE = 'date',
   CURRENCY = 'currency',
-  NUMBER_FORMAT = 'number_format'
+  LABLE = 'lable'
+}
+export enum ACTION_TYPE {
+  BUTTON = 'button',
+  LINK = 'link'
 }
 export type RowData = {
   id: string;
@@ -59,9 +68,31 @@ export type KrowdTableProps = {
   viewPath?: string;
   action?: React.ReactNode;
   deleteRecord?: (id: string) => void;
-  blockRecord?: (id: string) => void;
   actionRecord?: (id: string) => void;
   isLoading: boolean;
+  actionsButton?: {
+    nameAction: string;
+    action: (() => void) | string;
+    icon: any;
+    color?: string;
+    type: ACTION_TYPE;
+  }[];
+  noteTable?: {
+    name: string;
+  }[];
+  filterStatus?: {
+    action: (() => Promise<void>) | string;
+    nameAction: string;
+    icon: any;
+    color?: string;
+  }[];
+  paging?: {
+    pageSize: number;
+    pageIndex: number;
+    numberSize: number;
+    handlePrevious: () => void;
+    handleNext: () => void;
+  };
 };
 
 export function KrowdTable({
@@ -73,28 +104,59 @@ export function KrowdTable({
   isLoading,
   viewPath,
   deleteRecord,
-  blockRecord,
+  noteTable,
+  actionsButton,
+  paging,
+  filterStatus,
   actionRecord
 }: KrowdTableProps) {
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
   const data = getData();
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
-  const dataInPage: RowData[] =
-    data && data.length > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : [];
 
   return (
     <>
       <HeaderBreadcrumbs
-        heading={`${headingTitle.toUpperCase()} (${data.length})`}
+        heading={`${headingTitle.toUpperCase()}`}
         links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Danh sách' }]}
         action={action}
       />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          minWidth: '200px',
+          my: 2
+        }}
+      >
+        {filterStatus &&
+          filterStatus.map((e) => {
+            return (
+              <Box
+                key={`__$`}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  minWidth: '200px',
+                  my: 2
+                }}
+              >
+                <Button onClick={e.action as () => Promise<void>}>
+                  <Box>
+                    <Icon icon={e.icon} width={24} height={24} color={e.color} />
+                  </Box>
+                  <Box>
+                    <Typography color={e.color}>{e.nameAction}</Typography>
+                  </Box>
+                </Button>
+              </Box>
+            );
+          })}
+      </Box>
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>
@@ -107,8 +169,8 @@ export function KrowdTable({
             />
             <TableBody>
               {!isLoading &&
-                dataInPage.length > 0 &&
-                dataInPage.map((data, index) => {
+                data.length > 0 &&
+                data.map((data, index) => {
                   return (
                     <TableRow hover key={`__${data.id}`} tabIndex={-1} role="checkbox">
                       <TableCell
@@ -130,6 +192,30 @@ export function KrowdTable({
                                 padding="normal"
                               >
                                 <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography
+                                    variant="subtitle2"
+                                    noWrap
+                                    color={_item.textColor ?? 'text.primary'}
+                                  >
+                                    {_item.value}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.TEXT_FORMAT:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack
+                                  display={'flex'}
+                                  direction="row"
+                                  justifyContent={'center'}
+                                  spacing={2}
+                                >
                                   <Typography
                                     variant="subtitle2"
                                     noWrap
@@ -172,70 +258,6 @@ export function KrowdTable({
                                 </Stack>
                               </TableCell>
                             );
-                          case DATA_TYPE.NUMBER:
-                            return (
-                              <TableCell
-                                key={`__${_item.name}__${data.id}`}
-                                component="th"
-                                scope="row"
-                                padding="normal"
-                              >
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  <Typography
-                                    variant="subtitle2"
-                                    noWrap
-                                    mx="auto"
-                                    color={_item.textColor ?? 'text.primary'}
-                                  >
-                                    {_item.value}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                            );
-                          case DATA_TYPE.DATE:
-                            const date = String(_item.value).split(' ')[0];
-                            return (
-                              <TableCell
-                                key={`__${_item.name}__${data.id}`}
-                                component="th"
-                                scope="row"
-                                padding="normal"
-                              >
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  <Typography variant="subtitle2" noWrap>
-                                    {date}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                            );
-                          case DATA_TYPE.IMAGE:
-                            return (
-                              <TableCell
-                                key={`__${_item.name}__${data.id}`}
-                                component="th"
-                                scope="row"
-                                padding="normal"
-                              >
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  <Avatar alt={`__${_item.name}__${data.id}`} src={_item.value} />
-                                </Stack>
-                              </TableCell>
-                            );
-                          case DATA_TYPE.LIST_TEXT:
-                            return (
-                              <TableCell
-                                key={`__${_item.name}__${data.id}`}
-                                component="th"
-                                scope="row"
-                                padding="normal"
-                              >
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  <Typography variant="subtitle2" noWrap>
-                                    {[..._item.value].map((_o) => _o)}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                            );
                           case DATA_TYPE.NUMBER_FORMAT:
                             return (
                               <TableCell
@@ -262,6 +284,116 @@ export function KrowdTable({
                                 </Stack>
                               </TableCell>
                             );
+                          case DATA_TYPE.NUMBER:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography
+                                    variant="subtitle2"
+                                    noWrap
+                                    mx="auto"
+                                    color={_item.textColor ?? 'text.primary'}
+                                  >
+                                    {_item.value}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.DATE:
+                            const date = String(_item.value);
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack
+                                  direction="row"
+                                  sx={{ justifyContent: 'center' }}
+                                  spacing={2}
+                                >
+                                  <Typography variant="subtitle2" noWrap>
+                                    {date}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.IMAGE:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Avatar alt={`__${_item.name}__${data.id}`} src={_item.value} />
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.ICONS:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <img
+                                    style={{ width: 40 }}
+                                    src={`/static/icons/navbar/ic_momo.png`}
+                                  />
+                                  <Typography variant="body1"> Ví momo</Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.LIST_TEXT:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography variant="subtitle2" noWrap>
+                                    {[..._item.value].map((_o) => _o)}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+
+                          case DATA_TYPE.LABLE:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Typography variant="subtitle2" noWrap>
+                                    <Label
+                                      variant={'ghost'}
+                                      color={
+                                        (_item.value === 'Giao dịch thành công.' && 'success') ||
+                                        'error'
+                                      }
+                                    >
+                                      {_item.value}
+                                    </Label>
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+
                           case DATA_TYPE.CHIP_TEXT:
                             return (
                               <TableCell
@@ -288,6 +420,23 @@ export function KrowdTable({
                         }
                       })}
                       <TableCell>
+                        {actionsButton &&
+                          actionsButton.map((e) => {
+                            switch (e.type) {
+                              case ACTION_TYPE.BUTTON:
+                                return (
+                                  <Button onClick={e.action as () => void}>
+                                    <Icon icon={e.icon} width={24} height={24} color={e.color} />
+                                  </Button>
+                                );
+                              case ACTION_TYPE.LINK:
+                                return (
+                                  <Link to={(e.action as string) + `/${data.id}`}>
+                                    <Icon icon={e.icon} width={24} height={24} color={e.color} />
+                                  </Link>
+                                );
+                            }
+                          })}{' '}
                         {viewPath && (
                           <TableCell align="center">
                             <Link to={viewPath + `/${data.id}`}>
@@ -306,19 +455,6 @@ export function KrowdTable({
                             <Button onClick={() => deleteRecord(data.id)}>
                               <Icon
                                 icon={trash2Outline}
-                                width={24}
-                                height={24}
-                                style={{ margin: '0px auto' }}
-                                color={'rgb(235, 7, 64)'}
-                              />
-                            </Button>
-                          </TableCell>
-                        )}
-                        {blockRecord && (
-                          <TableCell align="center">
-                            <Button onClick={() => blockRecord(data.id)}>
-                              <Icon
-                                icon={blocked}
                                 width={24}
                                 height={24}
                                 style={{ margin: '0px auto' }}
@@ -353,42 +489,18 @@ export function KrowdTable({
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell
-                    key={'__borderRowLeft'}
-                    component="th"
-                    scope="row"
-                    padding="normal"
-                    align="justify"
-                    sx={{ bgcolor: '#ffffff' }}
-                  ></TableCell>
-                  <TableCell colSpan={6} />
-                  <TableCell
-                    key={'__borderRowRight'}
-                    component="th"
-                    scope="row"
-                    padding="normal"
-                    align="justify"
-                    sx={{ bgcolor: '#ffffff' }}
-                  ></TableCell>
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
         {isLoading && (
           <Box>
-            <CircularProgress
-              size={100}
-              sx={{ margin: '0px auto', padding: '1rem', display: 'flex' }}
-            />
-            <Typography variant="h5" sx={{ textAlign: 'center', padding: '1rem' }}>
-              Đang tải dữ liệu, vui lòng đợi giây lát...
+            <LoadingScreen />
+            <Typography variant="h5" sx={{ textAlign: 'center', padding: '1rem', pt: 7 }}>
+              KROWD đang tải dữ liệu, vui lòng đợi giây lát...
             </Typography>
           </Box>
         )}
-        {!isLoading && dataInPage.length === 0 && (
+        {!isLoading && data.length === 0 && (
           <Box>
             <img
               src="https://minimals.cc/assets/illustrations/illustration_empty_content.svg"
@@ -399,16 +511,37 @@ export function KrowdTable({
             </Typography>
           </Box>
         )}
+        {paging && (
+          <Box sx={{ my: 1 }} display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
+            {paging.pageIndex} - {paging.pageSize} trên {paging.numberSize}
+            {paging.pageIndex > 1 ? (
+              <Button onClick={paging.handlePrevious}>Trước</Button>
+            ) : (
+              <Button disabled onClick={paging.handlePrevious}>
+                Trước
+              </Button>
+            )}
+            {paging.pageSize < paging.numberSize ? (
+              <Button onClick={paging.handleNext}>Sau</Button>
+            ) : (
+              <Button disabled onClick={paging.handleNext}>
+                Sau
+              </Button>
+            )}
+          </Box>
+        )}
+
+        <Box p={2}>
+          {noteTable &&
+            noteTable.map((_item) => {
+              return (
+                <Typography key={'_itme'} color="#f06f00">
+                  {_item.name}
+                </Typography>
+              );
+            })}
+        </Box>
       </Scrollbar>
-      <TablePagination
-        rowsPerPageOptions={[]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={(e, page) => setPage(page)}
-        onRowsPerPageChange={(e) => handleChangeRowsPerPage}
-      />
     </>
   );
 }

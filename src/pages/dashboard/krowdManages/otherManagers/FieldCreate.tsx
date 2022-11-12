@@ -39,7 +39,7 @@ export default function FieldCreate() {
     <Page title="Lĩnh vực: Tạo mới | Krowd">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Tạo mới lĩnh vực' : 'Cập nhật lĩnh vực'}
+          heading={!isEdit ? 'Tạo lĩnh vực mới' : 'Cập nhật lĩnh vực'}
           links={[{ name: 'Bảng điều khiển', href: PATH_DASHBOARD.root }, { name: 'Tạo mới' }]}
         />
 

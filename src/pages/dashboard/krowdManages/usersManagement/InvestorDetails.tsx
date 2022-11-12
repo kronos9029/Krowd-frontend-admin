@@ -45,9 +45,11 @@ export default function AdminInvestorDetail() {
 
   const { userKrowdDetailState } = useSelector((state: RootState) => state.userKrowd);
   const { isLoading, userKrowdDetail } = userKrowdDetailState;
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   useEffect(() => {
     dispatch(getUserKrowdDetail(id));
-    dispatch(getWalletTransactionList(id));
+    dispatch(getWalletTransactionList(id, pageIndex, 5));
   }, [dispatch]);
 
   return (

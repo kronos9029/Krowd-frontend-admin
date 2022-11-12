@@ -2,7 +2,8 @@ import { ROLE_USER_TYPE } from '../../../@types/krowd/users';
 import { useEffect, useState } from 'react';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
-import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
+import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
+import blocked from '@iconify/icons-ant-design/lock-fill';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
@@ -14,88 +15,25 @@ const TABLE_HEAD = [
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
-
+const action = [
+  {
+    nameAction: 'view',
+    action: '',
+    icon: blocked,
+    color: 'red',
+    type: ACTION_TYPE.BUTTON
+  }
+];
 export default function BusinessManagerKrowdTable() {
   const { userLists, isLoading } = useSelector((state: RootState) => state.userKrowd);
-  const { listOfUser: list } = userLists;
-  // const { businessState } = useSelector((state: RootState) => state.business);
-  // const { businessLists } = businessState;
-  // const { listOfBusiness } = businessLists;
-  // const NewBusinessSchema = Yup.object().shape({
-  //   lastName: Yup.string().required('Yêu cầu nhập họ'),
-  //   firstName: Yup.string().required('Yêu cầu nhập tên'),
-  //   email: Yup.string().required('Yêu cầu nhập email').email()
-  // });
-  // const { enqueueSnackbar } = useSnackbar();
-  // useEffect(() => {
-  //   dispatch(getBusinessList());
-  // }, [dispatch]);
-  // const [open, setOpen] = useState(false);
-  // const handleClickOpen = () => {
-  //   // dispatch(getFieldList());
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  //   resetForm();
-  // };
-  // function getToken() {
-  //   return window.localStorage.getItem('accessToken');
-  // }
-  // function getHeaderFormData() {
-  //   const token = getToken();
-  //   return { Authorization: `Bearer ${token}` };
-  // }
-  // const formik = useFormik({
-  //   enableReinitialize: true,
-  //   initialValues: {
-  //     lastName: '',
-  //     firstName: '',
-  //     email: ''
-  //   },
-  //   validationSchema: NewBusinessSchema,
-
-  //   onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
-  //     try {
-  //       const headers = getHeaderFormData();
-
-  //       await axios.post(
-  //         `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users`,
-  //         values,
-  //         {
-  //           headers: headers
-  //         }
-  //       );
-  //       dispatch(getBusinessList());
-
-  //       resetForm();
-  //       setSubmitting(true);
-  //       enqueueSnackbar('Tạo mới thành công', {
-  //         variant: 'success'
-  //       });
-  //       // navigate(PATH_DASHBOARD.admin.listBusiness);
-  //     } catch (error) {
-  //       console.error(error);
-  //       setSubmitting(false);
-  //     }
-  //   }
-  // });
-
-  // const {
-  //   errors,
-  //   values,
-  //   touched,
-  //   handleSubmit,
-  //   isSubmitting,
-  //   setFieldValue,
-  //   resetForm,
-  //   getFieldProps
-  // } = formik;
-  // console.log(formik);
+  const { listOfUser: list, numOfUser } = userLists;
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [status, setStatus] = useState('');
+  const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
-    dispatch(getUserKrowdList(ROLE_USER_TYPE.BUSINESS_MANAGER));
-  }, [dispatch]);
+    dispatch(getUserKrowdList(ROLE_USER_TYPE.BUSINESS_MANAGER, pageIndex, 5));
+  }, [dispatch, pageIndex]);
 
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -243,7 +181,21 @@ export default function BusinessManagerKrowdTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      blockRecord={() => {}}
+      actionsButton={action}
+      paging={{
+        pageIndex,
+        pageSize: pageSize,
+        numberSize: numOfUser,
+
+        handleNext() {
+          setPageIndex(pageIndex + 1);
+          setPageSize(pageSize + 5);
+        },
+        handlePrevious() {
+          setPageIndex(pageIndex - 1);
+          setPageSize(pageSize - 5);
+        }
+      }}
     />
   );
 }

@@ -4,6 +4,7 @@ import { dispatch } from '../../store';
 // utils
 import { Areas } from '../../../@types/krowd/areaKrowd';
 import axios from 'axios';
+import { OtherKrowdAPI } from '_apis_/krowd_apis/other';
 
 // ----------------------------------------------------------------------
 
@@ -51,13 +52,14 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getAreasList() {
+export function getAreasList(pageIndex: number, pageSize: number) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/areas'
-      );
+      const response = await OtherKrowdAPI.getArea({
+        pageIndex: pageIndex,
+        pageSize: pageSize
+      });
       dispatch(slice.actions.getAreaListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

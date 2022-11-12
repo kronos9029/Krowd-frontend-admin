@@ -46,11 +46,16 @@ async function rejectProject({ id }: { id: string }) {
   return response;
 }
 
-async function getAll(status: string) {
+async function getAll(params: {
+  status: string;
+  pageIndex: number;
+  pageSize: number;
+  name: string;
+}) {
   const headers = getHeader();
   const response = await axios.get(REACT_APP_API_URL + `projects`, {
     headers: headers,
-    params: { status }
+    params: params
   });
   return response;
 }

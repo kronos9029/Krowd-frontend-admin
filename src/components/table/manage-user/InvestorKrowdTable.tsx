@@ -1,9 +1,10 @@
 import { ROLE_USER_TYPE } from '../../../@types/krowd/users';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
-import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
+import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
 import { PATH_DASHBOARD } from 'routes/paths';
+import eyeFill from '@iconify/icons-eva/eye-fill';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
@@ -15,14 +16,23 @@ const TABLE_HEAD = [
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
-
+const action = [
+  {
+    nameAction: 'view',
+    action: PATH_DASHBOARD.admin.investorDetails,
+    icon: eyeFill,
+    color: '#14b7cc',
+    type: ACTION_TYPE.LINK
+  }
+];
 export default function InvestorKrowdTable() {
   const { userLists, isLoading } = useSelector((state: RootState) => state.userKrowd);
-  const { listOfUser: list } = userLists;
-
+  const { listOfUser: list, numOfUser } = userLists;
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   useEffect(() => {
-    dispatch(getUserKrowdList(ROLE_USER_TYPE.INVESTOR));
-  }, [dispatch]);
+    dispatch(getUserKrowdList(ROLE_USER_TYPE.INVESTOR, pageIndex, 5));
+  }, [dispatch, pageIndex]);
 
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -81,7 +91,21 @@ export default function InvestorKrowdTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      viewPath={PATH_DASHBOARD.admin.investorDetails}
+      actionsButton={action}
+      paging={{
+        pageIndex,
+        pageSize: pageSize,
+        numberSize: numOfUser,
+
+        handleNext() {
+          setPageIndex(pageIndex + 1);
+          setPageSize(pageSize + 5);
+        },
+        handlePrevious() {
+          setPageIndex(pageIndex - 1);
+          setPageSize(pageSize - 5);
+        }
+      }}
     />
   );
 }

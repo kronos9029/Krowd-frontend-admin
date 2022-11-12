@@ -3,26 +3,37 @@ import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import { Icon } from '@iconify/react';
 import { MIconButton } from 'components/@material-extend';
 import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/project';
 import { dispatch, RootState, useSelector } from 'redux/store';
+import eyeFill from '@iconify/icons-eva/eye-fill';
+
 import { PATH_DASHBOARD } from 'routes/paths';
-import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
+import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
 const STATUS = 'ACTIVE';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
   { id: 'name', label: 'TÊN DỰ ÁN', align: 'left' },
-  { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ (VNĐ)', align: 'left' },
-  { id: 'investmentTargetCapital', label: 'MỤC TIÊU (VNĐ)', align: 'left' },
-  { id: 'startDate', label: 'NGÀY BẮT ĐẦU', align: 'left' },
-  { id: 'endDate', label: 'NGÀY KẾT THÚC', align: 'left' },
-  { id: '', label: 'THAO TÁC', align: 'center' }
+  { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ (VNĐ)', align: 'right' },
+  { id: 'investmentTargetCapital', label: 'MỤC TIÊU (VNĐ)', align: 'right' },
+  { id: 'startDate', label: 'NGÀY BẮT ĐẦU', align: 'center' },
+  { id: 'endDate', label: 'NGÀY KẾT THÚC', align: 'center' },
+  { id: '', label: 'THAO TÁC', align: 'left' }
+];
+const action = [
+  {
+    nameAction: 'view',
+    action: PATH_DASHBOARD.projects.projectDetails,
+    icon: eyeFill,
+    color: '#14b7cc',
+    type: ACTION_TYPE.LINK
+  }
 ];
 export default function ActiveProjectTable() {
   const { projectLists, isLoading } = useSelector((state: RootState) => state.project);
-  const { listOfProject: list } = projectLists;
+  const { listOfProject: list, numOfProject } = projectLists;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const handleDeleteProjectById = (businessId: string) => {
     dispatch(deleteProjectListById(businessId));
@@ -37,10 +48,13 @@ export default function ActiveProjectTable() {
   };
 
   const { status = 'ACTIVE' } = useParams();
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  // const [status, setStatus] = useState('');
+  const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
-    dispatch(getAllProject(status));
-  }, [dispatch]);
-
+    dispatch(getAllProject(status, pageIndex, 5, nameSearch));
+  }, [dispatch, pageIndex]);
   const getData = (): RowData[] => {
     if (!list) return [];
     return list
@@ -92,7 +106,21 @@ export default function ActiveProjectTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      viewPath={PATH_DASHBOARD.projects.projectDetails}
+      actionsButton={action}
+      paging={{
+        pageIndex,
+        pageSize: pageSize,
+        numberSize: numOfProject,
+
+        handleNext() {
+          setPageIndex(pageIndex + 1);
+          setPageSize(pageSize + 5);
+        },
+        handlePrevious() {
+          setPageIndex(pageIndex - 1);
+          setPageSize(pageSize - 5);
+        }
+      }}
     />
   );
 }

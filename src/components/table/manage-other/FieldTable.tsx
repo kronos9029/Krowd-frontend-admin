@@ -47,10 +47,13 @@ export default function FieldTable() {
   const { fieldList: list, isLoading } = useSelector((state: RootState) => state.fieldKrowd);
   const [open, setOpen] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  // const [status, setStatus] = useState('');
+  const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
-    dispatch(getFieldList());
-  }, [dispatch]);
+    dispatch(getFieldList(pageIndex, 5));
+  }, [dispatch, pageIndex]);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -92,7 +95,7 @@ export default function FieldTable() {
             enqueueSnackbar('Tạo mới thành công', {
               variant: 'success'
             });
-            dispatch(getFieldList());
+            dispatch(getFieldList(1, 5));
           })
           .catch(() => {
             enqueueSnackbar('Tạo mới thất bại', {
@@ -177,7 +180,7 @@ export default function FieldTable() {
             size="medium"
             variant="contained"
           >
-            Tạo mới lĩnh vực
+            Tạo lĩnh vực mới
           </Button>
           <Dialog
             open={open}
@@ -186,7 +189,7 @@ export default function FieldTable() {
           >
             <FormikProvider value={formik}>
               <Form style={{ width: 500 }} noValidate autoComplete="off" onSubmit={handleSubmit}>
-                <DialogTitle>Tạo mới lĩnh vực</DialogTitle>
+                <DialogTitle>Tạo lĩnh vực mới</DialogTitle>
                 <DialogContent>
                   <Box my={3}>
                     <DialogContentText>Điền thông tin lĩnh vực</DialogContentText>
@@ -230,7 +233,20 @@ export default function FieldTable() {
       getData={getData}
       isLoading={isLoading}
       deleteRecord={handleDeleteFieldById}
-      // viewPath={PATH_DASHBOARD.other.fieldDetails}
+      paging={{
+        pageIndex,
+        pageSize: pageSize,
+        numberSize: list.numOfField,
+
+        handleNext() {
+          setPageIndex(pageIndex + 1);
+          setPageSize(pageSize + 5);
+        },
+        handlePrevious() {
+          setPageIndex(pageIndex - 1);
+          setPageSize(pageSize - 5);
+        }
+      }}
     />
   );
 }

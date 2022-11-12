@@ -1,38 +1,58 @@
-import closeFill from '@iconify/icons-eva/close-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import { Icon } from '@iconify/react';
-import { MIconButton } from 'components/@material-extend';
-import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/project';
+import { getAllProject } from 'redux/slices/krowd_slices/project';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { DATA_TYPE, KrowdTable, RowData } from './krowd-table/KrowdTable';
-const DRAFT = 'DRAFT';
-
+import eyeFill from '@iconify/icons-eva/eye-fill';
+import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from './krowd-table/KrowdTable';
+import { Box, FormControl, TextField } from '@mui/material';
+const note = [
+  {
+    name: 'Lưu ý:'
+  },
+  {
+    name: 'Khi duyệt dự án ADMIN vui lòng kiểm tra đầy đủ các thông tin thiết yếu của dự án(Tên, Ảnh, số tiên kêu gọi,....)'
+  },
+  {
+    name: 'Kiểm tra và kích hoạt những dự án vói những dự án (Đang chờ kích hoạt)'
+  }
+];
 const TABLE_HEAD = [
-  { id: 'idx', label: 'STT', align: 'left' },
-  { id: 'name', label: 'TÊN DỰ ÁN', align: 'left' },
-  { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ (VNĐ)', align: 'left' },
-  { id: 'investmentTargetCapital', label: 'MỤC TIÊU (VNĐ)', align: 'left' },
-  { id: 'startDate', label: 'NGÀY BẮT ĐẦU', align: 'left' },
-  { id: 'endDate', label: 'NGÀY KẾT THÚC', align: 'left' },
-  { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
+  { id: 'idx', label: 'STT', align: 'center' },
+  { id: 'name', label: 'TÊN DỰ ÁN', align: 'center' },
+  { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ (VNĐ)', align: 'center' },
+  { id: 'investmentTargetCapital', label: 'MỤC TIÊU (VNĐ)', align: 'center' },
+  { id: 'startDate', label: 'NGÀY BẮT ĐẦU', align: 'center' },
+  { id: 'endDate', label: 'NGÀY KẾT THÚC', align: 'center' },
+  { id: 'createDate', label: 'NGÀY TẠO', align: 'center' },
+  { id: 'status', label: 'TRẠNG THÁI', align: 'center' },
   { id: '', label: 'THAO TÁC', align: 'center' }
+];
+const action = [
+  {
+    nameAction: 'view',
+    action: PATH_DASHBOARD.projects.projectDetails,
+    icon: eyeFill,
+    color: '#14b7cc',
+    type: ACTION_TYPE.LINK
+  }
 ];
 
 export default function ProjectTable() {
   const { projectLists, isLoading } = useSelector((state: RootState) => state.project);
-  const { listOfProject: list } = projectLists;
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { listOfProject: list, numOfProject } = projectLists;
   const { status = '' } = useParams();
-
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  // const [status, setStatus] = useState('');
+  const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
-    dispatch(getAllProject(status));
-  }, [dispatch]);
-
+    dispatch(getAllProject(status, pageIndex, 5, nameSearch));
+  }, [dispatch, pageIndex, nameSearch]);
+  const getProjectByName = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const id = event.target.value;
+    setNameSearch(id ?? nameSearch);
+  };
   const getData = (): RowData[] => {
     if (!list) return [];
     return list.map<RowData>((_item, _idx) => {
@@ -109,10 +129,37 @@ export default function ProjectTable() {
   return (
     <KrowdTable
       headingTitle="Danh sách tất cả dự án"
+      action={
+        <Box mx={2} width={400}>
+          <FormControl variant="standard" fullWidth>
+            <TextField
+              id="outlined-basic"
+              label="Tra cứu dự án (nhập tên)"
+              variant="outlined"
+              onChange={getProjectByName}
+            />
+          </FormControl>
+        </Box>
+      }
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      viewPath={PATH_DASHBOARD.projects.projectDetails}
+      actionsButton={action}
+      noteTable={note}
+      paging={{
+        pageIndex,
+        pageSize: pageSize,
+        numberSize: numOfProject,
+
+        handleNext() {
+          setPageIndex(pageIndex + 1);
+          setPageSize(pageSize + 5);
+        },
+        handlePrevious() {
+          setPageIndex(pageIndex - 1);
+          setPageSize(pageSize - 5);
+        }
+      }}
     />
   );
 }

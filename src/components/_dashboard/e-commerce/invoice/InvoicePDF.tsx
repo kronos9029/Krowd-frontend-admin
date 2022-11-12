@@ -74,18 +74,7 @@ type InvoicePDFProps = {
 };
 
 function InvoicePDF({ invoice }: InvoicePDFProps) {
-  const {
-    id,
-    fromUserId,
-    toUserId,
-    createDate,
-    createBy,
-    description,
-    updateBy,
-    updateDate,
-    isDeleted,
-    status
-  } = invoice;
+  const { id, fromUserId, createDate } = invoice;
   return (
     <Document>
       <Page size="A4" style={styles.page}>
@@ -102,13 +91,10 @@ function InvoicePDF({ invoice }: InvoicePDFProps) {
             <Text style={[styles.overline, styles.mb8]}>Invoice from</Text>
             <Text style={styles.body1}>{fromUserId}</Text>
             <Text style={styles.body1}>{createDate}</Text>
-            <Text style={styles.body1}>{createBy}</Text>
           </View>
           <View style={styles.col6}>
             <Text style={[styles.overline, styles.mb8]}>Invoice to</Text>
-            <Text style={styles.body1}>{toUserId}</Text>
             <Text style={styles.body1}>{createDate}</Text>
-            <Text style={styles.body1}>{createBy}</Text>
           </View>
         </View>
 

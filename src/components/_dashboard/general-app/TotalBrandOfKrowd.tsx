@@ -1,7 +1,7 @@
 import { Card, Typography, Grid, Box } from '@mui/material';
 // utils
 import { dispatch, RootState, useSelector } from 'redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getBusinessList } from 'redux/slices/krowd_slices/business';
 import LoadingScreen from 'components/LoadingScreen';
 // ----------------------------------------------------------------------
@@ -9,8 +9,12 @@ export default function TotalBrandOfKrowd() {
   const { businessState } = useSelector((state: RootState) => state.business);
   const { businessLists, isLoading } = businessState;
   const { listOfBusiness } = businessLists;
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [status, setStatus] = useState('');
+  const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
-    dispatch(getBusinessList());
+    dispatch(getBusinessList(pageIndex, 12, status, nameSearch));
   }, [dispatch]);
   return (
     <>

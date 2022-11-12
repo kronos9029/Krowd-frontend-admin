@@ -124,7 +124,7 @@ export default function Router() {
           path: 'project',
           children: [
             { element: <Navigate to="/dashboard/project" replace /> },
-            { path: 'projectKrowd', element: <ProjectList /> },
+            { path: 'project-Krowd', element: <ProjectList /> },
             { path: 'draftProject', element: <WaitingProjectList /> },
             { path: 'callingProject', element: <CallingProjectList /> },
             { path: 'overdateProject', element: <OverDateProjectList /> },

@@ -60,7 +60,7 @@ export default function AdminBusinessDetail() {
   }, [dispatch]);
 
   return (
-    <Page title="Doanh nghiệp| Krowd dành cho doanh nghiệp">
+    <Page title="thương hiệu| Krowd dành cho thương hiệu">
       {(isLoading && (
         <Box>
           <CircularProgress
@@ -89,7 +89,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
   const [fileUploadManager, setFileUploadManager] = useState<File | null>(null);
   const [openSubmit, setOpenSubmit] = useState(false);
   const EditBusinessSchema = Yup.object().shape({
-    email: Yup.string().required('Yêu cầu nhập email doanh nghiệp').email('Email chưa hợp lệ'),
+    email: Yup.string().required('Yêu cầu nhập email thương hiệu').email('Email chưa hợp lệ'),
     name: Yup.string().required('Yêu cầu nhập tên'),
     phoneNum: Yup.string().required('Yêu cầu nhập số điện thoại'),
     address: Yup.string().required('Yêu cầu nhập địa chỉ')
@@ -119,19 +119,17 @@ function BusinessDetail({ business }: BusinessManagerProps) {
           description: description
         })
           .then(() => {
-            enqueueSnackbar('Cập nhật thành công', {
+            enqueueSnackbar('Cập nhật thương hiệu thành công', {
               variant: 'success'
             });
             dispatch(getBusinessById(business.id));
-          })
-          .catch(() => {
-            enqueueSnackbar('Cập nhật thất bại', {
-              variant: 'error'
-            });
-          })
-          .finally(() => {
             resetForm();
             handleClose();
+          })
+          .catch(() => {
+            enqueueSnackbar('Cập nhật thương hiệu thất bại vui lòng kiểm tra lại thông tin', {
+              variant: 'error'
+            });
           });
       } catch (error) {
         setSubmitting(false);
@@ -260,9 +258,9 @@ function BusinessDetail({ business }: BusinessManagerProps) {
     [setFileUploadManager]
   );
   const NewBusinessSchema = Yup.object().shape({
-    lastName: Yup.string().required('Yêu cầu nhập họ người quản lý doanh nghiệp'),
-    firstName: Yup.string().required('Yêu cầu nhập tên người quản lý doanh nghiệp'),
-    email: Yup.string().required('Yêu cầu nhập email của người quản lý doanh nghiệp').email()
+    lastName: Yup.string().required('Yêu cầu nhập tên người quản lý thương hiệu'),
+    firstName: Yup.string().required('Yêu cầu nhập họ người quản lý thương hiệu'),
+    email: Yup.string().required('Yêu cầu nhập email của người quản lý thương hiệu').email()
   });
 
   const handleClickOpenBusinessManager = () => {
@@ -295,20 +293,27 @@ function BusinessDetail({ business }: BusinessManagerProps) {
       try {
         const headers = getHeaderFormData();
 
-        await axios.post(
-          `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users`,
-          values,
-          {
-            headers: headers
-          }
-        );
-        dispatch(getBusinessById(business.id));
-
-        resetForm();
-        setSubmitting(true);
-        enqueueSnackbar('Tạo mới thành công', {
-          variant: 'success'
-        });
+        await axios
+          .post(
+            `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/users`,
+            values,
+            {
+              headers: headers
+            }
+          )
+          .then(async () => {
+            dispatch(getBusinessById(business.id));
+            resetForm();
+            setSubmitting(true);
+            enqueueSnackbar('Thêm mới người quản lý thành công', {
+              variant: 'success'
+            });
+          })
+          .catch(() => {
+            enqueueSnackbar('Thêm mới thất bại vui lòng kiểm tra lại thông tin của bạn', {
+              variant: 'error'
+            });
+          });
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -350,7 +355,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                 >
                   <FormikProvider value={formikProfile}>
                     <Form noValidate autoComplete="off" onSubmit={handleSubmitProfile}>
-                      <DialogTitle>Cập nhật thông tin doanh nghiệp</DialogTitle>
+                      <DialogTitle>Cập nhật thông tin thương hiệu</DialogTitle>
                       <DialogContent>
                         <Box my={3}>
                           <DialogContentText>Điền thông tin bạn muốn cập nhật</DialogContentText>
@@ -358,7 +363,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                         <Stack spacing={{ xs: 2, md: 3 }}>
                           <TextField
                             required
-                            label="Tên doanh nghiệp"
+                            label="Tên thương hiệu"
                             fullWidth
                             variant="outlined"
                             {...getFieldPropsProfile('name')}
@@ -367,7 +372,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                           />
                           <TextField
                             required
-                            label="Email doanh nghiệp"
+                            label="Email thương hiệu"
                             fullWidth
                             variant="outlined"
                             {...getFieldPropsProfile('email')}
@@ -486,7 +491,6 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                               error={Boolean(touched.lastName && errors.lastName)}
                               helperText={touched.lastName && errors.lastName}
                             />
-
                             <TextField
                               required
                               fullWidth
@@ -528,7 +532,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
                       </Label>
                     )}
                   </Box>
-                  <TextField fullWidth disabled label="Tên doanh nghiệp" value={business.name} />
+                  <TextField fullWidth disabled label="Tên thương hiệu" value={business.name} />
 
                   <TextField
                     fullWidth

@@ -8,13 +8,17 @@ import {
   PeriodRevenueHistory,
   WalletTransaction
 } from '../../../@types/krowd/transactionKrowd/transaction';
+import { TransactionAPI } from '_apis_/krowd_apis/transactions';
 
 // ----------------------------------------------------------------------
 
 type TransactionState = {
   isLoading: boolean;
   error: boolean;
-  accountTransactionList: AccountTransaction[];
+  accountTransactionList: {
+    numOfAccountTransaction: number;
+    listOfAccountTransaction: AccountTransaction[];
+  };
   accountTransactionListId: AccountTransaction | null;
   walletTransactionList: WalletTransaction[];
   PeriodRevenueHistoryList: PeriodRevenueHistory[];
@@ -23,7 +27,10 @@ type TransactionState = {
 const initialState: TransactionState = {
   isLoading: false,
   error: false,
-  accountTransactionList: [],
+  accountTransactionList: {
+    numOfAccountTransaction: 0,
+    listOfAccountTransaction: []
+  },
   walletTransactionList: [],
   accountTransactionListId: null,
   PeriodRevenueHistoryList: []
@@ -67,13 +74,21 @@ export default slice.reducer;
 
 // Actions
 
-export function getAccountTransactionList() {
+export function getAccountTransactionList(
+  fromDate: string,
+  toDate: string,
+  pageIndex: number,
+  pageSize: number
+) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/account_transactions'
-      );
+      const response = await TransactionAPI.getTransactions({
+        fromDate: fromDate,
+        toDate: toDate,
+        pageIndex: pageIndex,
+        pageSize: pageSize
+      });
       dispatch(slice.actions.getAccountTransactionListSuccess(response.data));
       console.log('AccountTransaction data: ', response.data);
     } catch (error) {

@@ -13,10 +13,11 @@ function getHeader() {
   return { Authorization: `Bearer ${token}` };
 }
 
-async function getUserKrowd({ role }: { role: string }) {
+async function getUserKrowd(params: { role: string; pageIndex: number; pageSize: number }) {
   const headers = getHeader();
-  const response = await axios.get(REACT_APP_API_URL + `${API_FIELD}?role=${role}`, {
-    headers: headers
+  const response = await axios.get(REACT_APP_API_URL + `${API_FIELD}`, {
+    headers: headers,
+    params: params
   });
   return response;
 }
@@ -36,10 +37,15 @@ async function post() {
   });
   return response;
 }
-async function getsWalletTransaction(id: string) {
+async function getsWalletTransaction(params: {
+  userId: string;
+  pageIndex: number;
+  pageSize: number;
+}) {
   const headers = getHeader();
-  const response = await axios.get(REACT_APP_API_URL + `${API_WALLET_TRANSACTION}?userId=${id}`, {
-    headers: headers
+  const response = await axios.get(REACT_APP_API_URL + `${API_WALLET_TRANSACTION}`, {
+    headers: headers,
+    params: params
   });
   return response;
 }

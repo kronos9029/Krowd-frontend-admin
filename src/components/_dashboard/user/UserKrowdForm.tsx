@@ -112,14 +112,13 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
               variant: 'success'
             });
             dispatch(getMainUserProfile(user?.id));
+            resetForm();
+            onClose();
           })
           .catch(() => {
-            enqueueSnackbar('Cập nhật thất bại', {
+            enqueueSnackbar('Cập nhật thất bại vui lòng kiểm tra các thông tin cần thiết', {
               variant: 'error'
             });
-          })
-          .finally(() => {
-            onClose();
           });
       } catch (error) {
         setSubmitting(false);
@@ -138,11 +137,15 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
           <DialogContent>
             <Box my={3}>
               <DialogContentText>Cập nhật thông tin của bạn ở bên dưới</DialogContentText>
+              <Typography variant="caption" color="#B78103">
+                * Những thông tin trống vui lòng điền "N/A".
+              </Typography>
             </Box>
             <Stack spacing={{ xs: 2, md: 3 }}>
               <Typography>Thông tin cá nhân:</Typography>
               <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                 <TextField
+                  required
                   label="Họ"
                   fullWidth
                   variant="outlined"
@@ -152,6 +155,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                 />
                 <TextField
                   label="Tên"
+                  required
                   fullWidth
                   variant="outlined"
                   {...getFieldProps('lastName')}
@@ -163,6 +167,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   <InputLabel>Giới tính</InputLabel>
                   <Select
                     label="Giới tính"
+                    required
                     native
                     {...getFieldProps('gender')}
                     value={values.gender}
@@ -194,6 +199,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   />
                 </Grid>
                 <TextField
+                  required
                   label="SĐT"
                   variant="outlined"
                   {...getFieldProps('phoneNum')}
@@ -201,6 +207,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   helperText={touched.phoneNum && errors.phoneNum}
                 />
                 <TextField
+                  required
                   label="CMND/CCCD"
                   variant="outlined"
                   {...getFieldProps('idCard')}
@@ -212,6 +219,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
 
               <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                 <TextField
+                  required
                   label="Số nhà, tên đường"
                   fullWidth
                   variant="outlined"
@@ -222,6 +230,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
               </Stack>
               <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                 <TextField
+                  required
                   label="Thành phố"
                   fullWidth
                   variant="outlined"
@@ -230,6 +239,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   helperText={touched.city && errors.city}
                 />
                 <TextField
+                  required
                   label="Quận"
                   fullWidth
                   variant="outlined"
@@ -241,6 +251,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
               <Typography>Ngân hàng</Typography>
               <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                 <TextField
+                  required
                   label="Tên ngân hàng"
                   fullWidth
                   variant="outlined"
@@ -249,6 +260,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   helperText={touched.bankName && errors.bankName}
                 />
                 <TextField
+                  required
                   label="Số tài khoản"
                   fullWidth
                   variant="outlined"
@@ -257,6 +269,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
                   helperText={touched.bankAccount && errors.bankAccount}
                 />
                 <TextField
+                  required
                   label="Mã số thuế"
                   fullWidth
                   variant="outlined"

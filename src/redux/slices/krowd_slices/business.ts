@@ -161,11 +161,16 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getBusinessList() {
+export function getBusinessList(pageIndex: number, pageSize: number, status: string, name: string) {
   return async () => {
     dispatch(slice.actions.startBusinessLoading());
     try {
-      const res = await BusinessAPI.gets();
+      const res = await BusinessAPI.gets({
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        status: status,
+        name: name
+      });
       dispatch(slice.actions.getBusinessListSuccess(res.data));
     } catch (error) {
       dispatch(slice.actions.hasBusinessError(error));

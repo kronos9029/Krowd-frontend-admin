@@ -1,26 +1,22 @@
 export type AccountTransaction = {
   id: string;
   fromUserId: string;
-  toUserId: string;
-  description: string;
-  status: string;
-  createDate: Date | string | number;
-  createBy: string;
-  updateDate: Date | string | number;
-  updateBy: string;
-  isDeleted: boolean;
-  AccountTransaction: {
-    id: string;
-    fromUserId: string;
-    toUserId: string;
-    description: string;
-    status: string;
-    createDate: Date | string | number;
-    createBy: string;
-    updateDate: Date | string | number;
-    updateBy: string;
-    isDeleted: boolean;
-  }[];
+  partnerClientId: string;
+  amount: string;
+  orderType: string;
+  message: string;
+  orderId: string;
+  partnerCode: string;
+  payType: string;
+  signature: string;
+  requestId: string;
+  responsetime: string;
+  resultCode: string;
+  extraData: string;
+  orderInfo: string;
+  transId: string;
+  createDate: string;
+  type: string;
 };
 
 export type WalletTransaction = {

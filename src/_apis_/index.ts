@@ -7,3 +7,4 @@ import './template_apis/products';
 import './template_apis/kanban';
 import './krowd_apis/UserKrowd';
 import './krowd_apis/other';
+import './krowd_apis/transactions';

@@ -10,30 +10,25 @@ import { getAccountTransactionList } from 'redux/slices/krowd_slices/transaction
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
-  { id: 'description', label: 'MÔ TẢ', align: 'left' },
-  { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'updateDate', label: 'NGÀY CẬP NHẬT', align: 'left' },
-  { id: '', label: 'THAO TÁC', align: 'center' }
+  { id: 'orderType', label: 'PHƯƠNG THỨC', align: 'left' },
+  { id: 'transId', label: 'MÃ GIAO DỊCH', align: 'center' },
+  { id: 'type', label: 'LOẠI GIAO DỊCH', align: 'left' },
+  { id: 'message', label: 'TRẠNG THÁI', align: 'left' },
+  { id: 'amount', label: 'SỐ TIỀN', align: 'right' },
+  { id: 'createDate', label: 'NGÀY THỰC HIỆN', align: 'center' },
+  { id: 'createDate', label: '', align: 'center' }
 ];
+
 export default function AccountTransactionTable() {
-  const { accountTransactionList: list, isLoading } = useSelector(
+  const { accountTransactionList, isLoading } = useSelector(
     (state: RootState) => state.transaction
   );
-
+  const { listOfAccountTransaction: list, numOfAccountTransaction } = accountTransactionList;
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   useEffect(() => {
-    dispatch(getAccountTransactionList());
-  }, [dispatch]);
-  // const handleDeleteRiskTypeById = (activeRiskTypeId: string) => {
-  //     dispatch(delRiskTypeById(activeRiskTypeId));
-  //     enqueueSnackbar('Cập nhật trạng thái thành công', {
-  //       variant: 'success',
-  //       action: (key) => (
-  //         <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-  //           <Icon icon={closeFill} />
-  //         </MIconButton>
-  //       )
-  //     });
-  //   };
+    dispatch(getAccountTransactionList('', '', pageIndex, 5));
+  }, [dispatch, pageIndex]);
 
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -48,20 +43,40 @@ export default function AccountTransactionTable() {
           },
 
           {
-            name: 'description',
-            value: _item.description,
-            type: DATA_TYPE.WRAP_TEXT
+            name: 'orderType',
+            value: '',
+            type: DATA_TYPE.ICONS
+          },
+          {
+            name: 'transId',
+            value: _item.transId,
+            type: DATA_TYPE.NUMBER,
+            textColor: 'rgb(20, 183, 204)'
+          },
+          {
+            name: 'type',
+            value: _item.type === 'Top-up' ? 'Nạp tiền vào ví' : 'Thất bại',
+            type: DATA_TYPE.TEXT,
+            textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
           },
 
           {
-            name: 'createDate',
-            value: _item.createDate,
-            type: DATA_TYPE.TEXT
+            name: 'message',
+            value: _item.message,
+            type: DATA_TYPE.LABLE
           },
           {
-            name: 'updateDate',
-            value: _item.updateDate,
-            type: DATA_TYPE.TEXT
+            name: 'amount',
+            value:
+              _item.message === 'Giao dịch thành công.' ? `${_item.amount}` : `${_item.amount}`,
+            type: DATA_TYPE.NUMBER_FORMAT,
+            textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
+          },
+          {
+            name: 'createDate',
+            value: _item.createDate.toString().substring(0, 11),
+            type: DATA_TYPE.DATE,
+            textColor: 'rgb(102, 187, 106)'
           }
         ]
       };
@@ -73,8 +88,21 @@ export default function AccountTransactionTable() {
       headingTitle="Giao dịch ngân hàng"
       header={TABLE_HEAD}
       getData={getData}
-      deleteRecord={() => {}}
       isLoading={isLoading}
+      paging={{
+        pageIndex,
+        pageSize: pageSize,
+        numberSize: numOfAccountTransaction,
+
+        handleNext() {
+          setPageIndex(pageIndex + 1);
+          setPageSize(pageSize + 5);
+        },
+        handlePrevious() {
+          setPageIndex(pageIndex - 1);
+          setPageSize(pageSize - 5);
+        }
+      }}
     />
   );
 }

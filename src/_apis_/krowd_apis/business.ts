@@ -70,10 +70,11 @@ async function getBuMID({ id }: { id: string }) {
   });
   return response;
 }
-async function gets() {
+async function gets(params: { pageIndex: number; pageSize: number; status: string; name: string }) {
   const headers = getHeader();
   const response = await axios.get(REACT_APP_API_URL + `businesses`, {
-    headers: headers
+    headers: headers,
+    params: params
   });
   return response;
 }

@@ -156,11 +156,15 @@ export function getMainUserProfile(id: string) {
     }
   };
 }
-export function getUserKrowdList(role: string) {
+export function getUserKrowdList(role: string, pageIndex: number, pageSize: number) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await UserKrowdAPI.getUserKrowd({ role });
+      const response = await UserKrowdAPI.getUserKrowd({
+        role: role,
+        pageIndex: pageIndex,
+        pageSize: pageSize
+      });
       dispatch(slice.actions.getUserKrowdListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -179,11 +183,15 @@ export function getUserKrowdDetail(id: string) {
     }
   };
 }
-export function getWalletTransactionList(id: string) {
+export function getWalletTransactionList(userId: string, pageIndex: number, pageSize: number) {
   return async () => {
     dispatch(slice.actions.startLoadingWalletTransactionList());
     try {
-      const response = await UserKrowdAPI.getsWalletTransaction(id);
+      const response = await UserKrowdAPI.getsWalletTransaction({
+        userId: userId,
+        pageIndex: pageIndex,
+        pageSize: pageSize
+      });
       dispatch(slice.actions.getWalletTransactionListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasGetWalletTransactionError(error));

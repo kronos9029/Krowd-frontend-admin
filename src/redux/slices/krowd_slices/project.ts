@@ -134,24 +134,37 @@ export const { sortByProducts, filterProducts } = slice.actions;
 
 // ----------------------------------------------------------------------
 
-export function getAllProject(status: string) {
+export function getAllProject(status: string, pageIndex: number, pageSize: number, name: string) {
   return async () => {
-    const { dispatch } = store;
-
     dispatch(slice.actions.startLoading());
     try {
-      const response: { data: { products: Project[] } } = await ProjectAPI.getAll(status);
+      const response = await ProjectAPI.getAll({
+        status: status,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        name: name
+      });
       dispatch(slice.actions.getProjectListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };
 }
-export function getAllCallingProject(status: string) {
+export function getAllCallingProject(
+  status: string,
+  pageIndex: number,
+  pageSize: number,
+  name: string
+) {
   return async () => {
     dispatch(slice.actions.startLoadingProjectIsCalling());
     try {
-      const response = await ProjectAPI.getAll(status);
+      const response = await ProjectAPI.getAll({
+        status: status,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        name: name
+      });
       dispatch(slice.actions.getProjectListCallingProjectSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

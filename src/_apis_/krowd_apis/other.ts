@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { REACT_APP_API_URL } from '../../config';
 const API_FIELD = 'fields';
+const API_AREA = 'areas';
 const API_SUBMIT = 'projects/status';
 const API_PACKAGE = 'packages/project';
 const API_FIELD_CHART = 'stages/chart';
@@ -48,8 +49,26 @@ async function delFieldID({ id }: { id: string }) {
   });
   return response;
 }
+async function getField(params: { pageIndex: number; pageSize: number }) {
+  const headers = getHeader();
+  const response = await axios.get(REACT_APP_API_URL + `${API_FIELD}`, {
+    headers: headers,
+    params: params
+  });
+  return response;
+}
+async function getArea(params: { pageIndex: number; pageSize: number }) {
+  const headers = getHeader();
+  const response = await axios.get(REACT_APP_API_URL + `${API_AREA}`, {
+    headers: headers,
+    params: params
+  });
+  return response;
+}
 export const OtherKrowdAPI = {
   get: get,
   post: post,
-  delFieldID: delFieldID
+  delFieldID: delFieldID,
+  getField: getField,
+  getArea: getArea
 };

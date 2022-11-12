@@ -2,7 +2,7 @@ import closeFill from '@iconify/icons-eva/close-fill';
 import { Icon } from '@iconify/react';
 import { MIconButton } from 'components/@material-extend';
 import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getAreasList } from 'redux/slices/krowd_slices/area';
 import { getBusinessList } from 'redux/slices/krowd_slices/business';
 import { dispatch, RootState, useSelector } from 'redux/store';
@@ -20,9 +20,10 @@ const TABLE_HEAD = [
 
 export default function AreaTable() {
   const { areaList: list, isLoading } = useSelector((state: RootState) => state.areaKrowd);
-
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   useEffect(() => {
-    dispatch(getAreasList());
+    dispatch(getAreasList(1, 1000));
   }, [dispatch]);
 
   const getData = (): RowData[] => {
@@ -70,6 +71,20 @@ export default function AreaTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
+      paging={{
+        pageIndex,
+        pageSize: pageSize,
+        numberSize: 100,
+
+        handleNext() {
+          setPageIndex(pageIndex + 1);
+          setPageSize(pageSize + 5);
+        },
+        handlePrevious() {
+          setPageIndex(pageIndex - 1);
+          setPageSize(pageSize - 5);
+        }
+      }}
     />
   );
 }
