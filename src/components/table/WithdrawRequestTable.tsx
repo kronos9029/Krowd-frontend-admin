@@ -49,13 +49,12 @@ const TABLE_HEAD = [
   { id: 'amount', label: 'SỐ TIỀN RÚT', align: 'left' },
   { id: 'refusalReason', label: 'LÝ DO TỪ CHỐI', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'createBy', label: 'NGƯỜI TẠO', align: 'left' },
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 const STATUS_RENDER = [
   { status: 'PENDING', vi: 'Chờ xử lý' },
-  { status: 'PARTIAL', vi: 'Đã xác nhận' },
+  { status: 'APPROVED', vi: 'Đã xác nhận' },
   { status: 'REJECTED', vi: 'Đã từ chối' },
   { status: 'REPORT', vi: 'Người dùng báo lỗi' }
 ];
@@ -68,16 +67,19 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 export default function AccountTransactionTable() {
-  const { withdrawRequestList: list, isLoading } = useSelector(
+  const { withdrawRequestList, isLoading } = useSelector(
     (state: RootState) => state.withdrawRequest
   );
+  const { listOfWithdrawRequest: list, numOfWithdrawRequest } = withdrawRequestList;
   const { userKrowdDetailState: userState } = useSelector((state: RootState) => state.userKrowd);
   const { userKrowdDetail: user } = userState;
+  const [pageIndex, setPageIndex] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
   const [open, setOpen] = useState(false);
   const [currentWithdrawRequest, setCurrentWithdrawRequest] = useState<WithdrawRequestType>();
   const [imageFile, setImageFile] = useState<CustomFile | null>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [filterStatus, setFilterStatus] = useState<string>('PENDING');
+  const [filterStatus, setFilterStatus] = useState('ALL');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const [transferStatus, setTransferStatus] = useState<string>('success');
@@ -128,7 +130,7 @@ export default function AccountTransactionTable() {
         enqueueSnackbar('Xác nhận thành công', {
           variant: 'success'
         });
-        dispatch(getAllWithdrawRequest());
+        dispatch(getAllWithdrawRequest(1, 5, 'ALL'));
       })
       .catch(() => {
         enqueueSnackbar('Xác nhận thất bại', {
@@ -151,7 +153,7 @@ export default function AccountTransactionTable() {
         enqueueSnackbar('Từ chối thành công', {
           variant: 'success'
         });
-        dispatch(getAllWithdrawRequest());
+        dispatch(getAllWithdrawRequest(1, 5, 'ALL'));
       })
       .catch(() => {
         enqueueSnackbar('Từ chối thất bại', {
@@ -268,8 +270,8 @@ export default function AccountTransactionTable() {
   };
 
   useEffect(() => {
-    dispatch(getAllWithdrawRequest());
-  }, [dispatch]);
+    dispatch(getAllWithdrawRequest(pageIndex, 5, filterStatus));
+  }, [dispatch, pageIndex, filterStatus]);
 
   const handleDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0] as File;
@@ -284,68 +286,71 @@ export default function AccountTransactionTable() {
 
   const getData = (): RowData[] => {
     if (!list) return [];
-    return list
-      .filter((e) => e.status === filterStatus)
-      .sort((a, b) => a.createDate.localeCompare(b.createDate))
-      .map<RowData>((_item, _idx) => {
-        const status = STATUS_RENDER.find((e) => e.status === _item.status)?.vi;
-        return {
-          id: _item.id,
-          items: [
-            {
-              name: 'idx',
-              value: _idx + 1,
-              type: DATA_TYPE.NUMBER
-            },
-            {
-              name: 'accountName',
-              value: _item.accountName,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'bankAccount',
-              value: _item.bankAccount,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'bankName',
-              value: _item.bankName,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'amount',
-              value: _item.amount,
-              type: DATA_TYPE.CURRENCY
-            },
-            {
-              name: 'refusalReason',
-              value: _item.refusalReason ?? 'Không có dữ liệu',
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'createDate',
-              value: _item.createDate,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'createBy',
-              value: _item.createBy,
-              type: DATA_TYPE.TEXT
-            },
-            {
-              name: 'status',
-              value: status,
-              type: DATA_TYPE.CHIP_TEXT,
-              textMapColor: [
-                { status: 'Chờ xử lý', color: '' },
-                { status: 'Đã xác nhận', color: 'success.main' },
-                { status: 'Đã từ chối', color: 'error.main' },
-                { status: 'Người dùng báo lỗi', color: 'warning.main' }
-              ]
-            }
-          ]
-        };
-      });
+    return (
+      list
+        // .filter((e) => e.status === filterStatus)
+        // .sort((a, b) => a.createDate.localeCompare(b.createDate))
+        .map<RowData>((_item, _idx) => {
+          const status = STATUS_RENDER.find((e) => e.status === _item.status)?.vi;
+          return {
+            id: _item.id,
+            items: [
+              {
+                name: 'idx',
+                value: _idx + 1,
+                type: DATA_TYPE.NUMBER
+              },
+              {
+                name: 'accountName',
+                value: _item.accountName,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'bankAccount',
+                value: _item.bankAccount,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'bankName',
+                value: _item.bankName,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'amount',
+                value: _item.amount,
+                type: DATA_TYPE.CURRENCY
+              },
+              {
+                name: 'refusalReason',
+                value: _item.refusalReason ?? 'Không có dữ liệu',
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'createDate',
+                value: _item.createDate,
+                type: DATA_TYPE.TEXT
+              },
+
+              {
+                name: 'status',
+                value:
+                  (_item.status === 'APPROVED' && 'Đã xác nhận') ||
+                  (_item.status === 'PENDING' && 'Chờ xử lý') ||
+                  (_item.status === 'REJECTED' && 'Đã từ chối') ||
+                  (_item.status === 'PARTIAL' && 'PARTIAL') ||
+                  (_item.status === 'REPORT' && 'Người dùng báo lỗi'),
+                type: DATA_TYPE.CHIP_TEXT,
+                textMapColor: [
+                  { status: 'Chờ xử lý', color: '' },
+                  { status: 'Đã xác nhận', color: 'success.main' },
+                  { status: 'Đã từ chối', color: 'error.main' },
+                  { status: 'Người dùng báo lỗi', color: 'warning.main' }
+                ]
+              }
+            ]
+          };
+        })
+    );
   };
   return (
     <>
@@ -384,7 +389,7 @@ export default function AccountTransactionTable() {
                     onChange={handleChangeFilter}
                   >
                     <MenuItem value={'PENDING'}>Chờ xử lý</MenuItem>
-                    <MenuItem value={'PARTIAL'}>Đã xác nhận</MenuItem>
+                    <MenuItem value={'APPROVED'}>Đã xác nhận</MenuItem>
                     <MenuItem value={'REPORT'}>Người dùng báo lỗi</MenuItem>
                     <MenuItem value={'REJECTED'}>Đã từ chối</MenuItem>
                   </Select>
@@ -400,6 +405,20 @@ export default function AccountTransactionTable() {
             )}
           </>
         }
+        paging={{
+          pageIndex,
+          pageSize: pageSize,
+          numberSize: numOfWithdrawRequest,
+
+          handleNext() {
+            setPageIndex(pageIndex + 1);
+            setPageSize(pageSize + 5);
+          },
+          handlePrevious() {
+            setPageIndex(pageIndex - 1);
+            setPageSize(pageSize - 5);
+          }
+        }}
       />
       <Dialog
         open={open}

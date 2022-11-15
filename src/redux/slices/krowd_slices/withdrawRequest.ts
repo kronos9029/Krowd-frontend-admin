@@ -11,13 +11,19 @@ import { WithdrawRequestAPI } from '_apis_/krowd_apis/withdrawRequest';
 type WithdrawRequestState = {
   isLoading: boolean;
   error: boolean;
-  withdrawRequestList: WithdrawRequestType[];
+  withdrawRequestList: {
+    listOfWithdrawRequest: WithdrawRequestType[];
+    numOfWithdrawRequest: number;
+  };
 };
 
 const initialState: WithdrawRequestState = {
   isLoading: false,
   error: false,
-  withdrawRequestList: []
+  withdrawRequestList: {
+    listOfWithdrawRequest: [],
+    numOfWithdrawRequest: 0
+  }
 };
 
 const slice = createSlice({
@@ -47,11 +53,15 @@ export default slice.reducer;
 
 // Actions
 
-export function getAllWithdrawRequest() {
+export function getAllWithdrawRequest(pageIndex: number, pageSize: number, filter: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await WithdrawRequestAPI.getAll();
+      const response = await WithdrawRequestAPI.getAll({
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        filter: filter
+      });
       dispatch(slice.actions.getAllWithdrawRequest(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

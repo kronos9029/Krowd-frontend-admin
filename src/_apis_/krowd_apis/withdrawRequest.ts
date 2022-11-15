@@ -10,10 +10,11 @@ function getHeader() {
   const token = getToken();
   return { Authorization: `Bearer ${token}` };
 }
-async function getAll() {
+async function getAll(params: { pageIndex: number; pageSize: number; filter: string }) {
   const headers = getHeader();
   const response = await axios.get(REACT_APP_API_URL + API_FIELD, {
-    headers: headers
+    headers: headers,
+    params: params
   });
   return response;
 }
