@@ -37,7 +37,7 @@ export default function AppWelcome({ user, admin }: AppWelcomeProps) {
           color: 'grey.800'
         }}
       >
-        <Typography gutterBottom variant="h4">
+        <Typography gutterBottom variant="h3">
           Chào mừng trở lại, <br />
           {user?.fullName}
         </Typography>

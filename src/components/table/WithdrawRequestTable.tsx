@@ -29,7 +29,6 @@ import {
 import { WithdrawRequestType } from '../../@types/krowd/withdrawRequest/withdrawRequest';
 import { UploadSingleFile } from 'components/upload';
 import { CustomFile } from 'components/upload/UploadSingleFile';
-import { width } from '@mui/system';
 import { WithdrawRequestAPI } from '_apis_/krowd_apis/withdrawRequest';
 import { useSnackbar } from 'notistack';
 import { TransitionProps } from '@mui/material/transitions';
@@ -52,12 +51,12 @@ const TABLE_HEAD = [
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
-const STATUS_RENDER = [
-  { status: 'PENDING', vi: 'Chờ xử lý' },
-  { status: 'APPROVED', vi: 'Đã xác nhận' },
-  { status: 'REJECTED', vi: 'Đã từ chối' },
-  { status: 'REPORT', vi: 'Người dùng báo lỗi' }
-];
+// const STATUS_RENDER = [
+//   { status: 'PENDING', vi: 'Chờ xử lý' },
+//   { status: 'APPROVED', vi: 'Đã xác nhận' },
+//   { status: 'REJECTED', vi: 'Đã từ chối' },
+//   { status: 'REPORT', vi: 'Người dùng báo lỗi' }
+// ];
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -79,6 +78,7 @@ export default function AccountTransactionTable() {
   const [currentWithdrawRequest, setCurrentWithdrawRequest] = useState<WithdrawRequestType>();
   const [imageFile, setImageFile] = useState<CustomFile | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [userId, setUserId] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
@@ -88,10 +88,11 @@ export default function AccountTransactionTable() {
   const getCreateByInfo = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const id = event.target.value;
     setIdUser(id ?? idUser);
+    setUserId(id ?? idUser);
   };
-  const searchUser = async () => {
-    if (idUser) dispatch(getUserKrowdDetail(idUser));
-  };
+  // const searchUser = async () => {
+  //   if (idUser) dispatch(getUserKrowdDetail(idUser));
+  // };
   const handleClickOpen = (id: string) => {
     setCurrentWithdrawRequest(list.find((e) => e.id === id));
     setOpen(true);
@@ -130,7 +131,7 @@ export default function AccountTransactionTable() {
         enqueueSnackbar('Xác nhận thành công', {
           variant: 'success'
         });
-        dispatch(getAllWithdrawRequest(1, 5, 'ALL'));
+        dispatch(getAllWithdrawRequest(1, 5, '', 'ALL'));
       })
       .catch(() => {
         enqueueSnackbar('Xác nhận thất bại', {
@@ -153,7 +154,7 @@ export default function AccountTransactionTable() {
         enqueueSnackbar('Từ chối thành công', {
           variant: 'success'
         });
-        dispatch(getAllWithdrawRequest(1, 5, 'ALL'));
+        dispatch(getAllWithdrawRequest(1, 5, '', 'ALL'));
       })
       .catch(() => {
         enqueueSnackbar('Từ chối thất bại', {
@@ -219,7 +220,13 @@ export default function AccountTransactionTable() {
         }
       case 'PARTIAL':
         return (
-          <Box my={1}>
+          <Box width={'600px'} my={1}>
+            <img src={currentWithdrawRequest?.description}></img>
+          </Box>
+        );
+      case 'APPROVED':
+        return (
+          <Box width={'600px'} my={1}>
             <img src={currentWithdrawRequest?.description}></img>
           </Box>
         );
@@ -270,8 +277,8 @@ export default function AccountTransactionTable() {
   };
 
   useEffect(() => {
-    dispatch(getAllWithdrawRequest(pageIndex, 5, filterStatus));
-  }, [dispatch, pageIndex, filterStatus]);
+    dispatch(getAllWithdrawRequest(pageIndex, 5, userId, filterStatus));
+  }, [dispatch, pageIndex, userId, filterStatus]);
 
   const handleDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0] as File;
@@ -291,7 +298,7 @@ export default function AccountTransactionTable() {
         // .filter((e) => e.status === filterStatus)
         // .sort((a, b) => a.createDate.localeCompare(b.createDate))
         .map<RowData>((_item, _idx) => {
-          const status = STATUS_RENDER.find((e) => e.status === _item.status)?.vi;
+          // const status = STATUS_RENDER.find((e) => e.status === _item.status)?.vi;
           return {
             id: _item.id,
             items: [
@@ -338,13 +345,13 @@ export default function AccountTransactionTable() {
                   (_item.status === 'PENDING' && 'Chờ xử lý') ||
                   (_item.status === 'REJECTED' && 'Đã từ chối') ||
                   (_item.status === 'PARTIAL' && 'PARTIAL') ||
-                  (_item.status === 'REPORT' && 'Người dùng báo lỗi'),
+                  (_item.status === 'PARTIAL_ADMIN' && 'PARTIAL_ADMIN'),
                 type: DATA_TYPE.CHIP_TEXT,
                 textMapColor: [
                   { status: 'Chờ xử lý', color: '' },
                   { status: 'Đã xác nhận', color: 'success.main' },
                   { status: 'Đã từ chối', color: 'error.main' },
-                  { status: 'Người dùng báo lỗi', color: 'warning.main' }
+                  { status: 'PARTIAL_ADMIN', color: 'warning.main' }
                 ]
               }
             ]
@@ -364,18 +371,18 @@ export default function AccountTransactionTable() {
           <>
             <Box display={'flex'} width={700} justifyContent={'space-between'}>
               <Box display={'flex'} justifyContent={'space-between'}>
-                <Box width={400}>
+                <Box width={450}>
                   <FormControl variant="standard" fullWidth>
                     <TextField
                       id="outlined-basic"
-                      label="Tra cứu người tạo (nhập ID)"
+                      label="Tra cứu người tạo (nhập đầy đủ ID)"
                       variant="outlined"
                       onChange={getCreateByInfo}
                     />
                   </FormControl>
                 </Box>
 
-                <Button onClick={() => searchUser()}>Tìm kiếm</Button>
+                {/* <Button onClick={() => searchUser()}>Tìm kiếm</Button> */}
               </Box>
 
               <Box width={200}>
@@ -388,9 +395,11 @@ export default function AccountTransactionTable() {
                     label="Lọc theo trạng thái"
                     onChange={handleChangeFilter}
                   >
+                    <MenuItem value={'ALL'}>Tất cả</MenuItem>
+                    <MenuItem value={'PARTIAL'}>PARTIAL</MenuItem>
+                    <MenuItem value={'PARTIAL_ADMIN'}>PARTIAL_ADMIN</MenuItem>
                     <MenuItem value={'PENDING'}>Chờ xử lý</MenuItem>
                     <MenuItem value={'APPROVED'}>Đã xác nhận</MenuItem>
-                    <MenuItem value={'REPORT'}>Người dùng báo lỗi</MenuItem>
                     <MenuItem value={'REJECTED'}>Đã từ chối</MenuItem>
                   </Select>
                 </FormControl>

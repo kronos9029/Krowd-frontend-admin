@@ -18,6 +18,7 @@ const ICONS = {
   manager: getIcon('ic_manager'),
   projectManager: getIcon('ic_projectManager'),
   stage: getIcon('ic_stage'),
+  momo: getIcon('ic_momo'),
   dayOverview: getIcon('ic_dayOverview'),
   dashboard: getIcon('ic_dashboard'),
   bankTransaction: getIcon('ic_bankTransaction'),
@@ -107,9 +108,9 @@ const sidebarConfig = [
       //   icon: ICONS.accountTransaction
       // }
       {
-        title: 'Giao dịch ngân hàng',
+        title: 'Giao dịch momo',
         path: PATH_DASHBOARD.transaction.accountTransaction,
-        icon: ICONS.bankTransaction
+        icon: ICONS.momo
       },
       // {
       //   title: 'Lịch sử doanh thu',

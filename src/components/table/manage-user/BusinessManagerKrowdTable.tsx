@@ -1,6 +1,6 @@
 import { ROLE_USER_TYPE } from '../../../@types/krowd/users';
 import { useEffect, useState } from 'react';
-import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
+import { getBusinessManagerKrowdList, getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
 import blocked from '@iconify/icons-ant-design/lock-fill';
@@ -9,6 +9,7 @@ const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
   { id: 'image', label: 'HÌNH ẢNH', align: 'left' },
   { id: 'fullName', label: 'HỌ VÀ TÊN', align: 'left' },
+  { id: 'business', label: 'QUẢN LÝ', align: 'left' },
   { id: 'phoneNum', label: 'SỐ ĐIỆN THOẠI', align: 'left' },
   { id: 'email', label: 'EMAIL', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
@@ -30,10 +31,9 @@ export default function BusinessManagerKrowdTable() {
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   const [status, setStatus] = useState('');
-  const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
-    dispatch(getUserKrowdList(ROLE_USER_TYPE.BUSINESS_MANAGER, pageIndex, 5));
-  }, [dispatch, pageIndex]);
+    dispatch(getBusinessManagerKrowdList(pageIndex, 5, '', status));
+  }, [dispatch, pageIndex, status]);
 
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -60,9 +60,15 @@ export default function BusinessManagerKrowdTable() {
                 type: DATA_TYPE.TEXT
               },
               {
-                name: 'phoneNum',
-                value: _item.phoneNum,
+                name: 'business',
+                value: `${_item.business?.name ?? 'Chưa có thương hiệu'}`,
                 type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'phoneNum',
+                value: _item.phoneNum ? _item.phoneNum : 'Chưa cập nhật',
+                type: DATA_TYPE.TEXT,
+                textColor: _item.phoneNum === null ? 'red' : 'black'
               },
               {
                 name: 'email',

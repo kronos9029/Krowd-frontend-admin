@@ -71,7 +71,7 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
       lastName: user?.lastName ?? '',
       phoneNum: user?.phoneNum ?? '',
       address: user?.address ?? '',
-      gender: user?.gender ?? '',
+      gender: user?.gender ?? 'Nam',
       idCard: user?.idCard ?? '',
       district: user?.district ?? '',
       city: user?.city ?? '',
@@ -108,11 +108,10 @@ export default function UserKrowdForm({ user, open, onClose }: UserAccountFormPr
           headers: header
         })
           .then(() => {
-            enqueueSnackbar('Cập nhật thành công', {
+            enqueueSnackbar('Cập nhật thông tin thành công', {
               variant: 'success'
             });
             dispatch(getMainUserProfile(user?.id));
-            resetForm();
             onClose();
           })
           .catch(() => {

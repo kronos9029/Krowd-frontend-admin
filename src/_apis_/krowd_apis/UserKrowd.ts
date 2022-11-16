@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { REACT_APP_API_URL } from '../../config';
 const API_FIELD = 'users';
+const API_FIELD_INVESTOR = 'users/investor';
+const API_FIELD_BUSINESS_MANAGER = 'users/business_manager';
+const API_FIELD_PROJECT_MANAGER = 'users/project_manager';
 const API_WALLET_TRANSACTION = 'wallet_transactions';
 const API_PAYMENTS = 'payments/type/INVESTMENT';
 const PERIOD_REVENUE = 'payments/type/PERIOD_REVENUE';
@@ -13,9 +16,41 @@ function getHeader() {
   return { Authorization: `Bearer ${token}` };
 }
 
-async function getUserKrowd(params: { role: string; pageIndex: number; pageSize: number }) {
+async function getUserKrowd(params: {
+  pageIndex: number;
+  pageSize: number;
+  projectId: string;
+  status: string;
+}) {
   const headers = getHeader();
-  const response = await axios.get(REACT_APP_API_URL + `${API_FIELD}`, {
+  const response = await axios.get(REACT_APP_API_URL + `${API_FIELD_INVESTOR}`, {
+    headers: headers,
+    params: params
+  });
+  return response;
+}
+async function getBusinessManagerKrowd(params: {
+  pageIndex: number;
+  pageSize: number;
+  businessId: string;
+  status: string;
+}) {
+  const headers = getHeader();
+  const response = await axios.get(REACT_APP_API_URL + `${API_FIELD_BUSINESS_MANAGER}`, {
+    headers: headers,
+    params: params
+  });
+  return response;
+}
+async function getProjectManagerKrowd(params: {
+  pageIndex: number;
+  pageSize: number;
+  businessId: string;
+  projectId: string;
+  status: string;
+}) {
+  const headers = getHeader();
+  const response = await axios.get(REACT_APP_API_URL + `${API_FIELD_PROJECT_MANAGER}`, {
     headers: headers,
     params: params
   });
@@ -61,5 +96,7 @@ export const UserKrowdAPI = {
   post: post,
   getUserID: getUserID,
   getsWalletTransaction: getsWalletTransaction,
-  getsPayment: getsPayment
+  getsPayment: getsPayment,
+  getBusinessManagerKrowd: getBusinessManagerKrowd,
+  getProjectManagerKrowd: getProjectManagerKrowd
 };

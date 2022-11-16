@@ -12,7 +12,6 @@ import AuthLayout from '../../layouts/AuthLayout';
 // components
 import Page from '../../components/Page';
 import { MHidden } from '../../components/@material-extend';
-import { RegisterForm } from '../../components/authentication/register';
 
 // ----------------------------------------------------------------------
 
@@ -83,8 +82,6 @@ export default function Register() {
               />
             </Tooltip>
           </Box>
-
-          <RegisterForm />
 
           <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
             Bằng cách đăng ký, tôi đồng ý Krowd&nbsp;

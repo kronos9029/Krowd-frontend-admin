@@ -1,8 +1,3 @@
-import closeFill from '@iconify/icons-eva/close-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import { Icon } from '@iconify/react';
-import { MIconButton } from 'components/@material-extend';
-import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/project';

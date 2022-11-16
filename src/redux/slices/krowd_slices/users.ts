@@ -1,10 +1,8 @@
-import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 import { dispatch } from '../../store';
 // utils
 import { UserKrowd, WalletTransaction } from '../../../@types/krowd/users';
 import axios from 'axios';
-import { SnackbarKey, useSnackbar } from 'notistack';
 import { UserKrowdAPI } from '_apis_/krowd_apis/UserKrowd';
 
 // ----------------------------------------------------------------------
@@ -100,6 +98,32 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    // GET MANAGE BUSINESS MANAGER
+    startBusinessManagerLoading(state) {
+      state.isLoading = true;
+    },
+    getBusinessManagerKrowdListSuccess(state, action) {
+      state.isLoading = false;
+      state.userLists = action.payload;
+    },
+    // HAS ERROR
+    hasErrorGetBusinessManage(state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    // GET MANAGE PROJECT MANAGER
+    startProjectManagerLoading(state) {
+      state.isLoading = true;
+    },
+    getProjectManagerKrowdListSuccess(state, action) {
+      state.isLoading = false;
+      state.userLists = action.payload;
+    },
+    // HAS ERROR
+    hasErrorGetProjectManager(state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
 
     //-------------------DETAIL OF userKrowd------------------
     // START LOADING
@@ -156,18 +180,68 @@ export function getMainUserProfile(id: string) {
     }
   };
 }
-export function getUserKrowdList(role: string, pageIndex: number, pageSize: number) {
+export function getUserKrowdList(
+  pageIndex: number,
+  pageSize: number,
+  projectId: string,
+  status: string
+) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await UserKrowdAPI.getUserKrowd({
-        role: role,
         pageIndex: pageIndex,
-        pageSize: pageSize
+        pageSize: pageSize,
+        projectId: projectId,
+        status: status
       });
       dispatch(slice.actions.getUserKrowdListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+export function getBusinessManagerKrowdList(
+  pageIndex: number,
+  pageSize: number,
+  businessId: string,
+  status: string
+) {
+  return async () => {
+    dispatch(slice.actions.startBusinessManagerLoading());
+    try {
+      const response = await UserKrowdAPI.getBusinessManagerKrowd({
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        businessId: businessId,
+        status: status
+      });
+      dispatch(slice.actions.getBusinessManagerKrowdListSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasErrorGetBusinessManage(error));
+    }
+  };
+}
+export function getProjectManagerKrowdList(
+  pageIndex: number,
+  pageSize: number,
+  businessId: string,
+  projectId: string,
+  status: string
+) {
+  return async () => {
+    dispatch(slice.actions.startProjectManagerLoading());
+    try {
+      const response = await UserKrowdAPI.getProjectManagerKrowd({
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        businessId: businessId,
+        projectId: projectId,
+        status: status
+      });
+      dispatch(slice.actions.getProjectManagerKrowdListSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasErrorGetProjectManager(error));
     }
   };
 }

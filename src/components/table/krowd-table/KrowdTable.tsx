@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState } from 'react';
 import {
   Table,
   Stack,
@@ -10,26 +9,18 @@ import {
   TableCell,
   Typography,
   TableContainer,
-  TablePagination,
   Box,
-  CircularProgress,
-  MenuItem,
-  ListItemIcon,
-  ListItemText,
   Chip
 } from '@mui/material';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Scrollbar from 'components/Scrollbar';
 import { PATH_DASHBOARD } from 'routes/paths';
-import { Link, Link as RouterLink } from 'react-router-dom';
-import plusFill from '@iconify/icons-eva/plus-fill';
+import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import KrowdTableListHead from '../components/KrowdTableListHead';
-import { fDate, fDateTimeSuffix } from 'utils/formatTime';
 import { fCurrency } from 'utils/formatNumber';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import blocked from '@iconify/icons-ant-design/lock-fill';
 import Label from 'components/Label';
 import LoadingScreen from 'components/LoadingScreen';
 export enum DATA_TYPE {
@@ -62,7 +53,6 @@ export type RowData = {
 };
 export type KrowdTableProps = {
   headingTitle: string;
-  createNewRecordButton?: { pathTo: string; label: string };
   header: { id: string; label: string; align: string }[];
   getData: () => Array<RowData>;
   viewPath?: string;
@@ -97,7 +87,6 @@ export type KrowdTableProps = {
 
 export function KrowdTable({
   headingTitle,
-  createNewRecordButton,
   header,
   getData,
   action,

@@ -1,4 +1,3 @@
-import { ROLE_USER_TYPE } from '../../../@types/krowd/users';
 import { useEffect, useState } from 'react';
 import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
@@ -30,9 +29,10 @@ export default function InvestorKrowdTable() {
   const { listOfUser: list, numOfUser } = userLists;
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [status, setStatus] = useState('');
   useEffect(() => {
-    dispatch(getUserKrowdList(ROLE_USER_TYPE.INVESTOR, pageIndex, 5));
-  }, [dispatch, pageIndex]);
+    dispatch(getUserKrowdList(pageIndex, 5, '', status));
+  }, [dispatch, pageIndex, status]);
 
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -60,8 +60,9 @@ export default function InvestorKrowdTable() {
               },
               {
                 name: 'phoneNum',
-                value: _item.phoneNum,
-                type: DATA_TYPE.TEXT
+                value: _item.phoneNum ? _item.phoneNum : 'Chưa cập nhật',
+                type: DATA_TYPE.TEXT,
+                textColor: _item.phoneNum === null ? 'red' : 'black'
               },
               {
                 name: 'email',

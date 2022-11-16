@@ -6,15 +6,7 @@ import instagramFilled from '@iconify/icons-ant-design/instagram-filled';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
-import {
-  Box,
-  Button,
-  Tooltip,
-  Container,
-  Typography,
-  InputAdornment,
-  OutlinedInput
-} from '@mui/material';
+import { Box, Button, Tooltip, Container, Typography } from '@mui/material';
 // hooks
 import useCountdown from '../../../hooks/useCountdown';
 // components
@@ -22,9 +14,7 @@ import { MIconButton } from '../../../components/@material-extend';
 import Page from '../../../components/Page';
 import { ComingSoonIllustration } from '../../../assets';
 import cookies from 'js-cookie';
-import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { count } from 'console';
 // ----------------------------------------------------------------------
 
 const SOCIALS = [
@@ -129,7 +119,7 @@ export default function ComingSoon() {
             ))}
           </Box>
           <Button to="/" size="large" variant="contained" component={RouterLink}>
-            Go to Home
+            Trở về trang chủ
           </Button>
         </Box>
       </Container>

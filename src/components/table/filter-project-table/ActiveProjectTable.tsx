@@ -1,7 +1,3 @@
-import closeFill from '@iconify/icons-eva/close-fill';
-import trash2Outline from '@iconify/icons-eva/trash-2-outline';
-import { Icon } from '@iconify/react';
-import { MIconButton } from 'components/@material-extend';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
@@ -34,18 +30,6 @@ const action = [
 export default function ActiveProjectTable() {
   const { projectLists, isLoading } = useSelector((state: RootState) => state.project);
   const { listOfProject: list, numOfProject } = projectLists;
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const handleDeleteProjectById = (businessId: string) => {
-    dispatch(deleteProjectListById(businessId));
-    enqueueSnackbar('Cập nhật trạng thái thành công', {
-      variant: 'success',
-      action: (key) => (
-        <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-          <Icon icon={closeFill} />
-        </MIconButton>
-      )
-    });
-  };
 
   const { status = 'ACTIVE' } = useParams();
   const [pageIndex, setPageIndex] = useState(1);

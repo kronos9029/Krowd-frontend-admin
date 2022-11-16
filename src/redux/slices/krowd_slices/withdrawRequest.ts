@@ -53,13 +53,19 @@ export default slice.reducer;
 
 // Actions
 
-export function getAllWithdrawRequest(pageIndex: number, pageSize: number, filter: string) {
+export function getAllWithdrawRequest(
+  pageIndex: number,
+  pageSize: number,
+  userId: string,
+  filter: string
+) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await WithdrawRequestAPI.getAll({
         pageIndex: pageIndex,
         pageSize: pageSize,
+        userId: userId,
         filter: filter
       });
       dispatch(slice.actions.getAllWithdrawRequest(response.data));

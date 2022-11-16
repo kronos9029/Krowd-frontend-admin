@@ -5,8 +5,6 @@ import { dispatch, RootState, useSelector } from 'redux/store';
 // components
 import { delFieldListById, getFieldList } from 'redux/slices/krowd_slices/field';
 import { DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
-import { PATH_DASHBOARD } from 'routes/paths';
-import FieldNewForm from 'components/_dashboard/other/Field/FieldNewForm';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import closeFill from '@iconify/icons-eva/close-fill';
 
@@ -50,7 +48,7 @@ export default function FieldTable() {
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   // const [status, setStatus] = useState('');
-  const [nameSearch, setNameSearch] = useState('');
+  // const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
     dispatch(getFieldList(pageIndex, 5));
   }, [dispatch, pageIndex]);
@@ -112,16 +110,7 @@ export default function FieldTable() {
       }
     }
   });
-  const {
-    errors,
-    values,
-    touched,
-    handleSubmit,
-    isSubmitting,
-    setFieldValue,
-    resetForm,
-    getFieldProps
-  } = formik;
+  const { errors, touched, handleSubmit, isSubmitting, resetForm, getFieldProps } = formik;
   const getData = (): RowData[] => {
     if (!list) return [];
     return list.listOfField.map<RowData>((_item, _idx) => {

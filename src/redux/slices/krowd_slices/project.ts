@@ -1,18 +1,8 @@
-import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
-import { dispatch, store } from '../../store';
+import { dispatch } from '../../store';
 // utils
 import axios from 'axios';
-import { useSnackbar } from 'notistack';
-import closeFill from '@iconify/icons-eva/close-fill';
-import {
-  All_Project_Admin,
-  Chart,
-  Package,
-  Project,
-  ProjectStatus
-} from '../../../@types/krowd/project';
-import { REACT_APP_API_URL } from '../../../config';
+import { All_Project_Admin, Chart, Package, Project } from '../../../@types/krowd/project';
 import { ProjectAPI } from '_apis_/krowd_apis/project';
 // ----------------------------------------------------------------------
 
@@ -171,20 +161,7 @@ export function getAllCallingProject(
     }
   };
 }
-export function getProjectList() {
-  return async () => {
-    dispatch(slice.actions.startLoading());
-    try {
-      const response = await axios.get(
-        'https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses'
-      );
 
-      dispatch(slice.actions.getProjectListSuccess(response.data));
-    } catch (error) {
-      dispatch(slice.actions.hasError(error));
-    }
-  };
-}
 export function getProjectPackage(projectId: string) {
   return async () => {
     dispatch(slice.actions.startLoading());
@@ -277,7 +254,7 @@ export function deleteProjectListById(projectId: string) {
       const response = await axios.delete(
         `https://ec2-13-215-197-250.ap-southeast-1.compute.amazonaws.com/api/v1.0/businesses/${projectId}`
       );
-      dispatch(getProjectList());
+      // dispatch(getProjectList());
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

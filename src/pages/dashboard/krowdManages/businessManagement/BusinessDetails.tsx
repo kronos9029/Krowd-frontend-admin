@@ -26,12 +26,7 @@ import { PATH_DASHBOARD } from 'routes/paths';
 // components
 import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
-import {
-  approveBusiness,
-  deniedBusiness,
-  getBusinessById,
-  getBusinessList
-} from 'redux/slices/krowd_slices/business';
+import { getBusinessById } from 'redux/slices/krowd_slices/business';
 import { LoadingButton } from '@mui/lab';
 import { useNavigate } from 'react-router';
 import { Business } from '../../../../@types/krowd/business';
@@ -82,12 +77,10 @@ type BusinessManagerProps = {
 };
 function BusinessDetail({ business }: BusinessManagerProps) {
   const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [openBusinessManager, setOpenBusinessManager] = useState(false);
   const [fileUpload, setFileUpload] = useState<File | null>(null);
   const [fileUploadManager, setFileUploadManager] = useState<File | null>(null);
-  const [openSubmit, setOpenSubmit] = useState(false);
   const EditBusinessSchema = Yup.object().shape({
     email: Yup.string().required('Yêu cầu nhập email thương hiệu').email('Email chưa hợp lệ'),
     name: Yup.string().required('Yêu cầu nhập tên'),
@@ -139,11 +132,9 @@ function BusinessDetail({ business }: BusinessManagerProps) {
 
   const {
     errors: errorsProfile,
-    values: valuesProfile,
     touched: touchedProfile,
     handleSubmit: handleSubmitProfile,
     isSubmitting: isSubmittingProfile,
-    setFieldValue: setFieldValueProfile,
     getFieldProps: getFieldPropsProfile
   } = formikProfile;
   const handleClickOpen = () => {
@@ -189,8 +180,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
     touched: touchedImage,
     handleSubmit: handleSubmitImage,
     isSubmitting: isSubmittingImage,
-    setFieldValue: setFieldValueImage,
-    getFieldProps: getFieldPropsImage
+    setFieldValue: setFieldValueImage
   } = formikImage;
 
   const handleDrop = useCallback(
@@ -321,16 +311,7 @@ function BusinessDetail({ business }: BusinessManagerProps) {
     }
   });
 
-  const {
-    errors,
-    values,
-    touched,
-    handleSubmit,
-    isSubmitting,
-    setFieldValue,
-    resetForm,
-    getFieldProps
-  } = formik;
+  const { errors, touched, handleSubmit, isSubmitting, resetForm, getFieldProps } = formik;
   return (
     <Page title="Chi tiết thương hiệu | Admin">
       <Container maxWidth={'lg'}>

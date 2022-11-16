@@ -59,7 +59,7 @@ export const PATH_DASHBOARD = {
     createBusiness: path(ROOTS_DASHBOARD, '/business/tempBusiness/new'),
     tempBusiness: path(ROOTS_DASHBOARD, '/business/tempBusiness/details'),
     editById: path(ROOTS_DASHBOARD, `/business/reece-chung/edit`),
-    account: path(ROOTS_DASHBOARD, '/business/account'),
+    account: path(ROOTS_DASHBOARD, '/admin/account'),
     details: path(ROOTS_DASHBOARD, '/business/details')
   },
   //Người dùng
@@ -70,7 +70,7 @@ export const PATH_DASHBOARD = {
     listBusiness: path(ROOTS_DASHBOARD, '/admin/list_business'),
     listInvestor: path(ROOTS_DASHBOARD, '/admin/list_investor'),
     investorDetails: path(ROOTS_DASHBOARD, '/admin/investor/details'),
-    listProjectOwner: path(ROOTS_DASHBOARD, '/admin/list_project_owner'),
+    listProjectOwner: path(ROOTS_DASHBOARD, '/admin/list_project_manager'),
     newUser: path(ROOTS_DASHBOARD, '/admin/new'),
     userKrowd: path(ROOTS_DASHBOARD, `/admin/userKrowd`),
     account: path(ROOTS_DASHBOARD, '/admin/account')

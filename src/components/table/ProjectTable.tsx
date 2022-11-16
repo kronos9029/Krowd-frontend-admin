@@ -68,7 +68,17 @@ export default function ProjectTable() {
           {
             name: 'name',
             value: _item.name,
-            type: DATA_TYPE.TEXT
+            type: DATA_TYPE.TEXT,
+            textColor:
+              (_item.status === 'CALLING_FOR_INVESTMENT' && '#14b7cc') ||
+              (_item.status === 'DRAFT' && 'black') ||
+              (_item.status === 'WAITING_FOR_APPROVAL' && '#eacb00') ||
+              (_item.status === 'WAITING_TO_ACTIVATE' && '#4dc0b5') ||
+              (_item.status === 'ACTIVE' && 'green') ||
+              (_item.status === 'WAITING_TO_PUBLISH' && '#f66d9b') ||
+              (_item.status === 'CLOSED' && '#6574cd') ||
+              (_item.status === 'DENIED' && 'red') ||
+              (_item.status === 'CALLING_TIME_IS_OVER' ? 'red' : 'black')
           },
           {
             name: 'investedCapital',

@@ -13,33 +13,28 @@ import {
   DialogContent,
   DialogContentText,
   TextField,
-  Dialog,
-  Snackbar,
-  Stack,
-  Autocomplete
+  Dialog
 } from '@mui/material';
 // routes
 // hooks
 import * as Yup from 'yup';
 // components
-import { ROLE_USER_TYPE, UserKrowd } from '../../../@types/krowd/users';
+import { UserKrowd } from '../../../@types/krowd/users';
 import Page from 'components/Page';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import { PATH_DASHBOARD } from 'routes/paths';
 import Label from 'components/Label';
-import EmptyContent from 'components/EmptyContent';
 import { Icon } from '@iconify/react';
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import editTwotone from '@iconify/icons-ant-design/edit-twotone';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { useSnackbar } from 'notistack';
 import { LoadingButton } from '@mui/lab';
-import { dispatch, RootState, useSelector } from 'redux/store';
-import { deleteUser, updateEmailUser } from 'redux/slices/krowd_slices/users';
+import { dispatch } from 'redux/store';
+import { deleteUser } from 'redux/slices/krowd_slices/users';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import plusFill from '@iconify/icons-eva/plus-fill';
 
 // ----------------------------------------------------------------------
 type UserKrowdDetailsProps = {
@@ -99,8 +94,7 @@ function BusinessManagerDetail({ businessManager: bm, isLoading }: BusinessManag
     }
   });
 
-  const { errors, values, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } =
-    formik;
+  const { errors, touched, handleSubmit, isSubmitting, setFieldValue, getFieldProps } = formik;
 
   const handleClickOpen = () => {
     setOpen(true);

@@ -1,20 +1,16 @@
 import { Suspense, lazy } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 // layouts
-import MainLayout from 'layouts/main';
 import DashboardLayout from 'layouts/dashboard';
-import LogoOnlyLayout from 'layouts/LogoOnlyLayout';
 // guards
 import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-import UsersKrowd from 'pages/dashboard/krowdManages/usersManagement/UserKrowdTable';
 import KrowdDetailView from 'components/table/krowd-table/KrowdDetailView';
 import InvestorKrowdTable from 'components/table/manage-user/InvestorKrowdTable';
 import ProjectOwnerKrowdTable from 'components/table/manage-user/ProjectOwnerKrowdTable';
-import BusinessTable from 'components/table/BusinessTable';
 import BusinessManagerKrowdTable from 'components/table/manage-user/BusinessManagerKrowdTable';
 // ----------------------------------------------------------------------
 
@@ -156,6 +152,7 @@ export default function Router() {
             { path: 'details', element: <BusinessDetails /> }
           ]
         },
+
         {
           path: 'business',
           children: [
@@ -165,7 +162,6 @@ export default function Router() {
             { path: 'tempBusiness/new', element: <KrowdDetailView /> },
             { path: 'tempBusiness/details/:id', element: <KrowdDetailView /> },
             { path: ':name/edit', element: <UserCreate /> },
-            { path: 'account', element: <UserAccount /> },
             { path: 'details/:id', element: <BusinessDetails /> }
           ]
         },
@@ -176,7 +172,7 @@ export default function Router() {
             { path: 'list_business', element: <BusinessManagerKrowdTable /> },
             { path: 'list_investor', element: <InvestorKrowdTable /> },
             { path: 'investor/details/:id', element: <InvestorDetails /> },
-            { path: 'list_project_owner', element: <ProjectOwnerKrowdTable /> },
+            { path: 'list_project_manager', element: <ProjectOwnerKrowdTable /> },
             { path: 'new', element: <UserCreate /> },
             { path: ':name/edit', element: <UserCreate /> },
             {
@@ -344,9 +340,6 @@ const WaitingToActivateProjectList = Loadable(
 );
 const CloseProjectList = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/CloseProjectList'))
-);
-const OverDeathProjectList = Loadable(
-  lazy(() => import('../pages/dashboard/krowdManages/projectManagerment/OverDateProjectList'))
 );
 const ProjectDetails = Loadable(
   lazy(

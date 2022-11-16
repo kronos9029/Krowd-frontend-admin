@@ -1,6 +1,5 @@
-import { ROLE_USER_TYPE } from '../../../@types/krowd/users';
 import { useEffect, useState } from 'react';
-import { getUserKrowdList } from 'redux/slices/krowd_slices/users';
+import { getProjectManagerKrowdList, getUserKrowdList } from 'redux/slices/krowd_slices/users';
 import { dispatch, RootState, useSelector } from 'redux/store';
 import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
 import blocked from '@iconify/icons-ant-design/lock-fill';
@@ -9,9 +8,10 @@ const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
   { id: 'image', label: 'HÌNH ẢNH', align: 'left' },
   { id: 'fullName', label: 'HỌ VÀ TÊN', align: 'left' },
+  { id: 'fullName', label: 'QUẢN LÝ', align: 'left' },
   { id: 'phoneNum', label: 'SỐ ĐIỆN THOẠI', align: 'left' },
   { id: 'email', label: 'EMAIL', align: 'left' },
-  { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
+  // { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
@@ -29,9 +29,10 @@ export default function ProjectOwnerKrowdTable() {
   const { listOfUser: list, numOfUser } = userLists;
   const [pageIndex, setPageIndex] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [status, setStatus] = useState('');
   useEffect(() => {
-    dispatch(getUserKrowdList(ROLE_USER_TYPE.PROJECT_MANAGER, pageIndex, 5));
-  }, [dispatch, pageIndex]);
+    dispatch(getProjectManagerKrowdList(pageIndex, 5, '', '', status));
+  }, [dispatch, pageIndex, status]);
 
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -58,20 +59,26 @@ export default function ProjectOwnerKrowdTable() {
                 type: DATA_TYPE.TEXT
               },
               {
-                name: 'phoneNum',
-                value: _item.phoneNum,
+                name: 'business',
+                value: `${_item.business?.name ?? 'Chưa có thương hiệu'}`,
                 type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'phoneNum',
+                value: _item.phoneNum ? _item.phoneNum : 'Chưa cập nhật',
+                type: DATA_TYPE.TEXT,
+                textColor: _item.phoneNum === null ? 'red' : 'black'
               },
               {
                 name: 'email',
                 value: _item.email,
                 type: DATA_TYPE.TEXT
               },
-              {
-                name: 'createDate',
-                value: _item.createDate,
-                type: DATA_TYPE.TEXT
-              },
+              // {
+              //   name: 'createDate',
+              //   value: _item.createDate,
+              //   type: DATA_TYPE.TEXT
+              // },
               {
                 name: 'status',
                 value: `${_item.status}` === 'ACTIVE' ? 'Đang hoạt động' : 'Chưa hoạt động',

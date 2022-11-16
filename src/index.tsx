@@ -41,7 +41,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 // redux
 import { store, persistor } from './redux/store';
 // contexts
-import { SettingsProvider } from './contexts/SettingsContext';
+// import { SettingsProvider } from './contexts/SettingsContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 // components
 import LoadingScreen from './components/LoadingScreen';
