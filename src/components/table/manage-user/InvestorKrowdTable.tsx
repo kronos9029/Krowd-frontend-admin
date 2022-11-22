@@ -28,10 +28,10 @@ export default function InvestorKrowdTable() {
   const { userLists, isLoading } = useSelector((state: RootState) => state.userKrowd);
   const { listOfUser: list, numOfUser } = userLists;
   const [pageIndex, setPageIndex] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(8);
   const [status, setStatus] = useState('');
   useEffect(() => {
-    dispatch(getUserKrowdList(pageIndex, 5, '', status));
+    dispatch(getUserKrowdList(pageIndex, 8, '', status));
   }, [dispatch, pageIndex, status]);
 
   const getData = (): RowData[] => {
@@ -100,11 +100,9 @@ export default function InvestorKrowdTable() {
 
         handleNext() {
           setPageIndex(pageIndex + 1);
-          setPageSize(pageSize + 5);
         },
         handlePrevious() {
           setPageIndex(pageIndex - 1);
-          setPageSize(pageSize - 5);
         }
       }}
     />

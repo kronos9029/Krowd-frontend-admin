@@ -5,6 +5,8 @@ import { dispatch } from '../../store';
 import axios from 'axios';
 import {
   AccountTransaction,
+  Bill,
+  ListOfDailyReport,
   PeriodRevenueHistory,
   WalletTransaction
 } from '../../../@types/krowd/transactionKrowd/transaction';
@@ -22,6 +24,26 @@ type TransactionState = {
   accountTransactionListId: AccountTransaction | null;
   walletTransactionList: WalletTransaction[];
   PeriodRevenueHistoryList: PeriodRevenueHistory[];
+  //====================BILLS IN DAILY REPORT=========================
+  biilDailyReportState: {
+    isLoading: boolean;
+    listOfBill: Bill[];
+    numOfBill: number;
+    error: boolean;
+  };
+  //====================DAILY REPORT==================================
+  dailyReportState: {
+    isLoading: boolean;
+    listOfDailyReport: ListOfDailyReport[];
+    numOfDailyReport: number;
+    error: boolean;
+  };
+  dailyReportDetails: {
+    isLoading: boolean;
+    DailyDetails: ListOfDailyReport | null;
+    numOfDailyReport: number;
+    error: boolean;
+  };
 };
 
 const initialState: TransactionState = {
@@ -30,6 +52,28 @@ const initialState: TransactionState = {
   accountTransactionList: {
     numOfAccountTransaction: 0,
     listOfAccountTransaction: []
+  },
+  //====================BILLS IN DAILY REPORT=========================
+
+  biilDailyReportState: {
+    isLoading: false,
+    listOfBill: [],
+    numOfBill: 0,
+    error: false
+  },
+  //====================DAILY REPORT==================================
+
+  dailyReportState: {
+    isLoading: false,
+    listOfDailyReport: [],
+    numOfDailyReport: 0,
+    error: false
+  },
+  dailyReportDetails: {
+    isLoading: false,
+    DailyDetails: null,
+    numOfDailyReport: 0,
+    error: false
   },
   walletTransactionList: [],
   accountTransactionListId: null,
@@ -50,7 +94,45 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    // ------ GET ALL BILL IN DAILY REPORT------------ //
 
+    startLoadingBillDailyReportList(state) {
+      state.biilDailyReportState.isLoading = true;
+    },
+    hasGetBillDailyReportError(state, action) {
+      state.biilDailyReportState.isLoading = false;
+      state.biilDailyReportState.error = action.payload;
+    },
+    getBillDailyReportSuccess(state, action) {
+      state.biilDailyReportState.isLoading = false;
+      state.biilDailyReportState = action.payload;
+    },
+    // ------ GET ALL DAILY REPORT------------ //
+
+    startLoadingDailyReportList(state) {
+      state.dailyReportState.isLoading = true;
+    },
+    hasGetDailyReportError(state, action) {
+      state.dailyReportState.isLoading = false;
+      state.dailyReportState.error = action.payload;
+    },
+    getDailyReportSuccess(state, action) {
+      state.dailyReportState.isLoading = false;
+      state.dailyReportState = action.payload;
+    },
+
+    // ------ GET ALL DAILY WITH ID------------ //
+    startLoadingDailyReportDetails(state) {
+      state.dailyReportDetails.isLoading = true;
+    },
+    hasGetDailyReportDetailsError(state, action) {
+      state.dailyReportDetails.isLoading = false;
+      state.dailyReportDetails.error = action.payload;
+    },
+    getDailyReportDetailsSuccess(state, action) {
+      state.dailyReportDetails.isLoading = false;
+      state.dailyReportDetails.DailyDetails = action.payload;
+    },
     // GET LIST SUCCESS
     getAccountTransactionListSuccess(state, action) {
       state.isLoading = false;
@@ -121,6 +203,45 @@ export function getPeriodRevenueHistoryList() {
       console.log('period_revenue_histories data: ', response.data);
     } catch (error) {
       dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+//---------------------------- GET ALL BILL IN DAILY REPORT------------------------------
+
+export function getBillDailyReport(dailyId: string, pageIndex: number) {
+  return async () => {
+    dispatch(slice.actions.startLoadingBillDailyReportList());
+    try {
+      const response = await TransactionAPI.getsBillDailyReport(dailyId, pageIndex);
+      dispatch(slice.actions.getBillDailyReportSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasGetBillDailyReportError(error));
+    }
+  };
+}
+//---------------------------- GET ALL DAILY REPORT------------------------------
+
+export function getDailyReportProjectID(projectId: string, pageIndex: number) {
+  return async () => {
+    dispatch(slice.actions.startLoadingDailyReportList());
+    try {
+      const response = await TransactionAPI.getsDailyReport(projectId, pageIndex);
+      dispatch(slice.actions.getDailyReportSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasGetDailyReportError(error));
+    }
+  };
+}
+//---------------------------- GET DAILY REPORT ID------------------------------
+
+export function getDailyReportByID(id: string) {
+  return async () => {
+    dispatch(slice.actions.startLoadingDailyReportDetails());
+    try {
+      const response = await TransactionAPI.getsDailyReportByID(id);
+      dispatch(slice.actions.getDailyReportDetailsSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasGetDailyReportDetailsError(error));
     }
   };
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { getAllProject } from 'redux/slices/krowd_slices/project';
 import { dispatch, RootState, useSelector } from 'redux/store';
-import { PATH_DASHBOARD } from 'routes/paths';
+import { PATH_DASHBOARD, PATH_DASHBOARD_PROJECT } from 'routes/paths';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from './krowd-table/KrowdTable';
 import { Box, FormControl, TextField } from '@mui/material';
@@ -20,18 +20,18 @@ const note = [
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
   { id: 'name', label: 'TÊN DỰ ÁN', align: 'center' },
-  { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ (VNĐ)', align: 'center' },
-  { id: 'investmentTargetCapital', label: 'MỤC TIÊU (VNĐ)', align: 'center' },
+  { id: 'investedCapital', label: 'ĐÃ ĐẦU TƯ', align: 'center' },
+  { id: 'investmentTargetCapital', label: 'MỤC TIÊU', align: 'center' },
   { id: 'startDate', label: 'NGÀY BẮT ĐẦU', align: 'center' },
   { id: 'endDate', label: 'NGÀY KẾT THÚC', align: 'center' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'center' },
   { id: 'status', label: 'TRẠNG THÁI', align: 'center' },
-  { id: '', label: 'THAO TÁC', align: 'center' }
+  { id: '', label: '', align: 'center' }
 ];
 const action = [
   {
     nameAction: 'view',
-    action: PATH_DASHBOARD.projects.projectDetails,
+    action: PATH_DASHBOARD_PROJECT.project.root,
     icon: eyeFill,
     color: '#14b7cc',
     type: ACTION_TYPE.LINK
@@ -43,11 +43,11 @@ export default function ProjectTable() {
   const { listOfProject: list, numOfProject } = projectLists;
   const { status = '' } = useParams();
   const [pageIndex, setPageIndex] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(8);
   // const [status, setStatus] = useState('');
   const [nameSearch, setNameSearch] = useState('');
   useEffect(() => {
-    dispatch(getAllProject(status, pageIndex, 5, nameSearch));
+    dispatch(getAllProject(status, pageIndex, 8, nameSearch));
   }, [dispatch, pageIndex, nameSearch]);
   const getProjectByName = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const id = event.target.value;
@@ -94,17 +94,17 @@ export default function ProjectTable() {
           },
           {
             name: 'startDate',
-            value: _item.startDate,
+            value: _item.startDate.toString().substring(0, 10),
             type: DATA_TYPE.DATE
           },
           {
             name: 'endDate',
-            value: _item.endDate,
+            value: _item.endDate.toString().substring(0, 10),
             type: DATA_TYPE.DATE
           },
           {
             name: 'createDate',
-            value: _item.createDate,
+            value: _item.createDate.toString().substring(0, 10),
             type: DATA_TYPE.TEXT
           },
           {
@@ -163,11 +163,9 @@ export default function ProjectTable() {
 
         handleNext() {
           setPageIndex(pageIndex + 1);
-          setPageSize(pageSize + 5);
         },
         handlePrevious() {
           setPageIndex(pageIndex - 1);
-          setPageSize(pageSize - 5);
         }
       }}
     />

@@ -6,6 +6,7 @@ function path(root: string, sublink: string) {
 
 const ROOTS_AUTH = '/auth';
 const ROOTS_DASHBOARD = '/dashboard';
+const ROOTS_DASHBOARD_PROJECT = '/projectBoard';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +50,7 @@ export const PATH_DASHBOARD = {
     activeProject: path(ROOTS_DASHBOARD, '/project/activeProject'),
     projectById: path(ROOTS_DASHBOARD, '/project/nike-air-force-1-ndestrukt')
   },
+
   //doanh nghiệp
   business: {
     root: path(ROOTS_DASHBOARD, '/business'),
@@ -134,4 +136,21 @@ export const PATH_DASHBOARD = {
     conversation: path(ROOTS_DASHBOARD, '/chat/:conversationKey')
   },
   kanban: path(ROOTS_DASHBOARD, '/kanban')
+};
+//SIDEBAR PROJECT
+export const PATH_DASHBOARD_PROJECT = {
+  root: ROOTS_DASHBOARD_PROJECT,
+  project: {
+    root: path(ROOTS_DASHBOARD_PROJECT, `/project/projectDetail`),
+    reportRevenue: path(ROOTS_DASHBOARD_PROJECT, '/project/daily_revenue'),
+    stageProject: path(ROOTS_DASHBOARD_PROJECT, '/project/stage-project'),
+    billDailyReport: path(ROOTS_DASHBOARD_PROJECT, '/project/bills/daily'),
+    Project_Investment: path(ROOTS_DASHBOARD_PROJECT, '/project/project-investments'),
+    Project_Investor: path(ROOTS_DASHBOARD_PROJECT, '/project/project-investor'),
+    stageReport: path(ROOTS_DASHBOARD_PROJECT, '/project/stage-report')
+  },
+  wallet_project: {
+    walletP3: path(ROOTS_DASHBOARD_PROJECT, '/project/investment-wallet'),
+    walletP4: path(ROOTS_DASHBOARD_PROJECT, '/project/payment-wallet')
+  }
 };

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { deleteProjectListById, getAllProject } from 'redux/slices/krowd_slices/project';
 import { dispatch, RootState, useSelector } from 'redux/store';
-import { PATH_DASHBOARD } from 'routes/paths';
+import { PATH_DASHBOARD, PATH_DASHBOARD_PROJECT } from 'routes/paths';
 import { ACTION_TYPE, DATA_TYPE, KrowdTable, RowData } from '../krowd-table/KrowdTable';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 
@@ -24,7 +24,7 @@ const TABLE_HEAD = [
 const action = [
   {
     nameAction: 'view',
-    action: PATH_DASHBOARD.projects.projectDetails,
+    action: PATH_DASHBOARD_PROJECT.project.root,
     icon: eyeFill,
     color: '#14b7cc',
     type: ACTION_TYPE.LINK
@@ -59,7 +59,8 @@ export default function CallingProjectTable() {
             {
               name: 'name',
               value: _item.name,
-              type: DATA_TYPE.TEXT
+              type: DATA_TYPE.TEXT,
+              textColor: 'primary.main'
             },
             {
               name: 'investedCapital',
@@ -102,11 +103,9 @@ export default function CallingProjectTable() {
 
         handleNext() {
           setPageIndex(pageIndex + 1);
-          setPageSize(pageSize + 5);
         },
         handlePrevious() {
           setPageIndex(pageIndex - 1);
-          setPageSize(pageSize - 5);
         }
       }}
     />

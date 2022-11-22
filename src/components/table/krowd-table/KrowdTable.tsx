@@ -10,7 +10,8 @@ import {
   Typography,
   TableContainer,
   Box,
-  Chip
+  Chip,
+  Tooltip
 } from '@mui/material';
 import HeaderBreadcrumbs from 'components/HeaderBreadcrumbs';
 import Scrollbar from 'components/Scrollbar';
@@ -20,6 +21,8 @@ import { Icon } from '@iconify/react';
 import KrowdTableListHead from '../components/KrowdTableListHead';
 import { fCurrency } from 'utils/formatNumber';
 import eyeFill from '@iconify/icons-eva/eye-fill';
+import bills from '@iconify/icons-ant-design/container-fill';
+
 import trash2Outline from '@iconify/icons-eva/trash-2-outline';
 import Label from 'components/Label';
 import LoadingScreen from 'components/LoadingScreen';
@@ -55,6 +58,8 @@ export type KrowdTableProps = {
   headingTitle: string;
   header: { id: string; label: string; align: string }[];
   getData: () => Array<RowData>;
+  openBill?: () => void;
+
   viewPath?: string;
   action?: React.ReactNode;
   deleteRecord?: (id: string) => void;
@@ -91,6 +96,7 @@ export function KrowdTable({
   getData,
   action,
   isLoading,
+  openBill,
   viewPath,
   deleteRecord,
   noteTable,
@@ -100,7 +106,14 @@ export function KrowdTable({
   actionRecord
 }: KrowdTableProps) {
   const data = getData();
-
+  const handleView = async (id: string) => {
+    localStorage.setItem('DailyId', id);
+    window.scrollTo(0, 12500);
+    if (openBill) {
+      openBill();
+    }
+    // await dispatch(getBillDailyReport(localStorage?.getItem('DailyId') ?? '', 1));
+  };
   return (
     <>
       <HeaderBreadcrumbs
@@ -465,6 +478,17 @@ export function KrowdTable({
                             </Button>
                           </TableCell>
                         )}
+                        {openBill && (
+                          <Button onClick={() => handleView(data.id)}>
+                            <Icon
+                              icon={bills}
+                              width={24}
+                              height={24}
+                              style={{ margin: '0px auto' }}
+                              color={'rgb(255, 127, 80)'}
+                            />
+                          </Button>
+                        )}
                       </TableCell>
 
                       <TableCell
@@ -502,7 +526,20 @@ export function KrowdTable({
         )}
         {paging && (
           <Box sx={{ my: 1 }} display={'flex'} justifyContent={'flex-end'} alignItems={'center'}>
-            {paging.pageIndex} - {paging.pageSize} trên {paging.numberSize}
+            {paging.pageSize * (paging.pageIndex - 1) + paging.pageSize >= paging.numberSize ? (
+              <Typography>
+                {(paging.pageIndex - 1) * paging.pageSize + 1} - {paging.numberSize} trên{' '}
+                {paging.numberSize}
+              </Typography>
+            ) : (
+              <Typography>
+                {(paging.pageIndex - 1) * paging.pageSize + 1} -{' '}
+                {paging.pageSize * (paging.pageIndex - 1) + paging.pageSize} trên{' '}
+                {paging.numberSize}
+              </Typography>
+            )}
+
+            {/* {paging.pageIndex} - {paging.pageSize} trên {paging.numberSize} */}
             {paging.pageIndex > 1 ? (
               <Button onClick={paging.handlePrevious}>Trước</Button>
             ) : (
@@ -510,7 +547,11 @@ export function KrowdTable({
                 Trước
               </Button>
             )}
-            {paging.pageSize < paging.numberSize ? (
+            <Typography sx={{ mx: 2, fontSize: '14px', fontWeight: 900 }}>
+              Trang {paging.pageIndex}
+            </Typography>
+
+            {paging.pageSize * (paging.pageIndex - 1) + paging.pageSize < paging.numberSize ? (
               <Button onClick={paging.handleNext}>Sau</Button>
             ) : (
               <Button disabled onClick={paging.handleNext}>

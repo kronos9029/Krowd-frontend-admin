@@ -50,3 +50,36 @@ export type PeriodRevenueHistory = {
   updateBy: string;
   isDeleted: boolean;
 };
+// ===================================BILL IN DAILY REPORT================================
+export type BillDailyReport = {
+  numOfBill: number;
+  listOfBill: Bill[];
+};
+
+export type Bill = {
+  id: string;
+  dailyReportId: string;
+  invoiceId: string;
+  amount: number;
+  description: string;
+  createBy: string;
+  createDate: string;
+};
+// ===================================DAILY REPORT================================
+
+export type DailyReportProject = {
+  numOfDailyReport: number;
+  listOfDailyReport: ListOfDailyReport[];
+};
+
+export type ListOfDailyReport = {
+  id: string;
+  stageId: string;
+  amount: number;
+  reportDate: string;
+  createDate: Date | string;
+  createBy: string;
+  updateDate: string;
+  updateBy: string;
+  status: string;
+};

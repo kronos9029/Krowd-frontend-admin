@@ -99,7 +99,11 @@ function ProjectCardAdmin({ row }: { row: All_Project_Admin }) {
                     sx={{
                       color: 'text.primary',
                       overflow: 'hidden',
-                      paddingTop: '1.8rem'
+                      paddingTop: '1.8rem',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: 1
                     }}
                     variant="subtitle1"
                   >
@@ -128,7 +132,12 @@ function ProjectCardAdmin({ row }: { row: All_Project_Admin }) {
                         variant="subtitle2"
                         sx={{
                           color: 'text.disabled',
-                          marginBottom: '0.3rem'
+                          marginBottom: '0.3rem',
+                          textOverflow: 'ellipsis',
+                          overflow: 'hidden',
+                          display: '-webkit-box',
+                          WebkitBoxOrient: 'vertical',
+                          WebkitLineClamp: 1
                         }}
                       >
                         {row.address}

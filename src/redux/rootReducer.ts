@@ -18,6 +18,8 @@ import projectReducer from './slices/krowd_slices/project';
 import RolesReducer from './slices/krowd_slices/roles';
 import TransactionReducer from './slices/krowd_slices/transaction';
 import WithdrawRequestReducer from './slices/krowd_slices/withdrawRequest';
+import ProjectStageReducer from './slices/krowd_slices/stage';
+import InvestmentReducer from './slices/krowd_slices/investment';
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +51,8 @@ const rootReducer = combineReducers({
   roleKrowd: RolesReducer,
   wallet: WalletReducer,
   project: projectReducer,
+  stage: ProjectStageReducer,
+  investment: InvestmentReducer,
   transaction: TransactionReducer,
   product: persistReducer(productPersistConfig, productReducer),
   withdrawRequest: WithdrawRequestReducer

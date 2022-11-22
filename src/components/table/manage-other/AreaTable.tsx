@@ -65,20 +65,18 @@ export default function AreaTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      paging={{
-        pageIndex,
-        pageSize: pageSize,
-        numberSize: 100,
+      // paging={{
+      //   pageIndex,
+      //   pageSize: pageSize,
+      //   numberSize: 100,
 
-        handleNext() {
-          setPageIndex(pageIndex + 1);
-          setPageSize(pageSize + 5);
-        },
-        handlePrevious() {
-          setPageIndex(pageIndex - 1);
-          setPageSize(pageSize - 5);
-        }
-      }}
+      //   handleNext() {
+      //     setPageIndex(pageIndex + 1);
+      //   },
+      //   handlePrevious() {
+      //     setPageIndex(pageIndex - 1);
+      //   }
+      // }}
     />
   );
 }

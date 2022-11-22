@@ -8,6 +8,7 @@ import { getAllWithdrawRequest } from 'redux/slices/krowd_slices/withdrawRequest
 import {
   Box,
   Button,
+  Card,
   CircularProgress,
   Dialog,
   DialogActions,
@@ -42,21 +43,17 @@ const BoldText = styled('span')({
 });
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
-  { id: 'accountName', label: 'CHỦ TÀI KHOẢN', align: 'left' },
-  { id: 'bankAccount', label: 'SỐ TÀI KHOẢN', align: 'left' },
-  { id: 'bankName', label: 'TÊN NGÂN HÀNG', align: 'left' },
-  { id: 'amount', label: 'SỐ TIỀN RÚT', align: 'left' },
+  { id: 'accountName', label: 'THÔNG TIN TÀI KHOẢN', align: 'left' },
+  { id: 'bankAccount', label: '', align: 'left' },
+  { id: 'bankName', label: '', align: 'left' },
+  { id: 'amount', label: 'SỐ TIỀN', align: 'left' },
   { id: 'refusalReason', label: 'LÝ DO TỪ CHỐI', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
+  { id: 'createDate', label: 'ID NGƯỜI TẠO', align: 'left' },
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
   { id: '', label: 'THAO TÁC', align: 'center' }
 ];
-// const STATUS_RENDER = [
-//   { status: 'PENDING', vi: 'Chờ xử lý' },
-//   { status: 'APPROVED', vi: 'Đã xác nhận' },
-//   { status: 'REJECTED', vi: 'Đã từ chối' },
-//   { status: 'REPORT', vi: 'Người dùng báo lỗi' }
-// ];
+
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
@@ -79,7 +76,7 @@ export default function AccountTransactionTable() {
   const [imageFile, setImageFile] = useState<CustomFile | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [userId, setUserId] = useState('');
-  const [filterStatus, setFilterStatus] = useState('ALL');
+  const [filterStatus, setFilterStatus] = useState('PENDING');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const [transferStatus, setTransferStatus] = useState<string>('success');
@@ -90,9 +87,9 @@ export default function AccountTransactionTable() {
     setIdUser(id ?? idUser);
     setUserId(id ?? idUser);
   };
-  // const searchUser = async () => {
-  //   if (idUser) dispatch(getUserKrowdDetail(idUser));
-  // };
+  const searchUser = async () => {
+    if (idUser) dispatch(getUserKrowdDetail(idUser));
+  };
   const handleClickOpen = (id: string) => {
     setCurrentWithdrawRequest(list.find((e) => e.id === id));
     setOpen(true);
@@ -278,7 +275,7 @@ export default function AccountTransactionTable() {
 
   useEffect(() => {
     dispatch(getAllWithdrawRequest(pageIndex, 5, userId, filterStatus));
-  }, [dispatch, pageIndex, userId, filterStatus]);
+  }, [dispatch, pageIndex, filterStatus]);
 
   const handleDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0] as File;
@@ -329,12 +326,17 @@ export default function AccountTransactionTable() {
               },
               {
                 name: 'refusalReason',
-                value: _item.refusalReason ?? 'Không có dữ liệu',
+                value: _item.refusalReason ?? 'Không có',
                 type: DATA_TYPE.TEXT
               },
               {
                 name: 'createDate',
                 value: _item.createDate,
+                type: DATA_TYPE.TEXT
+              },
+              {
+                name: 'createBy',
+                value: _item.createBy,
                 type: DATA_TYPE.TEXT
               },
 
@@ -382,7 +384,7 @@ export default function AccountTransactionTable() {
                   </FormControl>
                 </Box>
 
-                {/* <Button onClick={() => searchUser()}>Tìm kiếm</Button> */}
+                <Button onClick={() => searchUser()}>Tìm kiếm</Button>
               </Box>
 
               <Box width={200}>
@@ -406,11 +408,12 @@ export default function AccountTransactionTable() {
               </Box>
             </Box>
             {user && (
-              <Typography
-                my={1}
-                mx={1}
-                variant="caption"
-              >{`${user.firstName} ${user.lastName}_${user.phoneNum}_${user.email}`}</Typography>
+              <Typography my={1} mx={1} variant="body2">
+                Người gửi yêu cầu: {`${user.firstName} ${user.lastName}`} <br />
+                SĐT: {user.phoneNum}
+                <br />
+                Email: {user.email}
+              </Typography>
             )}
           </>
         }

@@ -12,8 +12,8 @@ const TABLE_HEAD = [
   { id: 'phoneNum', label: 'SỐ ĐIỆN THOẠI', align: 'left' },
   { id: 'email', label: 'EMAIL', align: 'left' },
   // { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
-  { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
-  { id: '', label: 'THAO TÁC', align: 'center' }
+  { id: 'status', label: 'TRẠNG THÁI', align: 'left' }
+  // { id: '', label: 'THAO TÁC', align: 'center' }
 ];
 const action = [
   {
@@ -28,10 +28,10 @@ export default function ProjectOwnerKrowdTable() {
   const { userLists, isLoading } = useSelector((state: RootState) => state.userKrowd);
   const { listOfUser: list, numOfUser } = userLists;
   const [pageIndex, setPageIndex] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(8);
   const [status, setStatus] = useState('');
   useEffect(() => {
-    dispatch(getProjectManagerKrowdList(pageIndex, 5, '', '', status));
+    dispatch(getProjectManagerKrowdList(pageIndex, 8, '', '', status));
   }, [dispatch, pageIndex, status]);
 
   const getData = (): RowData[] => {
@@ -97,7 +97,7 @@ export default function ProjectOwnerKrowdTable() {
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
-      actionsButton={action}
+      // actionsButton={action}
       paging={{
         pageIndex,
         pageSize: pageSize,
@@ -105,11 +105,9 @@ export default function ProjectOwnerKrowdTable() {
 
         handleNext() {
           setPageIndex(pageIndex + 1);
-          setPageSize(pageSize + 5);
         },
         handlePrevious() {
           setPageIndex(pageIndex - 1);
-          setPageSize(pageSize - 5);
         }
       }}
     />

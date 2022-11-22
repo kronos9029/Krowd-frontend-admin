@@ -7,8 +7,8 @@ import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 // components
 import { MHidden } from '../../components/@material-extend';
+import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
-import NotificationsPopover from 'layouts/dashboardProject/NotificationsPopover';
 
 // ----------------------------------------------------------------------
 

@@ -12,6 +12,7 @@ import KrowdDetailView from 'components/table/krowd-table/KrowdDetailView';
 import InvestorKrowdTable from 'components/table/manage-user/InvestorKrowdTable';
 import ProjectOwnerKrowdTable from 'components/table/manage-user/ProjectOwnerKrowdTable';
 import BusinessManagerKrowdTable from 'components/table/manage-user/BusinessManagerKrowdTable';
+import DashboardLayoutProject from 'layouts/dashboardProject';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component: React.ElementType) => (props: any) => {
@@ -67,7 +68,27 @@ export default function Router() {
         { path: 'verify', element: <VerifyCode /> }
       ]
     },
-
+    // DASHBOARD PROJECT ROUTES
+    {
+      path: 'projectBoard',
+      element: (
+        <AuthGuard>
+          <DashboardLayoutProject />
+        </AuthGuard>
+      ),
+      children: [
+        { element: <Navigate to="/projectBoard/project" replace /> },
+        { path: 'project/projectDetail', element: <ProjectDetails /> },
+        { path: 'project/projectDetail/:id', element: <ProjectDetails /> },
+        { path: 'project/daily_revenue', element: <ReportDailyProject /> },
+        { path: 'project/bills/daily', element: <BillReportDailyProject /> },
+        { path: 'project/project-investments', element: <InvestmentProject /> },
+        { path: 'project/stage-report', element: <StageReportProject /> }
+        // { path: 'project/investment-wallet', element: <GeneralBanking /> }
+        // { path: 'project/project-investor', element: <InvestorList /> }
+        // { path: 'project/payment-wallet', element: <WalletI4Project /> }
+      ]
+    },
     // Dashboard Routes
     {
       path: 'dashboard',
@@ -296,7 +317,41 @@ const RolesManagement = Loadable(
 const RiskTypesManagement = Loadable(
   lazy(() => import('../pages/dashboard/krowdManages/otherManagers/RiskTypesManagement'))
 );
+//====================================================REPORT OF PROJECT============================================================
+const ReportDailyProject = Loadable(
+  lazy(
+    () =>
+      import('../pages/dashboard/krowdManages/projectManagerment/report-revenue/ReportDailyProject')
+  )
+);
+const BillReportDailyProject = Loadable(
+  lazy(
+    () =>
+      import(
+        '../pages/dashboard/krowdManages/projectManagerment/report-revenue/BillReportDailyProject'
+      )
+  )
+);
+const StageReportProject = Loadable(
+  lazy(
+    () =>
+      import('../pages/dashboard/krowdManages/projectManagerment/report-revenue/StageReportProject')
+  )
+);
+const StageProjectList = Loadable(
+  lazy(
+    () =>
+      import('../pages/dashboard/krowdManages/projectManagerment/report-revenue/StageProjectList')
+  )
+);
+//====================================================INVESTMENT OF PROJECT============================================================
 
+const InvestmentProject = Loadable(
+  lazy(
+    () => import('../pages/dashboard/krowdManages/projectManagerment/investment/InvestmentProject')
+  )
+);
+//========================================================================================
 const EcommerceProductList = Loadable(
   lazy(() => import('../pages/dashboard/templateManagers/EcommerceProductList'))
 );

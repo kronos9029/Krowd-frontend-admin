@@ -72,12 +72,12 @@ export default function BusinessTable() {
   const { listOfField } = fieldList;
   const { enqueueSnackbar } = useSnackbar();
   const [pageIndex, setPageIndex] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(8);
   const [status, setStatus] = useState('');
   const [nameSearch, setNameSearch] = useState('');
 
   useEffect(() => {
-    dispatch(getBusinessList(pageIndex, 5, status, nameSearch ?? ''));
+    dispatch(getBusinessList(pageIndex, 8, status, nameSearch ?? ''));
   }, [dispatch, pageIndex, nameSearch]);
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
@@ -372,11 +372,9 @@ export default function BusinessTable() {
 
         handleNext() {
           setPageIndex(pageIndex + 1);
-          setPageSize(pageSize + 5);
         },
         handlePrevious() {
           setPageIndex(pageIndex - 1);
-          setPageSize(pageSize - 5);
         }
       }}
     />

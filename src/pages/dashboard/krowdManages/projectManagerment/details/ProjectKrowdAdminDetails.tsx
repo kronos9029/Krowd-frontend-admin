@@ -96,9 +96,15 @@ const StyleStatus = [
 export default function ProjectKrowdAdminDetails() {
   const { id = '' } = useParams();
   useEffect(() => {
-    dispatch(getProjectListById(id));
-    dispatch(getProjectPackage(id));
-    dispatch(getProjectStageList(id));
+    if (id) {
+      dispatch(getProjectListById(id));
+      dispatch(getProjectPackage(id));
+      dispatch(getProjectStageList(id));
+    } else {
+      dispatch(getProjectListById(`${localStorage.getItem('projectId')}`));
+      dispatch(getProjectPackage(`${localStorage.getItem('projectId')}`));
+      dispatch(getProjectStageList(`${localStorage.getItem('projectId')}`));
+    }
   }, [dispatch]);
 
   const { projectDetail, listOfChartStage } = useSelector((state: RootState) => state.project);
@@ -113,7 +119,7 @@ export default function ProjectKrowdAdminDetails() {
 
   const handleRejectProject = () => {
     dispatch(refjectProject(id));
-    enqueueSnackbar('Từ chối thành công', {
+    enqueueSnackbar('Từ chối dự án thành công', {
       variant: 'success'
     });
     setOpenReject(false);
