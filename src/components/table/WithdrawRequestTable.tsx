@@ -128,16 +128,14 @@ export default function AccountTransactionTable() {
         enqueueSnackbar('Xác nhận thành công', {
           variant: 'success'
         });
+        setIsLoadingButton(false);
+        handleClose();
         dispatch(getAllWithdrawRequest(1, 5, '', 'ALL'));
       })
       .catch(() => {
-        enqueueSnackbar('Xác nhận thất bại', {
+        enqueueSnackbar('Xác nhận thất bại vui lòng kiểm tra lại', {
           variant: 'error'
         });
-      })
-      .finally(() => {
-        setIsLoadingButton(false);
-        handleClose();
       });
   };
 
@@ -151,16 +149,14 @@ export default function AccountTransactionTable() {
         enqueueSnackbar('Từ chối thành công', {
           variant: 'success'
         });
+        setIsLoadingButton(false);
+        handleClose();
         dispatch(getAllWithdrawRequest(1, 5, '', 'ALL'));
       })
       .catch(() => {
-        enqueueSnackbar('Từ chối thất bại', {
+        enqueueSnackbar('Từ chối thất bại vui lòng kiểm tra lại', {
           variant: 'error'
         });
-      })
-      .finally(() => {
-        setIsLoadingButton(false);
-        handleClose();
       });
   };
 
@@ -346,14 +342,15 @@ export default function AccountTransactionTable() {
                   (_item.status === 'APPROVED' && 'Đã xác nhận') ||
                   (_item.status === 'PENDING' && 'Chờ xử lý') ||
                   (_item.status === 'REJECTED' && 'Đã từ chối') ||
-                  (_item.status === 'PARTIAL' && 'PARTIAL') ||
-                  (_item.status === 'PARTIAL_ADMIN' && 'PARTIAL_ADMIN'),
+                  (_item.status === 'PARTIAL' && 'Nhà đầu tư xác nhận') ||
+                  (_item.status === 'PARTIAL_ADMIN' && 'Admin xác nhận'),
                 type: DATA_TYPE.CHIP_TEXT,
                 textMapColor: [
                   { status: 'Chờ xử lý', color: '' },
                   { status: 'Đã xác nhận', color: 'success.main' },
                   { status: 'Đã từ chối', color: 'error.main' },
-                  { status: 'PARTIAL_ADMIN', color: 'warning.main' }
+                  { status: 'PARTIAL_ADMIN', color: 'warning.main' },
+                  { status: 'PARTIAL', color: 'warning.main' }
                 ]
               }
             ]
@@ -398,8 +395,8 @@ export default function AccountTransactionTable() {
                     onChange={handleChangeFilter}
                   >
                     <MenuItem value={'ALL'}>Tất cả</MenuItem>
-                    <MenuItem value={'PARTIAL'}>PARTIAL</MenuItem>
-                    <MenuItem value={'PARTIAL_ADMIN'}>PARTIAL_ADMIN</MenuItem>
+                    <MenuItem value={'PARTIAL'}>Nhà đầu tư xác nhận</MenuItem>
+                    <MenuItem value={'PARTIAL_ADMIN'}>Admin xác nhận</MenuItem>
                     <MenuItem value={'PENDING'}>Chờ xử lý</MenuItem>
                     <MenuItem value={'APPROVED'}>Đã xác nhận</MenuItem>
                     <MenuItem value={'REJECTED'}>Đã từ chối</MenuItem>

@@ -130,16 +130,14 @@ export default function BusinessTable() {
             enqueueSnackbar('Tạo mới thành công', {
               variant: 'success'
             });
+            resetForm();
+            handleClose();
             dispatch(getBusinessList(pageIndex, 5, status, nameSearch));
           })
           .catch(() => {
             enqueueSnackbar('Tạo mới thất bại vui lòng kiểm tra lại thông tin của bạn', {
               variant: 'error'
             });
-          })
-          .finally(() => {
-            resetForm();
-            handleClose();
           });
       } catch (error) {
         console.error(error);
@@ -257,7 +255,7 @@ export default function BusinessTable() {
                     <DialogTitle>Tạo thương hiệu mới</DialogTitle>
                     <DialogContent>
                       <Box my={3}>
-                        <DialogContentText>Điền thông tin doanh nghiệp của bạn.</DialogContentText>
+                        <DialogContentText>Điền thông tin thương hiệu của bạn.</DialogContentText>
                         <Typography variant="caption" color="#B78103">
                           * Những thông tin trống vui lòng điền "N/A".
                         </Typography>
@@ -348,9 +346,11 @@ export default function BusinessTable() {
                       </Stack>
                     </DialogContent>
                     <DialogActions>
-                      <Button onClick={handleClose}>Đóng</Button>
+                      <Button variant="contained" color="error" onClick={handleClose}>
+                        Đóng
+                      </Button>
                       <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                        Lưu
+                        Tạo mới
                       </LoadingButton>
                     </DialogActions>
                   </Form>

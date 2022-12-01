@@ -90,19 +90,17 @@ export default function FieldTable() {
           description: values.description
         })
           .then(async () => {
-            enqueueSnackbar('Tạo mới thành công', {
+            enqueueSnackbar('Tạo mới lĩnh vực thành công', {
               variant: 'success'
             });
+            resetForm();
+            handleClose();
             dispatch(getFieldList(1, 5));
           })
           .catch(() => {
-            enqueueSnackbar('Tạo mới thất bại', {
+            enqueueSnackbar('Tạo mới thất bại vui lòng xem lại thông tin lĩnh vực', {
               variant: 'error'
             });
-          })
-          .finally(() => {
-            resetForm();
-            handleClose();
           });
       } catch (error) {
         console.error(error);
@@ -208,9 +206,11 @@ export default function FieldTable() {
                   </Stack>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose}>Đóng</Button>
+                  <Button color="error" variant="contained" onClick={handleClose}>
+                    Đóng
+                  </Button>
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                    Lưu
+                    Tạo mới
                   </LoadingButton>
                 </DialogActions>
               </Form>
