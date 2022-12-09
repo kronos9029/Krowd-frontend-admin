@@ -58,7 +58,8 @@ export default function Login() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ p: 5, mt: 10, mb: 5 }}>
-            HỆ THỐNG KROWD CHO ADMIN
+            Dành cho Admin <br />
+            KROWD System
           </Typography>
           <Typography variant="h3" sx={{ p: 25 }}>
             <HeroImgStyle src="https://embed.lottiefiles.com/animation/38435" />

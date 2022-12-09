@@ -44,6 +44,9 @@ export default function AccountTransactionTable() {
   };
   const searchUser = async () => {
     if (idUser) dispatch(getUserKrowdDetail(idUser));
+    else {
+      dispatch(getAccountTransactionList('', '', pageIndex, 5));
+    }
   };
   const getData = (): RowData[] => {
     if (!list) return [];
@@ -76,7 +79,7 @@ export default function AccountTransactionTable() {
           },
           {
             name: 'type',
-            value: _item.type === 'Top-up' ? 'Nạp tiền vào ví' : 'Thất bại',
+            value: _item.type === 'Top-up' ? 'Nạp tiền vào ví' : 'Nạp tiền vào ví',
             type: DATA_TYPE.TEXT,
             textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
           },
@@ -106,7 +109,7 @@ export default function AccountTransactionTable() {
 
   return (
     <KrowdTable
-      headingTitle="Giao dịch ngân hàng"
+      headingTitle="Giao dịch momo"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
@@ -118,7 +121,7 @@ export default function AccountTransactionTable() {
                 <FormControl variant="standard" fullWidth>
                   <TextField
                     id="outlined-basic"
-                    label="Tra cứu người tạo (nhập đầy đủ ID)"
+                    label="Tra cứu người thực hiện (nhập đầy đủ ID)"
                     variant="outlined"
                     onChange={getCreateByInfo}
                   />

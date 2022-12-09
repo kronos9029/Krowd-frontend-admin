@@ -43,11 +43,11 @@ const BoldText = styled('span')({
 });
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
-  { id: 'accountName', label: 'THÔNG TIN TÀI KHOẢN', align: 'left' },
+  { id: 'accountName', label: 'THÔNG TIN', align: 'left' },
   { id: 'bankAccount', label: '', align: 'left' },
   { id: 'bankName', label: '', align: 'left' },
   { id: 'amount', label: 'SỐ TIỀN', align: 'left' },
-  { id: 'refusalReason', label: 'LÝ DO TỪ CHỐI', align: 'left' },
+  { id: 'refusalReason', label: 'LÝ DO', align: 'left' },
   { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
   { id: 'createDate', label: 'ID NGƯỜI TẠO', align: 'left' },
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
@@ -78,6 +78,7 @@ export default function AccountTransactionTable() {
   const [userId, setUserId] = useState('');
   const [filterStatus, setFilterStatus] = useState('PENDING');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+  const [isLoadingButtonPartialAdmin, setIsLoadingButtonPartialAdmin] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const [transferStatus, setTransferStatus] = useState<string>('success');
   const [refusalReason, setRefusalReason] = useState<string | null>(null);
@@ -96,6 +97,13 @@ export default function AccountTransactionTable() {
   };
 
   const handleClose = () => {
+    setImageFile(null);
+    setFile(null);
+    setTransferStatus('success');
+    setRefusalReason(null);
+    setOpen(false);
+  };
+  const handleClosePartialAdmin = () => {
     setImageFile(null);
     setFile(null);
     setTransferStatus('success');
@@ -130,6 +138,27 @@ export default function AccountTransactionTable() {
         });
         setIsLoadingButton(false);
         handleClose();
+        dispatch(getAllWithdrawRequest(1, 5, '', 'ALL'));
+      })
+      .catch(() => {
+        enqueueSnackbar('Xác nhận thất bại vui lòng kiểm tra lại', {
+          variant: 'error'
+        });
+      });
+  };
+  const handleSubmitPartialAdminOK = async () => {
+    setIsLoadingButtonPartialAdmin(true);
+    await WithdrawRequestAPI.approveWithdrawRequestPartialAdmin({
+      requestId: currentWithdrawRequest?.id!,
+      receipt: file!
+    })
+      .then(async () => {
+        enqueueSnackbar('Xác nhận thành công', {
+          variant: 'success'
+        });
+        setIsLoadingButtonPartialAdmin(false);
+        handleClose();
+        handleClosePartialAdmin();
         dispatch(getAllWithdrawRequest(1, 5, '', 'ALL'));
       })
       .catch(() => {
@@ -217,6 +246,24 @@ export default function AccountTransactionTable() {
             <img src={currentWithdrawRequest?.description}></img>
           </Box>
         );
+      case 'PARTIAL_ADMIN':
+        return (
+          <>
+            <Box my={1} width={500}>
+              <DialogContentText id="alert-dialog-description">
+                <BoldText>Lý do báo cáo lỗi</BoldText>
+              </DialogContentText>
+              <Typography my={1} mx={1} variant="subtitle2" color={'error.main'}>
+                -{' '}
+                {currentWithdrawRequest?.reportMessage ??
+                  'Thông tin chuyển tiền sai vui lòng kiểm tra lại thông tin'}
+              </Typography>
+            </Box>
+            <Box width={'600px'} my={1}>
+              <img src={currentWithdrawRequest?.description}></img>
+            </Box>
+          </>
+        );
       case 'APPROVED':
         return (
           <Box width={'600px'} my={1}>
@@ -241,6 +288,17 @@ export default function AccountTransactionTable() {
 
   const renderSubmitButton = () => {
     if (currentWithdrawRequest?.status !== 'PENDING') return null;
+    // return (
+    //   <LoadingButton
+    //     disabled={!imageFile}
+    //     onClick={handleSubmitOK}
+    //     loading={isLoadingButton}
+    //     loadingIndicator={<CircularProgress color="primary" size={24} />}
+    //     autoFocus
+    //   >
+    //     Xác nhận giao dịch
+    //   </LoadingButton>
+    // );
     if (transferStatus === 'success')
       return (
         <LoadingButton
@@ -342,15 +400,15 @@ export default function AccountTransactionTable() {
                   (_item.status === 'APPROVED' && 'Đã xác nhận') ||
                   (_item.status === 'PENDING' && 'Chờ xử lý') ||
                   (_item.status === 'REJECTED' && 'Đã từ chối') ||
-                  (_item.status === 'PARTIAL' && 'Nhà đầu tư xác nhận') ||
-                  (_item.status === 'PARTIAL_ADMIN' && 'Admin xác nhận'),
+                  (_item.status === 'PARTIAL' && 'Chờ nhà đầu tư xác nhận') ||
+                  (_item.status === 'PARTIAL_ADMIN' && 'Báo cáo lỗi về admin'),
                 type: DATA_TYPE.CHIP_TEXT,
                 textMapColor: [
                   { status: 'Chờ xử lý', color: '' },
                   { status: 'Đã xác nhận', color: 'success.main' },
                   { status: 'Đã từ chối', color: 'error.main' },
-                  { status: 'PARTIAL_ADMIN', color: 'warning.main' },
-                  { status: 'PARTIAL', color: 'warning.main' }
+                  { status: 'Báo cáo lỗi về admin', color: 'error.main' },
+                  { status: 'Chờ nhà đầu tư xác nhận', color: 'warning.main' }
                 ]
               }
             ]
@@ -395,8 +453,8 @@ export default function AccountTransactionTable() {
                     onChange={handleChangeFilter}
                   >
                     <MenuItem value={'ALL'}>Tất cả</MenuItem>
-                    <MenuItem value={'PARTIAL'}>Nhà đầu tư xác nhận</MenuItem>
-                    <MenuItem value={'PARTIAL_ADMIN'}>Admin xác nhận</MenuItem>
+                    <MenuItem value={'PARTIAL'}>Chờ nhà đầu tư xác nhận</MenuItem>
+                    <MenuItem value={'PARTIAL_ADMIN'}>Báo cáo lỗi về Admin</MenuItem>
                     <MenuItem value={'PENDING'}>Chờ xử lý</MenuItem>
                     <MenuItem value={'APPROVED'}>Đã xác nhận</MenuItem>
                     <MenuItem value={'REJECTED'}>Đã từ chối</MenuItem>
@@ -503,7 +561,9 @@ export default function AccountTransactionTable() {
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Đóng</Button>
+          <Button variant="contained" color="error" onClick={handleClose}>
+            Đóng
+          </Button>
           {renderSubmitButton()}
         </DialogActions>
       </Dialog>

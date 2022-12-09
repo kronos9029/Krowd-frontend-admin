@@ -6,7 +6,8 @@ export type WithdrawRequestType = {
   description: string;
   amount: number;
   status: string;
-  refusalReason: null;
+  refusalReason: string;
+  reportMessage: string;
   createDate: string;
   createBy: string;
   updateDate: string;

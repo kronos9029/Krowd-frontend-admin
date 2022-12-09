@@ -23,6 +23,26 @@ async function getAll(params: {
   });
   return response;
 }
+async function approveWithdrawRequestPartialAdmin({
+  requestId,
+  receipt
+}: {
+  requestId: string;
+  receipt: File;
+}) {
+  const headers = getHeader();
+  const formData = new FormData();
+  formData.append('requestId', requestId);
+  formData.append('receipt', receipt);
+  const response = await axios({
+    method: 'put',
+    url: REACT_APP_API_URL + API_FIELD,
+    params: { action: 'PARTIAL_ADMIN' },
+    data: formData,
+    headers: headers
+  });
+  return response;
+}
 async function approveWithdrawRequest({
   requestId,
   receipt
@@ -66,5 +86,6 @@ async function refuseWithdrawRequest({
 export const WithdrawRequestAPI = {
   getAll: getAll,
   approveWithdrawRequest: approveWithdrawRequest,
-  refuseWithdrawRequest: refuseWithdrawRequest
+  refuseWithdrawRequest: refuseWithdrawRequest,
+  approveWithdrawRequestPartialAdmin: approveWithdrawRequestPartialAdmin
 };

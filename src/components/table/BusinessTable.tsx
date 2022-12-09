@@ -42,9 +42,9 @@ const TABLE_HEAD = [
   { id: 'image', label: 'ẢNH', align: '' },
   { id: 'name', label: 'THƯƠNG HIỆU', align: 'left' },
   { id: 'fieldList.name', label: 'LĨNH VỰC', align: 'left' },
-  { id: 'numOfProject', label: 'SỐ DỰ ÁN', align: 'center' },
-  { id: 'numOfSuccessfulProject', label: 'DỰ ÁN HOÀN THÀNH', align: 'center' },
-  { id: 'successfulRate', label: 'TỈ LỆ THÀNH CÔNG', align: 'center' },
+  // { id: 'numOfProject', label: 'SỐ DỰ ÁN', align: 'center' },
+  // { id: 'numOfSuccessfulProject', label: 'DỰ ÁN HOÀN THÀNH', align: 'center' },
+  // { id: 'successfulRate', label: 'TỈ LỆ THÀNH CÔNG', align: 'center' },
   // { id: 'createDate', label: 'NGÀY TẠO', align: 'left' },
   { id: 'manager.firstName', label: 'NGƯỜI ĐẠI DIỆN', align: 'left' },
   { id: 'status', label: 'TRẠNG THÁI', align: 'left' },
@@ -181,22 +181,22 @@ export default function BusinessTable() {
             value: _item.fieldList.map((_field) => _field.name),
             type: DATA_TYPE.LIST_TEXT
           },
-          {
-            name: 'numOfProject',
-            value: _item.numOfProject,
-            type: DATA_TYPE.NUMBER
-          },
-          {
-            name: 'numOfSuccessfulProject',
-            value: _item.numOfSuccessfulProject,
-            type: DATA_TYPE.NUMBER,
-            textColor: 'rgb(102, 187, 106)'
-          },
-          {
-            name: 'successfulRate',
-            value: _item.successfulRate,
-            type: DATA_TYPE.NUMBER
-          },
+          // {
+          //   name: 'numOfProject',
+          //   value: _item.numOfProject,
+          //   type: DATA_TYPE.NUMBER
+          // },
+          // {
+          //   name: 'numOfSuccessfulProject',
+          //   value: _item.numOfSuccessfulProject,
+          //   type: DATA_TYPE.NUMBER,
+          //   textColor: 'rgb(102, 187, 106)'
+          // },
+          // {
+          //   name: 'successfulRate',
+          //   value: _item.successfulRate,
+          //   type: DATA_TYPE.NUMBER
+          // },
           // {
           //   name: 'createDate',
           //   value: _item.createDate,
