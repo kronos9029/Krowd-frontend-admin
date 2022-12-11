@@ -108,7 +108,7 @@ const sidebarConfig = [
       //   icon: ICONS.accountTransaction
       // }
       {
-        title: 'Giao dịch momo',
+        title: 'Giao dịch',
         path: PATH_DASHBOARD.transaction.accountTransaction,
         icon: ICONS.momo
       },

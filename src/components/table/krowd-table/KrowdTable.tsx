@@ -38,6 +38,8 @@ export enum DATA_TYPE {
   WRAP_TEXT = 'wrap_text',
   DATE = 'date',
   CURRENCY = 'currency',
+  ICONSKROWD = 'icons_krowd',
+
   LABLE = 'lable'
 }
 export enum ACTION_TYPE {
@@ -353,6 +355,20 @@ export function KrowdTable({
                                     src={`/static/icons/navbar/ic_momo.png`}
                                   />
                                   <Typography variant="body1"> Ví momo</Typography>
+                                </Stack>
+                              </TableCell>
+                            );
+                          case DATA_TYPE.ICONSKROWD:
+                            return (
+                              <TableCell
+                                key={`__${_item.name}__${data.id}`}
+                                component="th"
+                                scope="row"
+                                padding="normal"
+                              >
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <img style={{ width: 40 }} src={`/static/home/logo.png`} />
+                                  <Typography variant="body1"> Ví Krowd</Typography>
                                 </Stack>
                               </TableCell>
                             );

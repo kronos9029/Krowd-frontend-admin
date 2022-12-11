@@ -12,12 +12,13 @@ import { getUserKrowdDetail } from 'redux/slices/krowd_slices/users';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
-  { id: 'orderType', label: 'PHƯƠNG THỨC', align: 'left' },
+  { id: 'orderType', label: 'VÍ', align: 'left' },
+  { id: 'amount', label: 'SỐ TIỀN', align: 'right' },
   { id: 'orderType', label: 'ID NGƯỜI THỰC HIỆN', align: 'left' },
   { id: 'transId', label: 'MÃ GIAO DỊCH', align: 'center' },
+  { id: 'type', label: 'PHƯƠNG THỨC THANH TOÁN', align: 'center' },
   { id: 'type', label: 'LOẠI GIAO DỊCH', align: 'left' },
   { id: 'message', label: 'TRẠNG THÁI', align: 'left' },
-  { id: 'amount', label: 'SỐ TIỀN', align: 'right' },
   { id: 'createDate', label: 'NGÀY THỰC HIỆN', align: 'center' },
   { id: 'createDate', label: '', align: 'center' }
 ];
@@ -63,7 +64,14 @@ export default function AccountTransactionTable() {
           {
             name: 'orderType',
             value: '',
-            type: DATA_TYPE.ICONS
+            type: _item.orderType === 'momo_wallet' ? DATA_TYPE.ICONS : DATA_TYPE.ICONSKROWD
+          },
+          {
+            name: 'amount',
+            value:
+              _item.message === 'Giao dịch thành công.' ? `${_item.amount}` : `${_item.amount}`,
+            type: DATA_TYPE.NUMBER_FORMAT,
+            textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
           },
           {
             name: 'fromUserId',
@@ -78,10 +86,25 @@ export default function AccountTransactionTable() {
             textColor: 'rgb(20, 183, 204)'
           },
           {
+            name: 'payType',
+            value:
+              (_item.payType === 'app' && 'Hệ thống') || (_item.payType === 'qr' && 'Quét mã momo'),
+            type: DATA_TYPE.NUMBER,
+            textColor:
+              (_item.message === 'Giao dịch thành công.' && 'rgb(102, 187, 106)') ||
+              (_item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red')
+          },
+          {
             name: 'type',
-            value: _item.type === 'Top-up' ? 'Nạp tiền vào ví' : 'Nạp tiền vào ví',
-            type: DATA_TYPE.TEXT,
-            textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
+            value:
+              (_item.type === 'Top-up' && 'Nạp tiền vào ví') ||
+              (_item.type === 'WITHDRAW' && 'Rút tiền') ||
+              (_item.type === 'TOP-UP' && 'Nạp tiền vào ví') ||
+              (_item.type === 'WAITING' && 'Chờ xử lý'),
+            type: DATA_TYPE.NUMBER,
+            textColor:
+              (_item.message === 'Giao dịch thành công.' && 'rgb(102, 187, 106)') ||
+              (_item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red')
           },
 
           {
@@ -89,18 +112,11 @@ export default function AccountTransactionTable() {
             value: _item.message,
             type: DATA_TYPE.LABLE
           },
-          {
-            name: 'amount',
-            value:
-              _item.message === 'Giao dịch thành công.' ? `${_item.amount}` : `${_item.amount}`,
-            type: DATA_TYPE.NUMBER_FORMAT,
-            textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
-          },
+
           {
             name: 'createDate',
             value: _item.createDate.toString().substring(0, 11),
-            type: DATA_TYPE.DATE,
-            textColor: 'rgb(102, 187, 106)'
+            type: DATA_TYPE.NUMBER
           }
         ]
       };
@@ -109,7 +125,7 @@ export default function AccountTransactionTable() {
 
   return (
     <KrowdTable
-      headingTitle="Giao dịch momo"
+      headingTitle="Giao dịch"
       header={TABLE_HEAD}
       getData={getData}
       isLoading={isLoading}
