@@ -12,15 +12,15 @@ import { getUserKrowdDetail } from 'redux/slices/krowd_slices/users';
 
 const TABLE_HEAD = [
   { id: 'idx', label: 'STT', align: 'center' },
-  { id: 'orderType', label: 'VÍ', align: 'left' },
-  { id: 'amount', label: 'SỐ TIỀN', align: 'right' },
-  { id: 'orderType', label: 'ID NGƯỜI THỰC HIỆN', align: 'left' },
+  { id: 'orderType', label: 'NGUỒN TIỀN', align: 'center' },
   { id: 'transId', label: 'MÃ GIAO DỊCH', align: 'center' },
-  { id: 'type', label: 'PHƯƠNG THỨC THANH TOÁN', align: 'center' },
-  { id: 'type', label: 'LOẠI GIAO DỊCH', align: 'left' },
-  { id: 'message', label: 'TRẠNG THÁI', align: 'left' },
+  { id: 'userId', label: 'ID NGƯỜI THỰC HIỆN', align: 'center' },
+  { id: 'type', label: 'LOẠI GIAO DỊCH', align: 'center' },
+  { id: 'paytype', label: 'PHƯƠNG THỨC THANH TOÁN', align: 'center' },
+  { id: 'message', label: 'TRẠNG THÁI', align: 'center' },
+  { id: 'amount', label: 'SỐ TIỀN', align: 'center' },
   { id: 'createDate', label: 'NGÀY THỰC HIỆN', align: 'center' },
-  { id: 'createDate', label: '', align: 'center' }
+  { id: '', label: '', align: 'center' }
 ];
 
 export default function AccountTransactionTable() {
@@ -67,32 +67,16 @@ export default function AccountTransactionTable() {
             type: _item.orderType === 'momo_wallet' ? DATA_TYPE.ICONS : DATA_TYPE.ICONSKROWD
           },
           {
-            name: 'amount',
-            value:
-              _item.message === 'Giao dịch thành công.' ? `${_item.amount}` : `${_item.amount}`,
-            type: DATA_TYPE.NUMBER_FORMAT,
-            textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
+            name: 'transId',
+            value: _item.transId,
+            type: DATA_TYPE.NUMBER
           },
+
           {
             name: 'fromUserId',
             value: _item.fromUserId,
             type: DATA_TYPE.NUMBER,
             textColor: 'rgb(20, 183, 204)'
-          },
-          {
-            name: 'transId',
-            value: _item.transId,
-            type: DATA_TYPE.NUMBER,
-            textColor: 'rgb(20, 183, 204)'
-          },
-          {
-            name: 'payType',
-            value:
-              (_item.payType === 'app' && 'Hệ thống') || (_item.payType === 'qr' && 'Quét mã momo'),
-            type: DATA_TYPE.NUMBER,
-            textColor:
-              (_item.message === 'Giao dịch thành công.' && 'rgb(102, 187, 106)') ||
-              (_item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red')
           },
           {
             name: 'type',
@@ -108,11 +92,29 @@ export default function AccountTransactionTable() {
           },
 
           {
-            name: 'message',
-            value: _item.message,
-            type: DATA_TYPE.LABLE
+            name: 'payType',
+            value:
+              (_item.payType === 'app' && 'Hệ thống') ||
+              (_item.payType === '' && 'Quét mã Momo') ||
+              (_item.payType === 'qr' && 'Quét mã Momo'),
+            type: DATA_TYPE.NUMBER
           },
 
+          {
+            name: 'message',
+            value: _item.message,
+            type: DATA_TYPE.NUMBER,
+            textColor:
+              (_item.message === 'Giao dịch thành công.' && 'rgb(102, 187, 106)') ||
+              (_item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red')
+          },
+          {
+            name: 'amount',
+            value:
+              _item.message === 'Giao dịch thành công.' ? `${_item.amount}` : `${_item.amount}`,
+            type: DATA_TYPE.NUMBER_FORMAT,
+            textColor: _item.message === 'Giao dịch thành công.' ? 'rgb(102, 187, 106)' : 'red'
+          },
           {
             name: 'createDate',
             value: _item.createDate.toString().substring(0, 11),
