@@ -358,12 +358,12 @@ export default function ProjectKrowdAdminDetails() {
                             </Button>
                           )}
 
-                          <Typography sx={{ paddingLeft: 2, pt: 2, color: 'red' }} variant="h6">
+                          <Typography sx={{ paddingLeft: 2, pt: 2, color: '#fa6006' }} variant="h6">
                             Lưu ý:
                           </Typography>
 
                           <Typography
-                            sx={{ paddingLeft: 0.4, pt: 2, color: 'red' }}
+                            sx={{ paddingLeft: 0.4, pt: 2, color: '#fa6006' }}
                             variant="body2"
                           >
                             (*) Admin vui lòng kiểm tra những thông tin của dự án: (Tên dự án , mô
@@ -372,9 +372,11 @@ export default function ProjectKrowdAdminDetails() {
                           </Typography>
                         </Box>
                         <DialogActions>
-                          <Button onClick={handleCloseSubmit}>Đóng</Button>
+                          <Button variant="contained" color="error" onClick={handleCloseSubmit}>
+                            Đóng
+                          </Button>
                           <Button type="submit" variant="contained" onClick={handleSubmitProject}>
-                            Lưu
+                            Duyệt dự án
                           </Button>
                         </DialogActions>
                       </Dialog>
@@ -405,11 +407,11 @@ export default function ProjectKrowdAdminDetails() {
                             Tên dự án {project.name}
                           </Typography>
 
-                          <Typography sx={{ paddingLeft: 2, pt: 2, color: 'orange' }} variant="h6">
+                          <Typography sx={{ paddingLeft: 2, pt: 2, color: '#fa6006' }} variant="h6">
                             Lưu ý:
                           </Typography>
                           <Typography
-                            sx={{ paddingLeft: 0.4, pt: 2, color: 'orange' }}
+                            sx={{ paddingLeft: 0.4, pt: 2, color: '#fa6006' }}
                             variant="body2"
                           >
                             (*) Khi bạn nhấn nút kích hoạt đồng thời cũng sẽ chuyển toàn bộ tiền
@@ -419,7 +421,7 @@ export default function ProjectKrowdAdminDetails() {
                           </Typography>
 
                           <Typography
-                            sx={{ paddingLeft: 0.4, pt: 2, color: 'orange' }}
+                            sx={{ paddingLeft: 0.4, pt: 2, color: '#fa6006' }}
                             variant="body2"
                           >
                             (*) Admin vui lòng kiểm tra những thông tin của dự án: (Tên dự án , mô
